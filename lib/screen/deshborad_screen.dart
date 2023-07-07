@@ -283,7 +283,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
               onTap: () {
                 setState(() {
                   currentDrawer = 7;
-                  // Get.to(SettingScreenVendor());
+                Get.toNamed(MyRouters.help_Center_Screen);
                 });
               },
             ),

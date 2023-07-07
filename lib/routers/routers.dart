@@ -15,6 +15,7 @@ import '../screen/chat_screen.dart';
 import '../screen/delivery_partner_apply.dart';
 import '../screen/deshborad_screen.dart';
 import '../screen/feedback_screen.dart';
+import '../screen/help_center_screen.dart';
 import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
 import '../screen/order_details.dart';
@@ -45,6 +46,7 @@ class MyRouters {
   static var emailVerificationScreen2= "/emailVerificationScreen2";
   static var changePasswordScreen= "/changePasswordScreen";
   static var otpForgotScreen= "/otpForgotScreen";
+  static var help_Center_Screen= "/help_Center_Screen";
 
 
 
@@ -71,6 +73,7 @@ class MyRouters {
     GetPage(name: '/emailVerificationScreen2', page: () => const EmailVerificationScreen2()),
     GetPage(name: '/changePasswordScreen', page: () => const ChangePasswordScreen()),
     GetPage(name: '/otpForgotScreen', page: () => const OtpForgotScreen()),
+    GetPage(name: '/help_Center_Screen', page: () => const Help_Center_Screen()),
 
 
 
