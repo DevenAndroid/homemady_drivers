@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../routers/routers.dart';
-import '../screen/thank_you.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
 
@@ -16,7 +15,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  bool isEmail(String input) => RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text);
+  bool isPhone(String input) =>
+      RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$').hasMatch(emailController.text);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -43,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      addHeight(45),
+                      addHeight(20),
                       Image.asset('assets/images/AppLogo.png',width: 203,),
-                      addHeight(85),
+                      addHeight(40),
                       const Center(
                         child: Text('Login To Your Account',
                           style: TextStyle(
@@ -61,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               Positioned(
-                  top: 330,
+                  top: 260,
                   bottom: 0,
                   right: 0,
                   left: 0,
@@ -70,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Form(
-                        key: _formKey,
+                        key: formKey1,
                         child: Column(
                           children: [
                             Container(
@@ -86,14 +89,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                       spreadRadius: 1.0,
                                     ),
                                   ],
-                                  color: Colors.white
+                                  // color: Colors.white
                               ),
                               child: CommonTextFieldWidget(
                                 hint: 'Enter your email or phone number',
                                 controller: emailController,
-                                validator: (value) {
-
-                                },
+                                textInputAction: TextInputAction.next,
+                                // validator: (value) {
+                                //   if (!isEmail(value!) && !isPhone(value)) {
+                                //     return 'Please enter a valid email or phone number.';
+                                //   }
+                                //   return null;
+                                // },
+                                // validator: (value) {
+                                //   if (emailController.text.isEmpty) {
+                                //     return "Please enter your email";
+                                //   } else if (emailController.text
+                                //       .contains('+') ||
+                                //       emailController.text.contains(' ')) {
+                                //     return "Email is invalid";
+                                //   } else if (
+                                //   RegExp(
+                                //       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                //       .hasMatch(emailController.text)) {
+                                //     return null;
+                                //   } else {
+                                //     return 'Please type a valid email address';
+                                //   }
+                                // },
                               ),
                             ),
                             addHeight(15),
@@ -110,12 +133,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                       spreadRadius: 1.0,
                                     ),
                                   ],
-                                  color: Colors.white
+                                  // color: Colors.white
                               ),
                               child: CommonTextFieldWidget(
                                 hint: 'Password',
                                 controller: passwordController,
-
+                                // validator: MultiValidator([
+                                //   RequiredValidator(
+                                //       errorText: 'Please enter your password'),
+                                //   MinLengthValidator(8,
+                                //       errorText: 'Password must be at least 8 characters, with 1 special character & 1 numerical'),
+                                //   PatternValidator(
+                                //       r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                //       errorText: "Password must be at least with 1 special character & 1 numerical"),
+                                // ]),
                               ),
                             ),
                             addHeight(30),
@@ -211,12 +242,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            addHeight(34),
+                            addHeight(20),
                             CommonButton(title: 'Login',onPressed: (){
                               // Get.toNamed(MyRouters.thankYouVendorScreen);
-                              Get.toNamed(MyRouters.deliveryPartnerApplyScreen);
+                              if (formKey1.currentState!.validate()) {
+                                Get.toNamed(MyRouters.deliveryPartnerApplyScreen);
+                              }
                             },),
-                            addHeight(36),
+                            addHeight(26),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

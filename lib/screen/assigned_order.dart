@@ -75,11 +75,12 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
         ),
         ),
       ),
-      body: Column(
-        children: [
-           Padding(
-             padding: const EdgeInsets.all(11.0),
-             child: Row(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(11.0),
+        child: Column(
+          children: [
+             Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
                   Text('Assigned Delivery',
@@ -123,183 +124,183 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                  )
                ],
              ),
-           ),
-          addHeight(12.0),
+            addHeight(12.0),
 
-          Padding(
-            padding: const EdgeInsets.all(11.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 2,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF5F5F5F).withOpacity(0.4),
-                            offset: Offset(0.0, 0.5),
-                            blurRadius: 5,),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-                            child:
-                            Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset('assets/images/calender_Img.png',height: 18,),
-                                    addWidth(20),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children:  [
-                                         Text('Date:',
-                                          style:  GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 14,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                        addHeight(4),
-                                        Text('Mon 2 June, 2021 – 10:30am',
-                                          style: GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                addHeight(15),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset('assets/images/orderid.png',height: 18,),
-                                    addWidth(20),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children:  [
-                                        Text('Order ID:',
-                                          style:  GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 14,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                        addHeight(4),
-                                        Text('#258147963.',
-                                          style: GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                addHeight(15),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset('assets/images/locationiconn.png',height: 18,),
-                                    addWidth(20),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children:  [
-                                        Text('Location:',
-                                          style:  GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 14,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                        addHeight(4),
-
-                                        Text('600 East Carpenter Freeway, Suite 246\nIrving, TX 75062',
-                                          style: GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                              color:  Color(0xFF303C5E)
-                                          ),),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              addHeight(10),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 36,vertical: 10),
-                                  child: Row(
+            Padding(
+              padding: const EdgeInsets.all(11.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 2,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF5F5F5F).withOpacity(0.4),
+                              offset: Offset(0.0, 0.5),
+                              blurRadius: 5,),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                              child:
+                              Column(
+                                children: [
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      InkWell(
-                                        onTap: (){
-                                          Get.toNamed(MyRouters.driverDeliveryOrderDetails);
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 6),
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFF7ED957),
-                                              borderRadius: BorderRadius.circular(6)
-                                          ),
-                                          child:  Text('pickup'.toUpperCase(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 13,
-                                                color: Colors.white
+                                      Image.asset('assets/images/calender_Img.png',height: 18,),
+                                      addWidth(20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children:  [
+                                           Text('Date:',
+                                            style:  GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 14,
+                                                color:  Color(0xFF303C5E)
                                             ),),
-                                        ),
+                                          addHeight(4),
+                                          Text('Mon 2 June, 2021 – 10:30am',
+                                            style: GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15,
+                                                color:  Color(0xFF303C5E)
+                                            ),),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                              right: 5,
-                              top: 8,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFF7ED957),
-                                        borderRadius: BorderRadius.circular(6)
-                                    ),
-                                    child:  Text('COD'.toUpperCase(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 10,
-                                          color: Colors.white
-                                      ),),
+                                  addHeight(15),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset('assets/images/orderid.png',height: 18,),
+                                      addWidth(20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children:  [
+                                          Text('Order ID:',
+                                            style:  GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 14,
+                                                color:  Color(0xFF303C5E)
+                                            ),),
+                                          addHeight(4),
+                                          Text('#258147963.',
+                                            style: GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15,
+                                                color:  Color(0xFF303C5E)
+                                            ),),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  addWidth(8.0),
-                                  const Text('€34.00',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14,
-                                        color:  Color(0xFF7ED957)
-                                    ),),
+                                  addHeight(15),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset('assets/images/locationiconn.png',height: 18,),
+                                      addWidth(20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children:  [
+                                          Text('Location:',
+                                            style:  GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 14,
+                                                color:  Color(0xFF303C5E)
+                                            ),),
+                                          addHeight(4),
+
+                                          Text('600 East Carpenter Freeway, Suite 246\nIrving, TX 75062',
+                                            style: GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15,
+                                                color:  Color(0xFF303C5E)
+                                            ),),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                addHeight(10),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 36,vertical: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            Get.toNamed(MyRouters.driverDeliveryOrderDetails);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 6),
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFF7ED957),
+                                                borderRadius: BorderRadius.circular(6)
+                                            ),
+                                            child:  Text('pickup'.toUpperCase(),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 13,
+                                                  color: Colors.white
+                                              ),),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
-                              )
-                          )
-                        ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 5,
+                                top: 8,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFF7ED957),
+                                          borderRadius: BorderRadius.circular(6)
+                                      ),
+                                      child:  Text('COD'.toUpperCase(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 10,
+                                            color: Colors.white
+                                        ),),
+                                    ),
+                                    addWidth(8.0),
+                                    const Text('€34.00',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          color:  Color(0xFF7ED957)
+                                      ),),
+                                  ],
+                                )
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    addHeight(20),
-                  ],
-                );
-              },
+                      addHeight(20),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

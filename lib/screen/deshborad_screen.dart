@@ -21,6 +21,14 @@ class _DashbordScreenState extends State<DashbordScreen> {
   bool state = true;
   double _value=20;
   int currentDrawer = 0;
+  int value1 = 20;
+  bool? _isValue = true;
+  bool? _isValue1 = false;
+  bool? _isValue2 = false;
+  bool? _isValue3 = true;
+  bool? _isValue4 = false;
+  bool? _isValue5 = true;
+  bool? _isValue6 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,8 +129,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     fontWeight: FontWeight.w400,)),
               onTap: () {
                 setState(() {
-                  currentDrawer = 2;
-                  // Get.toNamed(MyRouters.notificationScreen);
+                    Get.toNamed(MyRouters.assignedOrderScreen);
                 });
               },
             ),
@@ -260,7 +267,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
               onTap: () {
                 setState(() {
                   currentDrawer = 6;
-                  // Get.to(VendorHelpCenterScreen());
+                  Get.toNamed(MyRouters.privacyPolicies);
                 });
               },
             ),
@@ -319,7 +326,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
         titleSpacing: 30,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           Row(
              children: [
@@ -368,12 +375,193 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   color:  Color(0xFF303C5E)
               ),),
               addHeight(7.0),
-              const Text('Monday, 2 June, 2021',
+              const Text('Riders/drivers that are available for at least 4 hours a day and at least 5 days a week (and did not reject any order) will get 10% boost on next week earnings',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
                     color:  Color(0xFF303C5E)
                 ),),
+              addHeight(16.0),
+              Wrap(
+                spacing: 10.0,
+                children: [
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue = value;
+                              });
+                            }),
+                      ),
+                     const Text('Su',style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue1,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue1 = value;
+                              });
+                            }),
+                      ),
+                      const Text('Mo',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue2,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue2 = value;
+                              });
+                            }),
+                      ),
+                      const Text('Tu',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue3,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue3 = value;
+                              });
+                            }),
+                      ),
+                      const Text('We',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue4,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue4 = value;
+                              });
+                            }),
+                      ),
+                      const Text('Th',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue5,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue5 = value;
+                              });
+                            }),
+                      ),
+                      const Text('Fr',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            side: BorderSide(color: Colors.grey.shade300,width: 1.4),
+                            activeColor: Color(0xff7ED957),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(3)),
+                            value: _isValue6,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isValue6 = value;
+                              });
+                            }),
+                      ),
+                      const Text('Sa',style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF303C5E)
+                      ),)
+                    ],
+                  ),
+                ],
+              ),
               addHeight(26.0),
               Row(
                 children: [
@@ -386,8 +574,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: Color(0xFF5F5F5F).withOpacity(0.4),
-                              offset: Offset(0.0, 0.5),
+                              color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                              offset: const Offset(0.0, 0.5),
                               blurRadius: 5,),
                           ]
                       ),
@@ -434,8 +622,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                          borderRadius: BorderRadius.circular(10),
                            boxShadow: [
                              BoxShadow(
-                               color: Color(0xFF5F5F5F).withOpacity(0.4),
-                               offset: Offset(0.0, 0.5),
+                               color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                               offset: const Offset(0.0, 0.5),
                                blurRadius: 5,),
                            ]
                        ),
@@ -478,34 +666,46 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF5F5F5F).withOpacity(0.4),
-                        offset: Offset(0.0, 0.5),
+                        color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                        offset: const Offset(0.0, 0.5),
                         blurRadius: 5,),
                     ]
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 6),
-                      child:  Text('Set Delivery Location',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12,
-                            color:  Color(0xFF303C5E)
-                        ),),
-                    ),
+                     Padding(
+                       padding:  const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           const Text('Set Delivery Location',
+                             style: TextStyle(
+                                 fontWeight: FontWeight.w700,
+                                 fontSize: 12,
+                                 color:  Color(0xFF303C5E)
+                             ),),
+                           Text(
+                             value1.toString(),
+                             style: const TextStyle(
+                                 fontWeight: FontWeight.w500,
+                                 color: Color(0xff516670),
+                                 fontSize: 14),
+                           ),
+                         ],
+                       ),
+                     ),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 0,vertical: 18),
+                      padding:  const EdgeInsets.symmetric(horizontal: 0,vertical: 18),
                       child: SizedBox(
                         height: 10,
                         width: AddSize.screenWidth,
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             trackHeight: 8.0,
-                            trackShape: RoundedRectSliderTrackShape(),
-                            activeTrackColor: Color(0xff6CD241),
-                            inactiveTrackColor: Color(0xFF7ED957).withOpacity(0.12),
+                            trackShape: const RoundedRectSliderTrackShape(),
+                            activeTrackColor: const Color(0xff6CD241),
+                            inactiveTrackColor: const Color(0xFF7ED957).withOpacity(0.12),
                             thumbShape: const RoundSliderThumbShape(
                               enabledThumbRadius: 7.0,
                               pressedElevation: 8.0,
@@ -514,10 +714,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                             overlayColor: const Color(0xFF7ED957).withOpacity(0.12),
                             overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
                             tickMarkShape: const RoundSliderTickMarkShape(),
-                            activeTickMarkColor: Color(0xff6CD241),
+                            activeTickMarkColor: const Color(0xff6CD241),
                             inactiveTickMarkColor: Colors.transparent,
                             valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                            valueIndicatorColor: Color(0xff6CD241),
+                            valueIndicatorColor: const Color(0xff6CD241),
                             valueIndicatorTextStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
@@ -533,13 +733,15 @@ class _DashbordScreenState extends State<DashbordScreen> {
                               onChanged: (value) {
                                 setState(() {
                                   _value = value;
+                                  value1 = value.toInt();
                                 });
                               },
                             ),
                           ),
                         ),
                       ),
-                    ),                  ],
+                    ),
+                  ],
                 ),
               ),
               addHeight(16.0),
@@ -547,7 +749,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 style: GoogleFonts.raleway(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
-                    color:  Color(0xFF303C5E)
+                    color:  const Color(0xFF303C5E)
                 ),),
               addHeight(12.0),
               ListView.builder(
@@ -563,8 +765,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                    borderRadius: BorderRadius.circular(10),
                                    boxShadow: [
                                      BoxShadow(
-                                       color: Color(0xFF5F5F5F).withOpacity(0.4),
-                                       offset: Offset(0.0, 0.5),
+                                       color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                                       offset: const Offset(0.0, 0.5),
                                        blurRadius: 5,),
                                    ],
                              ),
@@ -591,7 +793,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                               style: GoogleFonts.raleway(
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 15,
-                                                  color:  Color(0xFF303C5E)
+                                                  color:  const Color(0xFF303C5E)
                                               ),),
                                             addHeight(25),
                                             Row(

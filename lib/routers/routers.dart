@@ -14,11 +14,13 @@ import '../screen/chat_message.dart';
 import '../screen/chat_screen.dart';
 import '../screen/delivery_partner_apply.dart';
 import '../screen/deshborad_screen.dart';
+import '../screen/faqs_screen.dart';
 import '../screen/feedback_screen.dart';
 import '../screen/help_center_screen.dart';
 import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
 import '../screen/order_details.dart';
+import '../screen/privacy_policies.dart';
 import '../screen/thank_you.dart';
 import '../screen/withdraw_money.dart';
 
@@ -47,6 +49,8 @@ class MyRouters {
   static var changePasswordScreen= "/changePasswordScreen";
   static var otpForgotScreen= "/otpForgotScreen";
   static var help_Center_Screen= "/help_Center_Screen";
+  static var privacyPolicies= "/privacyPolicies";
+  static var faqsScreen= "/faqsScreen";
 
 
 
@@ -74,6 +78,8 @@ class MyRouters {
     GetPage(name: '/changePasswordScreen', page: () => const ChangePasswordScreen()),
     GetPage(name: '/otpForgotScreen', page: () => const OtpForgotScreen()),
     GetPage(name: '/help_Center_Screen', page: () => const Help_Center_Screen()),
+    GetPage(name: '/privacyPolicies', page: () => const PrivacyPolicies()),
+    GetPage(name: '/faqsScreen', page: () => const FaqsScreen()),
 
 
 

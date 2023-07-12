@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -90,11 +92,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Name',
                                   controller: nameController,
+                                  textInputAction: TextInputAction.next,
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please enter your name'),
+                                  ]),
                                 ),
                               ),
                              addHeight(20),
@@ -111,10 +117,27 @@ class _SignupScreenState extends State<SignupScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Email',
+                                  controller: emailController,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (emailController.text.isEmpty) {
+                                      return "Please enter your email";
+                                    } else if (emailController.text
+                                        .contains('+') ||
+                                        emailController.text.contains(' ')) {
+                                      return "Email is invalid";
+                                    } else if (
+                                    RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(emailController.text)) {
+                                      return null;
+                                    } else {
+                                      return 'Please type a valid email address';
+                                    }
+                                  },
                                 ),
                               ),
                               addHeight(20),
@@ -131,11 +154,24 @@ class _SignupScreenState extends State<SignupScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Phone',
                                   controller: phoneController,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: const TextInputType
+                                      .numberWithOptions(decimal: true),
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please enter your contact number '),
+                                    MinLengthValidator(10,
+                                        errorText: 'Please enter 10 digit number'),
+                                    MaxLengthValidator(10,
+                                        errorText: 'Please enter 10 digit number'),
+                                    PatternValidator(
+                                        r'(^(?:[+0]9)?[0-9]{10,12}$)',
+                                        errorText: '')
+                                  ]),
                                 ),
                               ),
                               addHeight(20),
@@ -152,11 +188,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Password',
                                   controller: passwordController,
+                                  textInputAction: TextInputAction.next,
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please enter your password'),
+                                    MinLengthValidator(8,
+                                        errorText: 'Password must be at least 8 characters, with 1 special character & 1 numerical'),
+                                    PatternValidator(
+                                        r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                        errorText: "Password must be at least with 1 special character & 1 numerical"),
+                                  ]),
                                 ),
                               ),
                               addHeight(20),
@@ -173,11 +218,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Confirm Password',
                                   controller: confirmController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    if (value.toString() ==
+                                        passwordController.text) {
+                                      return null;
+                                    }
+                                    return "Confirm password not matching with password";
+                                  },
                                 ),
                               ),
                               addHeight(23),
@@ -214,6 +268,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               addHeight(26),
                               CommonButton(title: 'Signup',onPressed: (){
+                            if ( _formKey1.currentState!.validate()) {}
                              if (value != true) {
                                  setState(() {
                                    showErrorMessage = true;
@@ -228,7 +283,7 @@ class _SignupScreenState extends State<SignupScreen> {
                              else {
                                setState(() {
                                  showErrorMessage = false;
-                                 Get.toNamed(MyRouters.emailVerificationScreen);
+                                 Get.toNamed(MyRouters.otpScreen);
                                });
                              }
                               }),
