@@ -387,11 +387,11 @@ class CommonButton extends StatelessWidget {
             // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
           child: Text(title,
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
                   letterSpacing: .5,
-                  fontSize: 22))),
+                  fontSize: 21))),
     );
   }
 }
@@ -543,14 +543,13 @@ class CommonTextFieldWidget extends StatelessWidget {
           focusColor: Colors.black,
           hintStyle: const TextStyle(
             color:  Color(0xff2F353F),
-            fontSize: 14,
-            fontFamily: 'poppins',
+            fontSize: 13,
             fontWeight: FontWeight.w300,
           ),
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.white),
@@ -561,7 +560,7 @@ class CommonTextFieldWidget extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
               borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+             const BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(15.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
@@ -730,7 +729,7 @@ class RegistrationTextFieldChk extends StatelessWidget {
           ),
           filled: true,
 
-          fillColor: const Color(0xFFF4F4F4),
+          fillColor: const Color(0xFFF9F9F9),
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(

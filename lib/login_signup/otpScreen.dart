@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
+import '../widgets/new_helper.dart';
 
 
 class OtpScreen extends StatefulWidget {
@@ -149,9 +151,20 @@ class _OtpScreenState extends State<OtpScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 24.0,right: 24,top: 70,bottom: 20),
                         child: CommonButton(title: 'Verify OTP',
-                         onPressed: (){
-                           Get.toNamed(MyRouters.dashbordScreen);
-                         },
+                          onPressed: ()  {
+                            if(formKey99.currentState!.validate()){
+                              verifyOTPPassword(Get.arguments[0],otpController.text,context).then((value){
+                                if(value.status==true){
+                                  NewHelper.showToast(value.message);
+                                  Get.offAllNamed(MyRouters.loginScreen);
+                                }
+                                else{
+                                  NewHelper.showToast(value.message);
+                                }
+                              });
+                            }
+
+                          },
                         ),
                       ),
                     ],

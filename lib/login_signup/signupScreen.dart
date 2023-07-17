@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
+import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
-
+import '../widgets/new_helper.dart';
 
 
 class SignupScreen extends StatefulWidget {
@@ -32,294 +32,300 @@ class _SignupScreenState extends State<SignupScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          height: screenHeight,
-          child: Stack(
-              children:[
-                Column(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: SafeArea(
+          child: Form(
+            key: _formKey1,
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    Container(
+                    SizedBox(
+                        height: 280,
+                        width: double.maxFinite,
+                        child: Image.asset('assets/images/LoginBackground.png',fit: BoxFit.cover,)),
+                    SizedBox(
                       width: screenWidth,
-                      height: screenHeight*.45,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/LoginBackground.png'),
-                            fit: BoxFit.fill
-                        ),
-                      ),
                       child: Column(
                         children: [
-                          addHeight(30),
+                          addHeight(40),
                           Image.asset('assets/images/AppLogo.png',width: 203,),
-                          addHeight(36),
-                          Center(
+                          addHeight(35),
+                          const Center(
                             child: Text(' Sign Up to your Account',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF66656B),
+                                fontWeight: FontWeight.w600,
+                                color:  Color(0xFF66656B),
                               ),),
                           ),
+                          addHeight(20),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Container(
+                              width: screenWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF37C666).withOpacity(0.10),
+                                    offset: const Offset(.1, .1,
+                                    ),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 1.0,
+                                  ),
+                                ],
+                              ),
+                              child: CommonTextFieldWidget(
+                                textInputAction: TextInputAction.next,
+                                hint: 'Name',
+                                controller: nameController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Name is required";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                          addHeight(20),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Positioned(
-                  top: 260,
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Form(
-                          key: _formKey1,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Name',
-                                  controller: nameController,
-                                  textInputAction: TextInputAction.next,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please enter your name'),
-                                  ]),
-                                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF37C666).withOpacity(0.10),
+                              offset: const Offset(.1, .1,
                               ),
-                             addHeight(20),
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Email',
-                                  controller: emailController,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (emailController.text.isEmpty) {
-                                      return "Please enter your email";
-                                    } else if (emailController.text
-                                        .contains('+') ||
-                                        emailController.text.contains(' ')) {
-                                      return "Email is invalid";
-                                    } else if (
-                                    RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(emailController.text)) {
-                                      return null;
-                                    } else {
-                                      return 'Please type a valid email address';
-                                    }
-                                  },
-                                ),
-                              ),
-                              addHeight(20),
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Phone',
-                                  controller: phoneController,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: const TextInputType
-                                      .numberWithOptions(decimal: true),
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please enter your contact number '),
-                                    MinLengthValidator(10,
-                                        errorText: 'Please enter 10 digit number'),
-                                    MaxLengthValidator(10,
-                                        errorText: 'Please enter 10 digit number'),
-                                    PatternValidator(
-                                        r'(^(?:[+0]9)?[0-9]{10,12}$)',
-                                        errorText: '')
-                                  ]),
-                                ),
-                              ),
-                              addHeight(20),
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Password',
-                                  controller: passwordController,
-                                  textInputAction: TextInputAction.next,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please enter your password'),
-                                    MinLengthValidator(8,
-                                        errorText: 'Password must be at least 8 characters, with 1 special character & 1 numerical'),
-                                    PatternValidator(
-                                        r"(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
-                                        errorText: "Password must be at least with 1 special character & 1 numerical"),
-                                  ]),
-                                ),
-                              ),
-                              addHeight(20),
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Confirm Password',
-                                  controller: confirmController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your password';
-                                    }
-                                    if (value.toString() ==
-                                        passwordController.text) {
-                                      return null;
-                                    }
-                                    return "Confirm password not matching with password";
-                                  },
-                                ),
-                              ),
-                              addHeight(23),
-                              Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 1.2,
-                                    child: Theme(
-                                      data: ThemeData(
-                                          unselectedWidgetColor: checkboxColor.value == false
-                                              ? Color(0xFF64646F)
-                                              : Color(0xFF64646F)
-                                      ),
-                                      child: Checkbox(
-                                          shape: CircleBorder(),
-                                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                          value: value,
-                                          activeColor: Color(0xFF7ED957),
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              value = newValue!;
-                                              checkboxColor.value = !newValue!;
-                                            });
-                                          }),
-                                    ),
-                                  ),
-                                  Text(
-                                      'Keep Me Signed In.',
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: const Color(0xFF64646F))),
-                                ],
-                              ),
-                              addHeight(26),
-                              CommonButton(title: 'Signup',onPressed: (){
-                            if ( _formKey1.currentState!.validate()) {}
-                             if (value != true) {
-                                 setState(() {
-                                   showErrorMessage = true;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                   const SnackBar(
-                                    content: Text(
-                                     "Agree to our terms of Service"),
-                                  ));
-                                }
-                                );
-                              }
-                             else {
-                               setState(() {
-                                 showErrorMessage = false;
-                                 Get.toNamed(MyRouters.otpScreen);
-                               });
-                             }
-                              }),
-                              addHeight(26),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Don\'t have an account?',
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xFF3A3737),
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 14
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      Get.back();
-                                    },
-                                    child:
-                                    Text(' Login',
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF69C541),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
+                              blurRadius: 20.0,
+                              spreadRadius: 1.0,
+                            ),
+                          ],
                         ),
-                      )
+                        child:  CommonTextFieldWidget(
+                          textInputAction: TextInputAction.next,
+                          hint: 'Email',
+                          controller: emailController,
+                          validator: MultiValidator([
+                            EmailValidator(
+                                errorText:
+                                'enter a valid email address'),
+                            RequiredValidator(
+                                errorText: 'Email is required')
+                          ]),
+                        ),
+                      ),
+                      addHeight(20),
+                      Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF37C666).withOpacity(0.10),
+                              offset: const Offset(.1, .1,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 1.0,
+                            ),
+                          ],
+                        ),
+                        child: CommonTextFieldWidget(
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          length: 10,
+                          hint: 'Phone',
+                          controller: phoneController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "phone is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      addHeight(20),
+                      Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF37C666).withOpacity(0.10),
+                              offset: const Offset(.1, .1,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 1.0,
+                            ),
+                          ],
+                        ),
+                        child: CommonTextFieldWidget(
+                          textInputAction: TextInputAction.next,
+                          hint: 'Password',
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Password is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      addHeight(20),
+                      Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF37C666).withOpacity(0.10),
+                              offset: const Offset(.1, .1,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 1.0,
+                            ),
+                          ],
+                        ),
+                        child: CommonTextFieldWidget(
+                          hint: 'Confirm Password',
+                          controller: confirmController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "confirm the password";
+                            } else if (confirmController.text !=
+                                passwordController.text) {
+                              return "Confirm password should be match";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      addHeight(23),
+                      Row(
+                        children: [
+                          Transform.scale(
+                            scale: 1.1,
+                            child: Theme(
+                              data: ThemeData(
+                                  unselectedWidgetColor: checkboxColor.value == false
+                                      ? const Color(0xFF64646F)
+                                      : const Color(0xFF64646F)
+                              ),
+                              child: Checkbox(
+                                  shape: const CircleBorder(),
+                                  side: BorderSide(
+                                      color:   showErrorMessage == false
+                                          ? AppTheme.primaryColor
+                                          : Colors.red,
+                                      width: 2),
+                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  value: value,
+                                  activeColor: const Color(0xFF7ED957),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      value = newValue!;
+                                      checkboxColor.value = !newValue;
+                                    });
+                                  }),
+                            ),
+                          ),
+                          const Text(
+                              'Keep Me Signed In.',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color:  Color(0xFF64646F))),
+                        ],
+                      ),
+                      addHeight(26),
+                      CommonButton(
+                          title: 'Signup',
+                          onPressed: (){
+                            if(_formKey1.currentState!.validate()){
+                              //print("Hello");
+                              register(
+                                  nameController.text,
+                                  emailController.text,
+                                  phoneController.text,
+                                  passwordController.text,
+                                  confirmController.text,
+                                  4,
+                                  context
+                              ).then((value){
+                                if(value.status==true){
+                                  NewHelper.showToast(value.message);
+                                  Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text]);
+                                }else{
+                                  NewHelper.showToast(value.message);
+                                }
+                              });
+                            }
+
+                            // if (value != true) {
+                            //     setState(() {
+                            //       showErrorMessage = true;
+                            //      ScaffoldMessenger.of(context).showSnackBar(
+                            //       const SnackBar(
+                            //        content: Text(
+                            //         "Agree to our terms of Service"),
+                            //      ));
+                            //    }
+                            //    );
+                            //  }
+                            // else {
+                            //   setState(() {
+                            //     showErrorMessage = false;
+                            //     Get.toNamed(MyRouters.emailVerificationScreen);
+                            //   });
+                            // }
+                          }),
+                      addHeight(26),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Already have an account?',
+                            style: TextStyle(
+                                color:  Color(0xFF3A3737),
+                                fontWeight: FontWeight.w300,
+                                fontSize: 14
+                            ),
+                          ),
+                          InkWell(
+                            onTap: (){
+                              Get.back();
+                            },
+                            child:
+                            const Text(' Login',
+                              style: TextStyle(
+                                  color:  Color(0xFF69C541),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      addHeight(16),
+                    ],
                   ),
-                )
-              ]
+                ),
+              ],
+            ),
           ),
         ),
       ),

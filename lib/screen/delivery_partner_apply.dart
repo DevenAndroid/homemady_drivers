@@ -1,15 +1,20 @@
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/custome_textfiled.dart';
 import 'package:homemady_drivers/widgets/dimenestion.dart';
 import 'package:image_picker/image_picker.dart';
-
+import '../repository/registration.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/new_helper.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
 
 
 class DeliveryPartnerApplyScreen extends StatefulWidget {
@@ -23,11 +28,45 @@ class DeliveryPartnerApplyScreen extends StatefulWidget {
 class _DeliveryPartnerApplyScreenState
     extends State<DeliveryPartnerApplyScreen> {
   final _formKey = GlobalKey<FormState>();
-  Rx<File> image = File("").obs;
-  Rx<File> image1 = File("").obs;
-  Rx<File> image2 = File("").obs;
-  final ImagePicker picker = ImagePicker();
-
+  File image = File("");
+  File image1 = File("");
+  File image2 = File("");
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Field to pick img : $e');
+    }
+  }
+  Future pickImage1() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image1 = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Field to pick img : $e');
+    }
+  }
+  Future pickImage2() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image2 = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Field to pick img : $e');
+    }
+  }
   showUploadWindow() {
     showDialog(
       context: context,
@@ -57,9 +96,7 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper().addFilePicker().then((value) {
-                              image.value = value!;
-                            });
+                     pickImage();
                             Get.back();
                           },
                         ),
@@ -70,11 +107,8 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper()
-                                .addImagePicker(imageSource: ImageSource.camera)
-                                .then((value) {
-                              image.value = value!;
-                            });
+
+                            pickImage1();
                             Get.back();
                           },
                         ),
@@ -119,9 +153,7 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper().addFilePicker().then((value) {
-                              image1.value = value!;
-                            });
+                            pickImage2();
                             Get.back();
                           },
                         ),
@@ -132,11 +164,7 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper()
-                                .addImagePicker(imageSource: ImageSource.camera)
-                                .then((value) {
-                              image1.value = value!;
-                            });
+                            pickImage2();
                             Get.back();
                           },
                         ),
@@ -181,9 +209,7 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper().addFilePicker().then((value) {
-                              image2.value = value!;
-                            });
+                            pickImage1();
                             Get.back();
                           },
                         ),
@@ -194,11 +220,7 @@ class _DeliveryPartnerApplyScreenState
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            NewHelper()
-                                .addImagePicker(imageSource: ImageSource.camera)
-                                .then((value) {
-                              image2.value = value!;
-                            });
+                            pickImage2();
                             Get.back();
                           },
                         ),
@@ -214,7 +236,12 @@ class _DeliveryPartnerApplyScreenState
       },
     );
   }
-
+  String? _address = "";
+  String? chooseOptionType;
+  String? selectedCategory;
+  String? selectedSecondaryCategory;
+  String? selectedTertiaryCategory;
+  String? selectedCollection;
   String dropdownvalue = 'Car';
 
   var items = [
@@ -222,9 +249,27 @@ class _DeliveryPartnerApplyScreenState
     'Motorcycle',
     'Bicycle',
   ];
+  RxBool showValidation = false.obs;
+  bool checkValidation(bool bool1, bool2) {
+    if (bool1 == true && bool2 == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
+TextEditingController dobController = TextEditingController();
+TextEditingController ppsController = TextEditingController();
+TextEditingController veyearController = TextEditingController();
+TextEditingController makeController = TextEditingController();
+TextEditingController vdiController = TextEditingController();
+TextEditingController colorController = TextEditingController();
+TextEditingController modelController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: backAppBar(title: 'Delivery Partner Apply', context: context),
       body: Obx(() {
@@ -250,21 +295,42 @@ class _DeliveryPartnerApplyScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RegistrationTextFieldChk(
-                      onTap: () {},
+                      validator: MultiValidator([
+                        RequiredValidator(
+                            errorText: 'Please enter your dob'),
+                      ]),
+                      controller: dobController,
                       hint: 'Dath of birth',
+                       keyboardType: TextInputType.number,
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(
                       onTap: () {},
+                      validator: MultiValidator([
+                        RequiredValidator(
+                            errorText: 'Please enter your PPS number'),
+                      ]),
+                      keyboardType: TextInputType.number,
+                      controller: ppsController,
                       hint: 'PPS number',
+                      length: 7,
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(
+                      controller: modelController,
                       prefix: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 2),
                         child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
+                          child: DropdownButtonFormField(
+                            decoration: const InputDecoration(
+                                border: InputBorder.none
+                            ),
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please select your vechile type'),
+
+                            ]),
                             isExpanded: true,
                             style: const TextStyle(
                               color: Color(0xFF697164),
@@ -290,20 +356,83 @@ class _DeliveryPartnerApplyScreenState
                       ),
                     ),
                     addHeight(13),
-                    RegistrationTextFieldChk(
-                      onTap: () {},
-                      hint: 'Address',
-                      suffix: Padding(
-                        padding: const EdgeInsets.only(right: 17.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/locationImg.png', height: 19,)
-                          ],
-                        ),
+                    InkWell(
+                      onTap: () async {
+                        var place = await PlacesAutocomplete.show(
+                            hint: "Location",
+                            context: context,
+                            apiKey: googleApikey,
+                            mode: Mode.overlay,
+                            types: [],
+                            strictbounds: false,
+                            onError: (err) {
+                              log("error.....   ${err.errorMessage}");
+                            });
+                        if (place != null) {
+                          setState(() {
+                            _address = (place.description ?? "Location")
+                                .toString();
+                          });
+                          final plist = GoogleMapsPlaces(
+                            apiKey: googleApikey,
+                            apiHeaders: await const GoogleApiHeaders()
+                                .getHeaders(),
+                          );
+                          print(plist);
+                          String placeid = place.placeId ?? "0";
+                          final detail =
+                          await plist.getDetailsByPlaceId(placeid);
+                          final geometry = detail.result.geometry!;
+                          final lat = geometry.location.lat;
+                          final lang = geometry.location.lng;
+                          setState(() {
+                            _address = (place.description ?? "Location")
+                                .toString();
+                            print("Address iss...$_address");
+                          });
+                        }},
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: !checkValidation(
+                                          showValidation.value,
+                                          _address == "")
+                                          ? Colors.grey.shade300
+                                          : Colors.red),
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  color: Colors.grey.shade50),
+                              // width: MediaQuery.of(context).size.width - 40,
+                              child: ListTile(
+                                leading: const Icon(Icons.location_on,color: const Color(0xFF6CD241),),
+                                title: Text(
+                                  _address ?? "Location".toString(),
+                                  style: TextStyle(
+                                      fontSize: AddSize.font14),
+                                ),
+                                trailing: const Icon(Icons.search),
+                                dense: true,
+                              )),
+                          checkValidation(
+                              showValidation.value, _address == "")
+                              ? Padding(
+                            padding: EdgeInsets.only(
+                                top: AddSize.size5),
+                            child: Text(
+                              "      Location is required",
+                              style: TextStyle(
+                                  color: Colors.red.shade700,
+                                  fontSize: AddSize.font12),
+
+                            ),
+                          )
+                              : SizedBox()
+                        ],
+                      )
                       ),
-                    ),
                     addHeight(18),
                     const Text('Vehicle Details', style: TextStyle(
                       color: Color(0xFF2F2F2F),
@@ -317,13 +446,27 @@ class _DeliveryPartnerApplyScreenState
                           child: RegistrationTextFieldChk(
                             hint: '2000 Year',
                             onTap: () {},
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please enter your vehicle model year'),
+                            ]),
+                            controller: veyearController,
+                            keyboardType: TextInputType.number,
+                            length: 4,
                           ),
                         ),
                         addWidth(17),
                         Expanded(
                           child: RegistrationTextFieldChk(
                             hint: 'Make',
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please enter your vehicle make year'),
+                            ]),
                             onTap: () {},
+                            controller: makeController,
+                            length: 4,
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                       ],
@@ -333,15 +476,25 @@ class _DeliveryPartnerApplyScreenState
                       children: [
                         Expanded(
                           child: RegistrationTextFieldChk(
-                            hint: 'VDI',
+                            hint: 'Model',
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please enter your vehicle model'),
+                            ]),
                             onTap: () {},
+                            controller: vdiController,
                           ),
                         ),
                         addWidth(17),
                         Expanded(
                           child: RegistrationTextFieldChk(
-                            hint: 'Red',
+                            hint: 'Color',
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please enter your vehicle color'),
+                            ]),
                             onTap: () {},
+                            controller: colorController,
                           ),
                         ),
                       ],
@@ -356,18 +509,17 @@ class _DeliveryPartnerApplyScreenState
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       width: AddSize.screenWidth,
-                      decoration: BoxDecoration(
+                      decoration:  BoxDecoration(
                           color: const Color(0xFFF4F4F4),
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: const Color(0xFFE2E2E2),
+                          border: Border.all(color: !checkValidation(showValidation.value, image.path != "") ? const Color(0xFFE2E2E2): Colors.red,
                               width: 1)
                       ),
                       child: InkWell(
                         onTap: () {
-                          showUploadWindow();
+                          pickImage();
                         },
-                        child: image.value.path == "" ?
-                        Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -378,47 +530,14 @@ class _DeliveryPartnerApplyScreenState
                                 fontWeight: FontWeight.w300,
                               ),),
                             addHeight(10),
-                            Image.asset('assets/images/camera.png', height: 60,)
-                          ],
-                        ) :    Stack(
-                          children: [
-                            SizedBox(
-                                width: double.maxFinite,
-                                height: AddSize.size100,
-                                child: Image.file(image.value)),
-
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  NewHelper()
-                                      .addFilePicker()
-                                      .then((value) {
-                                    image.value = value;
-                                  });
-                                },
-                                child: Container(
-                                  height: AddSize.size30,
-                                  width: AddSize.size30,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1,
-                                          color: Colors.black12),
-                                      color:
-                                      Color(0xFF7ED957),
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          50)),
-                                  child: const Center(
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                        size: 20,
-                                      )),
-                                ),
-                              ),
-                            ),
+                            image.path != "" ?  Image.file(
+                              image,
+                              width: 140,
+                              height: 180,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) =>
+                              const Icon(Icons.add,size: 50,),
+                            ) : Image.asset('assets/images/camera.png', height: 60,)
                           ],
                         ),
                       ),
@@ -439,15 +558,14 @@ class _DeliveryPartnerApplyScreenState
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: const Color(0xFFE2E2E2),
+                                border: Border.all(color:  const Color(0xFFE2E2E2),
                                     width: 1)
                             ),
                             child: InkWell(
                               onTap: () {
-                                showUploadWindow1();
+                                pickImage1();
                               },
-                              child: image1.value.path == "" ?
-                              Column(
+                            child :  Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -458,47 +576,15 @@ class _DeliveryPartnerApplyScreenState
                                       fontWeight: FontWeight.w300,
                                     ),),
                                   addHeight(10),
+                                  image1.path != "" ?  Image.file(
+                                    image1,
+                                    width: 140,
+                                    height: 180,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) =>
+                                    const Icon(Icons.add,size: 50,),
+                                  ) :
                                   Image.asset('assets/images/camera.png', height: 60,)
-                                ],
-                              ) :   Stack(
-                                children: [
-                                  SizedBox(
-                                      width: double.maxFinite,
-                                      height: AddSize.size100,
-                                      child: Image.file(image1.value)),
-
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        NewHelper()
-                                            .addFilePicker()
-                                            .then((value) {
-                                          image1.value = value;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: AddSize.size30,
-                                        width: AddSize.size30,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Colors.black12),
-                                            color:
-                                            Color(0xFF7ED957),
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                50)),
-                                        child: const Center(
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 20,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -512,15 +598,14 @@ class _DeliveryPartnerApplyScreenState
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: const Color(0xFFE2E2E2),
+                                border: Border.all(color:  const Color(0xFFE2E2E2),
                                     width: 1)
                             ),
                             child: InkWell(
                               onTap: () {
-                                showUploadWindow2();
+                                pickImage2();
                               },
-                              child: image2.value.path == "" ?
-                              Column(
+                            child :  Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -531,60 +616,61 @@ class _DeliveryPartnerApplyScreenState
                                       fontWeight: FontWeight.w300,
                                     ),),
                                   addHeight(10),
+                                  image2.path != "" ?  Image.file(
+                                    image2,
+                                    width: 140,
+                                    height: 180,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) =>
+                                    const Icon(Icons.add,size: 50,),
+                                  ) :
                                   Image.asset('assets/images/camera.png', height: 60,)
                                 ],
-                              ) :
-                              Stack(
-                                children: [
-                                  SizedBox(
-                                      width: double.maxFinite,
-                                      height: AddSize.size100,
-                                      child: Image.file(image2.value)),
-
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        NewHelper()
-                                            .addFilePicker()
-                                            .then((value) {
-                                          image2.value = value;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: AddSize.size30,
-                                        width: AddSize.size30,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Colors.black12),
-                                            color:
-                                            Color(0xFF7ED957),
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                50)),
-                                        child: const Center(
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 20,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
-
                             ),
                           ),
                         ),
                       ],
                     ),
                     addHeight(30),
-                    CommonButton(title: 'Apply',onPressed: (){
-                      Get.toNamed(MyRouters.thankYouVendorScreen);
-                    },)
+                    CommonButton(title: 'Apply',
+                      onPressed: () {
+                        if (_formKey.currentState!.validate() && _address!.isNotEmpty &&
+                        image.path != "" &&
+                        image1.path != "" &&
+                        image2.path != "") {
+                          Map  <String, String> mapdata = {
+                            'dob' : dobController.text.trim(),
+                            'pps_no' :  ppsController.text.trim(),
+                            'vehicle_type'    : veyearController.text.trim(),
+                            'vehicle_name' :  veyearController.text.trim(),
+                            'vehicle_model' : dropdownvalue.toString(),
+                            'vehicle_make' : makeController.text.trim(),
+                            'vehicle_color' : colorController.text.trim(),
+                            'address' : _address.toString(),
+                          };
+                          print(mapdata);
+                          vendorRegistrationRepo(
+                            fieldName1: 'pps_card_image',
+                            fieldName2: "licence_front_image",
+                            fieldName3: "licence_back_image",
+                            file1: image,
+                            file2: image1,
+                            file3: image2,
+                            mapData: mapdata,
+                            context: context,
+                          ).then((value) {
+                            if (value.status == true) {
+                              NewHelper.showToast(value.message.toString());
+                              Get.offAllNamed(MyRouters.dashbordScreen);
+                            }
+                            NewHelper.showToast(value.message.toString());
+                          });
+                        }
+                        // emailLogin();
+                        //
+                      },
+                    )
                   ],
                 ),
               ),

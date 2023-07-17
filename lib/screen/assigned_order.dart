@@ -211,24 +211,26 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                     children: [
                                       Image.asset('assets/images/locationiconn.png',height: 18,),
                                       addWidth(20),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children:  [
-                                          Text('Location:',
-                                            style:  GoogleFonts.raleway(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 14,
-                                                color:  Color(0xFF303C5E)
-                                            ),),
-                                          addHeight(4),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children:  [
+                                            Text('Location:',
+                                              style:  GoogleFonts.raleway(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 14,
+                                                  color:  Color(0xFF303C5E)
+                                              ),),
+                                            addHeight(4),
 
-                                          Text('600 East Carpenter Freeway, Suite 246\nIrving, TX 75062',
-                                            style: GoogleFonts.raleway(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 15,
-                                                color:  Color(0xFF303C5E)
-                                            ),),
-                                        ],
+                                            Text('600 East Carpenter Freeway, Suite 246 Irving, TX 75062',
+                                              style: GoogleFonts.raleway(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 15,
+                                                  color:  Color(0xFF303C5E)
+                                              ),),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

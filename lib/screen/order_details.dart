@@ -383,77 +383,260 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
             controller: tabController,
             children: [
               SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AddSize.padding16,
-                  ),
-                  child: Column(
-                    children: [
-                      Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          elevation: 0,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                      double.parse(
-                                          locationController.lat.value == ''
-                                              ? "0"
-                                              : locationController.lat.value),
-                                      double.parse(
-                                          locationController.long.value == ''
-                                              ? "0"
-                                              : locationController.long.value),
-                                    ),
-                                    zoom: 15,
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AddSize.padding16),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  offset: const Offset(.1, .1,
                                   ),
-                                  gestureRecognizers: <
-                                      Factory<OneSequenceGestureRecognizer>>{
-                                    Factory<OneSequenceGestureRecognizer>(
-                                          () => EagerGestureRecognizer(),
-                                    ),
-                                  },
+                                  blurRadius: 20.0,
+                                  spreadRadius: 1.0,
                                 ),
-                              ),
-                              addHeight(15),
-                              Image.asset('assets/images/Rectangle 4143.png'),
-                              addHeight(30),
-                              CommonButton(title: 'Save', onPressed: () {
-                                Get.toNamed(MyRouters.orderAccept);
-                              },)
-                            ],
-                          )),
-                      // paymentDetails(
-                      //   subTotal: myOrderDetailsController
-                      //       .model.value.data!.itemTotal
-                      //       .toString(),
-                      //   // tax: myOrderDetailsController
-                      //   //     .model.value.data!.tax
-                      //   //     .toString(),
-                      //   delivery: myOrderDetailsController
-                      //       .model.value.data!.deliveryCharges
-                      //       .toString(),
-                      //   // packing: myOrderDetailsController
-                      //   //     .model.value.data!.packingFee
-                      //   //     .toString(),
-                      //   orderType: myOrderDetailsController
-                      //       .model.value.data!.orderType
-                      //       .toString(),
-                      //   total: myOrderDetailsController
-                      //       .model.value.data!.grandTotal
-                      //       .toString(),
-                      // )
-                    ],
-                  ),
-                ),
-              ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 0,
+                                  color: AppTheme.backgroundcolor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding15,
+                                        vertical: AddSize.padding15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "Store Name",
+                                                style: TextStyle(
+                                                    color:
+                                                    AppTheme.lightblack,
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              Text(
+                                                'Store abcd@3125A#',
+                                                style: GoogleFonts.raleway(
+                                                    color: const Color(
+                                                        0xFF303C5E),
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ]),
+                                        Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: const ShapeDecoration(
+                                              color: Color(0xFFFF980E),
+                                              shape: CircleBorder()),
+                                          child: Center(
+                                              child: Image(
+                                                image: const AssetImage(
+                                                    AppAssets.store1Icon),
+                                                height: AddSize.size20,
+                                                width: AddSize.size20,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Divider(color: Color(0xFFEFEFEF),
+                                  height: 1,
+                                  thickness: 1,),
+                                Card(
+                                  elevation: 0,
+                                  color: AppTheme.backgroundcolor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding15,
+                                        vertical: AddSize.padding15),
+                                    child:
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "store phone no",
+                                                style: TextStyle(
+                                                    color:
+                                                    AppTheme.lightblack,
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              Text(
+                                                '+91 9876454321',
+                                                style: GoogleFonts.raleway(
+                                                    color: const Color(
+                                                        0xFF303C5E),
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ]),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _makingPhoneCall("tel:+91");
+                                          },
+                                          child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: AppTheme.primaryColor,
+                                                  shape: CircleBorder()),
+                                              child: const Center(
+                                                  child: Icon(
+                                                    Icons.phone,
+                                                    color: Colors.white,
+                                                    // color: AppTheme.callPhoneColor,
+                                                  ))),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Divider(color: Color(0xFFEFEFEF),
+                                  height: 1,
+                                  thickness: 1,),
+                                Card(
+                                  elevation: 0,
+                                  color: AppTheme.backgroundcolor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding15,
+                                        vertical: AddSize.padding15),
+                                    child:
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "store address",
+                                                style: TextStyle(
+                                                    color:
+                                                    AppTheme.lightblack,
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              Text(
+                                                'Douglas, Cork, T16 XN73, uk',
+                                                style: GoogleFonts.raleway(
+                                                    color: const Color(
+                                                        0xFF303C5E),
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ]),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // openMap();
+                                          },
+                                          child: Container(
+                                            height: AddSize.size45,
+                                            width: AddSize.size45,
+                                            decoration: const ShapeDecoration(
+                                                color: AppTheme.lightYellow,
+                                                shape: CircleBorder()),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.location_on,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                )),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          addHeight(15),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  offset: const Offset(.1, .1,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 1.0,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const[
+                                Text(
+                                  "Subtotal:",
+                                  style: TextStyle(
+                                      color: Color(0xFF293044),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  "€50.00",
+                                  style: TextStyle(
+                                      color: Color(0xFF797F90),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
               SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Padding(

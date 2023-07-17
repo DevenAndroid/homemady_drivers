@@ -73,7 +73,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
         CommonButton(
           title: 'Continue',
           onPressed: () {
-            Get.toNamed(MyRouters.dashbordScreen);
+            Get.offAllNamed(MyRouters.dashbordScreen);
           },
         )
       ),

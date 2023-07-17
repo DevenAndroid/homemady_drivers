@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 
 import '../widgets/custome_textfiled.dart';
@@ -23,7 +25,9 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
         titleSpacing: 30,
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: (){},
+          onPressed: (){
+            Get.back();
+          },
           icon: const Icon(Icons.arrow_back,color: Colors.black,),
         ),
         leadingWidth: AddSize.size40 * 0.9,
