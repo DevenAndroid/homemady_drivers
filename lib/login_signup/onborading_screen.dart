@@ -20,8 +20,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   bool loginLoaded = false;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;    return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Column(
@@ -61,9 +61,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
                           Center(
                             child: Image(
                               image: AssetImage(
@@ -72,9 +69,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               width: AddSize.screenWidth,
                               height: AddSize.screenHeight / 2.5,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -97,13 +91,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   }),
                             ],
                           ),
-                          addHeight(10),
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                const SizedBox(
-                                  height: 18,
+                                 SizedBox(
+                                  height: height*.01,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),

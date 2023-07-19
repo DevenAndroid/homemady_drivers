@@ -337,7 +337,7 @@ packages:
       name: google_maps_flutter_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   google_maps_flutter_web:
     dependency: transitive
     description:

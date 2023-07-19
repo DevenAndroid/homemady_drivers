@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:homemady_drivers/widgets/new_helper.dart';
 
+import '../repository/change_password_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
@@ -15,7 +18,7 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -74,14 +77,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'New Password',
-                                  controller: emailController,
-                                  validator: (value) {
-
-                                  },
+                                  controller: passwordController,
+                                  validator: MultiValidator([
+                                    RequiredValidator(errorText: 'Password is required'),
+                                    MinLengthValidator(8,
+                                        errorText:
+                                        'Password must be at least 8 digits long'),
+                                    PatternValidator(
+                                        r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                        errorText:
+                                        'Password must be minimum 8 characters,with 1 Capital letter 1 special character & 1 numerical.')
+                                  ]),
                                 ),
                               ),
                               addHeight(15),
@@ -98,18 +107,39 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Confirm New Password',
-                                  controller: passwordController,
-
+                                  controller: confirmPasswordController,
+                                  validator: (value) {
+                                    if (value!.trim().isEmpty) {
+                                      return "Confirm password is required";
+                                    } else if (value.trim().toString() !=
+                                        passwordController.text.trim()) {
+                                      return "Confirm password is not matching with password";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
                               ),
 
                               addHeight(34),
                               CommonButton(title: 'Continue',onPressed: (){
-                                Get.toNamed(MyRouters.loginScreen);
+                                if (_formKey.currentState!.validate()) {
+                                  changePassword(Get.arguments[0],passwordController.text,
+                                      confirmPasswordController.text, context)
+                                      .then((value) async {
+                                    if (value.status == true) {
+                                      NewHelper.showToast(value.message);
+                                      Get.offAllNamed(MyRouters.loginScreen);
+                                    } else {
+                                      NewHelper.showToast(value.message);
+                                    }
+                                    return;
+                                  });
+                                }
+                                // Get.toNamed(MyRouters.loginScreen);
                               },),
                               addHeight(36),
                             ],

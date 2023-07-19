@@ -454,10 +454,11 @@ AppBar backAppBar(
     backgroundColor: backgroundColor,
     title: Text(
       title,
-      style: GoogleFonts.poppins(
+      style: const TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 17,
-          color: const Color(0xFF1A2E33)
+          fontFamily: 'poppinsSans',
+          color:  Color(0xFF1A2E33)
       ),
     ),
     leading: Padding(

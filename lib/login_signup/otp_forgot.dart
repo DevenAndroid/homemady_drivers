@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import '../widgets/new_helper.dart';
 
 
 class OtpForgotScreen extends StatefulWidget {
@@ -25,22 +28,18 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            children: [
-              Container(
-                height: AddSize.screenHeight,
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient
-                      (
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF7ED957),
-                          Color(0xFF6BD13F)
-                        ])
-                ),
-              ),
-            ],
+          Container(
+            height: AddSize.screenHeight,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient
+                  (
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF7ED957),
+                      Color(0xFF6BD13F)
+                    ])
+            ),
           ),
           Positioned(
               top: 60,
@@ -150,7 +149,17 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                         padding: const EdgeInsets.only(left: 24.0,right: 24,top: 70,bottom: 20),
                         child: CommonButton(title: 'Verify OTP',
                           onPressed: (){
-                            Get.toNamed(MyRouters.changePasswordScreen);
+                            if(formKey99.currentState!.validate()){
+                              verifyOTPPassword(Get.arguments[0],otpController.text,context).then((value){
+                                if(value.status==true){
+                                  NewHelper.showToast(value.message);
+                                  Get.toNamed(MyRouters.changePasswordScreen,arguments: [Get.arguments[0]]);
+                                }
+                                else{
+                                  NewHelper.showToast(value.message);
+                                }
+                              });
+                            }
                           },
                         ),
                       ),

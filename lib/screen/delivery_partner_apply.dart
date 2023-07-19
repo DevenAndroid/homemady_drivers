@@ -662,7 +662,7 @@ TextEditingController modelController = TextEditingController();
                           ).then((value) {
                             if (value.status == true) {
                               NewHelper.showToast(value.message.toString());
-                              Get.offAllNamed(MyRouters.dashbordScreen);
+                              Get.offAllNamed(MyRouters.thankYouVendorScreen);
                             }
                             NewHelper.showToast(value.message.toString());
                           });

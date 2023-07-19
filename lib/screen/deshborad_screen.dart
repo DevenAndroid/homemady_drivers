@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/deshborad_controoler.dart';
 import '../widgets/dimenestion.dart';
 
 
@@ -28,6 +29,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   RxBool isSelect4 = false.obs;
   RxBool isSelect5 = true.obs;
   RxBool isSelect6 = true.obs;
+  final controller = Get.put(DeshBoradController());
   // bool? _isValue = true;
   // bool? _isValue1 = false;
   // bool? _isValue2 = false;
@@ -35,7 +37,12 @@ class _DashbordScreenState extends State<DashbordScreen> {
   // bool? _isValue4 = false;
   // bool? _isValue5 = true;
   // bool? _isValue6 = false;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.getData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

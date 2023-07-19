@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../repository/forgot_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/new_helper.dart';
 
 class EmailVerificationScreen2 extends StatefulWidget {
   const EmailVerificationScreen2({Key? key}) : super(key: key);
@@ -84,19 +87,33 @@ class _EmailVerificationScreen2State extends State<EmailVerificationScreen2> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
-                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Email',
                                   controller: emailController,
-                                  validator: (value) {
-
-                                  },
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please enter your email '),
+                                    EmailValidator(
+                                        errorText:
+                                        'Please enter a valid email')
+                                  ]),
                                 ),
                               ),
                               addHeight(25),
                               CommonButton(title: 'Send',onPressed: (){
-                                Get.toNamed(MyRouters.otpForgotScreen);
+                                if (_formKey.currentState!.validate()) {
+                                  forgotPassRepo(emailController.text, context)
+                                      .then((value) {
+                                    if (value.status == true) {
+                                      NewHelper.showToast(value.message.toString());
+                                      Get.toNamed(MyRouters.otpForgotScreen,arguments: [emailController.text]);
+                                    } else {
+                                      NewHelper.showToast(value.message.toString());
+                                    }
+                                  });
+                                }
+                                // Get.toNamed(MyRouters.otpForgotScreen);
                               },),
                             ],
                           ),

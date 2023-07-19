@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/verify_otp_model.dart';
 import '../routers/routers.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     // TODO: implement initState
@@ -18,7 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () async {
       SharedPreferences pref = await SharedPreferences.getInstance();
       if (pref.getString('user_info') != null) {
-        Get.offAllNamed(MyRouters.dashbordScreen);
+        ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+        if(user.data!.asDriverVerified == true){
+          Get.offAllNamed(MyRouters.dashbordScreen);
+        }
+       else{
+          Get.offAllNamed(MyRouters.deliveryPartnerApplyScreen);
+        }
       }
       else{
         Get.offAllNamed(MyRouters.onBoardingScreen);

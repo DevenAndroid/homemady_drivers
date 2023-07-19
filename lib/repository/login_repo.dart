@@ -34,7 +34,7 @@ Future<ModelVerifyOtp> loginRepo(
         body: jsonEncode(map), headers: headers);
 
     if (response.statusCode == 200||response.statusCode == 400) {
-      print("<<<<<<<Login Data from repository=======>${response.body}");
+      log("<<<<<<<Login Data from repository=======>${response.body}");
       NewHelper.hideLoader(loader);
       return ModelVerifyOtp.fromJson(json.decode(response.body));
     } else {

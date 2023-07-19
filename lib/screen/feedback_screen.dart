@@ -70,37 +70,31 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                  ],
                ),
                 addHeight(15),
-               ListView.builder(
-                 shrinkWrap: true,
-                 itemCount: 5,
-                 itemBuilder: (context, index) {
-                   return Column(
-                     children: [
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                           const Text('Excellent',style: TextStyle(
-                             color: Color(0xFF969AA3),
-                             fontSize: 12,
-                             fontWeight: FontWeight.w400,
-                           ),),
-                           LinearPercentIndicator(
-                             lineHeight: 6.0,
-                             barRadius: const Radius.circular(16),
-                             backgroundColor: const Color(0xFFFAE9E4),
-                             width: AddSize.screenWidth*0.71,
-                             animation: true,
-                             progressColor: const Color(0xFF5DAF5E),
-                             percent: 0.7,
-                             animationDuration: 1200,
-                           ),
-                         ],
-                       ),
-                       addHeight(4),
-                     ],
-                   );
-                 },
-               ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Delivery               ',style: TextStyle(
+                        color: Color(0xFF969AA3),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),),
+                      Expanded(
+                        child: LinearPercentIndicator(
+                          lineHeight: 6.0,
+                          barRadius: const Radius.circular(16),
+                          backgroundColor: const Color(0xFFFAE9E4),
+                          animation: true,
+                          progressColor: const Color(0xFFEE3D1C),
+                          percent: 0.2,
+                          animationDuration: 1200,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               addHeight(20),
               const Divider(
                 height: 1,
