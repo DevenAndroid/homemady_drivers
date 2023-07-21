@@ -17,6 +17,7 @@ import '../screen/deshborad_screen.dart';
 import '../screen/faqs_screen.dart';
 import '../screen/feedback_screen.dart';
 import '../screen/help_center_screen.dart';
+import '../screen/myprofileScreen.dart';
 import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
 import '../screen/order_details.dart';
@@ -51,6 +52,7 @@ class MyRouters {
   static var help_Center_Screen= "/help_Center_Screen";
   static var privacyPolicies= "/privacyPolicies";
   static var faqsScreen= "/faqsScreen";
+  static var myProfileScreen= "/myProfileScreen";
 
 
 
@@ -67,7 +69,7 @@ class MyRouters {
     GetPage(name: '/dashbordScreen', page: () => const DashbordScreen()),
     GetPage(name: '/assignedOrderScreen', page: () => const AssignedOrderScreen()),
     GetPage(name: '/bankDetailsScreen', page: () => const BankDetailsScreen()),
-    GetPage(name: '/driverWithdrawMoney', page: () => const DriverWithdrawMoney()),
+    GetPage(name: '/driverWithdrawMoney', page: () => const WithdrawMoney()),
     GetPage(name: '/driverDeliveryOrderDetails', page: () => const DriverDeliveryOrderDetails()),
     GetPage(name: '/orderDeclineScreen', page: () => const OrderDeclineScreen()),
     GetPage(name: '/orderAccept', page: () => const OrderAccept()),
@@ -80,6 +82,7 @@ class MyRouters {
     GetPage(name: '/help_Center_Screen', page: () => const Help_Center_Screen()),
     GetPage(name: '/privacyPolicies', page: () => const PrivacyPolicies()),
     GetPage(name: '/faqsScreen', page: () => const FaqsScreen()),
+    GetPage(name: '/myProfileScreen', page: () => const MyProfileScreen()),
 
 
 

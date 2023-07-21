@@ -11,6 +11,17 @@ class ApiUrl {
   static const forgotPassword = "${baseUrl}forget-password?email=";
   static const resetPassword = "${baseUrl}reset-password";
   static const deshboradurl = "${baseUrl}driver-delivery-request-list";
+  static const resendOtpUrl = "${baseUrl}resend-otp";
+  static const privacyPolicyUrl = "${baseUrl}pages";
+  static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";
+  static const vendorBankListUrl = "${baseUrl}banks-list";
+  static const vendorBankDetailsUrl = "${baseUrl}account-details";
+  static const withdrawalListUrl = "${baseUrl}withdrawal-list";
+  static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
+  static const modeStatusUrl = "${baseUrl}driver-delivery-mode-update";
+  static const userProfileUrl = "${baseUrl}user-profile";
+  static const updateProfileUrl = "${baseUrl}update-profile";
+
 
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../repository/resend_otp_repo.dart';
 import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
@@ -23,6 +24,14 @@ class OtpForgotScreen extends StatefulWidget {
 class _OtpForgotScreenState extends State<OtpForgotScreen> {
   TextEditingController otpController = TextEditingController();
   final formKey99 = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    text = Get.arguments[0];
+
+  }
+  String text = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +145,14 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                       ),
                       addHeight(30),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                            resendOtpRepo(email: text, context: context).then((value) {
+                              if(value.status == true){
+                                NewHelper.showToast(value.message.toString());
+                                Get.toNamed(MyRouters.otpScreen);
+                              }
+                            });
+                          },
                         child: Center(
                           child:  Text(' Resend OTP',style: GoogleFonts.poppins(
                               fontSize: 16,

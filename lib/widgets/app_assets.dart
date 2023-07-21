@@ -9,5 +9,7 @@ class AppAssets {
   static const String orderList = "assets/images/orderlist2.png";
   static const String store1Icon = "assets/images/store1.png";
   static const String decline = "assets/images/decline.png";
+  static const String takeCameraIcon = "assets/images/cameraImage.png";
+
 
 }

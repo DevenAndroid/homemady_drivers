@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoginPasswordShow= true;
+  bool isLoginPasswordShow1= true;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -58,7 +61,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   right: 0,
                   left: 0,
                   child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: SingleChildScrollView(
                         child: Form(
                           key: _formKey,
@@ -80,16 +83,32 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'New Password',
+                                  obscureText: isLoginPasswordShow,
+                                  suffix: InkWell(
+                                    onTap: () {
+                                      isLoginPasswordShow = !isLoginPasswordShow;
+                                      setState(() {
+
+                                      });
+                                    },
+                                    child: Icon(
+                                        isLoginPasswordShow
+                                            ? CupertinoIcons.eye_slash_fill
+                                            : CupertinoIcons.eye,
+                                        size: 18,
+                                        color: Colors.grey),
+                                  ),
                                   controller: passwordController,
                                   validator: MultiValidator([
-                                    RequiredValidator(errorText: 'Password is required'),
-                                    MinLengthValidator(8,
+                                    RequiredValidator(
+                                        errorText: 'Please Enter The Password'),
+                                    MinLengthValidator(6,
                                         errorText:
-                                        'Password must be at least 8 digits long'),
+                                        'Password must be at least 6 digits long'),
                                     PatternValidator(
                                         r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
                                         errorText:
-                                        'Password must be minimum 8 characters,with 1 Capital letter 1 special character & 1 numerical.')
+                                        'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
                                   ]),
                                 ),
                               ),
@@ -110,6 +129,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Confirm New Password',
+                                  obscureText: isLoginPasswordShow1,
+                                  suffix: InkWell(
+                                    onTap: () {
+                                      isLoginPasswordShow1 = !isLoginPasswordShow1;
+                                      setState(() {
+
+                                      });
+                                    },
+                                    child: Icon(
+                                        isLoginPasswordShow1
+                                            ? CupertinoIcons.eye_slash_fill
+                                            : CupertinoIcons.eye,
+                                        size: 18,
+                                        color: Colors.grey),
+                                  ),
                                   controller: confirmPasswordController,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {

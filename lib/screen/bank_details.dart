@@ -3,7 +3,15 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
+
+import '../controller/add_bankDetails_controller.dart';
+import '../controller/bank_list_controller.dart';
+import '../models/bank_list_model.dart';
+import '../repository/add_bank_details_repo.dart';
+import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/dimenestion.dart';
+import '../widgets/new_helper.dart';
 
 class BankDetailsScreen extends StatefulWidget {
   const BankDetailsScreen({Key? key}) : super(key: key);
@@ -15,9 +23,36 @@ class BankDetailsScreen extends StatefulWidget {
 
 class _BankDetailsScreenState extends State<BankDetailsScreen> {
 
-
+  final vendorBankListController = Get.put(VendorBankListController());
+  final vendorBankDetailsController = Get.put(VendorBankDetailsController());
+  RxString selectedCAt = "".obs;
+  final _formKey = GlobalKey<FormState>();
   String dropdownvalue = 'HDFC Bank';
-
+  @override
+  void initState() {
+    super.initState();
+    vendorBankListController.getVendorBankListDetails().then((value) {
+      vendorBankDetailsController.getVendorBankDetails().then((value) {
+        if (vendorBankListController.bankListModel.value.data!.banks != null &&
+            vendorBankDetailsController.bankDetailsModel.value.data != null) {
+          selectedCAt.value = (vendorBankListController
+              .bankListModel.value.data!.banks!
+              .firstWhere(
+                  (element) =>
+              element.name.toString() ==
+                  (vendorBankDetailsController
+                      .bankDetailsModel.value.data!.bank ??
+                      ""),
+              orElse: () => Banks())
+              .id ??
+              "")
+              .toString();
+        }
+        setState(() {});
+        print(vendorBankDetailsController.bankDetailsModel.value.data?.bank);
+      });
+    });
+  }
   // List of items in our dropdown menu
   var items = [
     'HDFC Bank',
@@ -26,19 +61,38 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
     'PNB Bank',
     'IDFC Bank',
   ];
-  // final TextEditingController bankAccountNumber = TextEditingController();
-  // final TextEditingController accountHolderName = TextEditingController();
-  // final TextEditingController iFSCCode = TextEditingController();
-  RxString selectedCAt = "".obs;
-  final _formKey = GlobalKey<FormState>();
   final List<String> dropDownList = ["HDFC Bank", "SBI Bank", "PNB Bank"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: backAppBar(title: 'Bank Details', context: context),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+      body:  Obx((){
+      if (vendorBankDetailsController.isDataLoading.value &&
+          vendorBankDetailsController.bankDetailsModel.value.data != null) {
+        vendorBankDetailsController.bankAccountNumber.text =
+            (vendorBankDetailsController
+                .bankDetailsModel.value.data!.accountNo ??
+                "")
+                .toString();
+
+        vendorBankDetailsController.accountHolderName.text =
+            (vendorBankDetailsController
+                .bankDetailsModel.value.data!.accountName ??
+                "")
+                .toString();
+
+        vendorBankDetailsController.iFSCCode.text =
+            (vendorBankDetailsController
+                .bankDetailsModel.value.data!.ifscCode ??
+                "")
+                .toString();
+        // selectedCAt.value = vendorBankListController
+        //     .value.data!.bank
+        //     .toString();
+      }
+      return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             addHeight(50),
@@ -52,79 +106,131 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                     borderRadius: BorderRadius.circular(11),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF5F5F5F).withOpacity(0.2),
-                        offset: Offset(0.0, 0.5),
+                        color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                        offset: const Offset(0.0, 0.5),
                         blurRadius: 5,),]
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFFE2E2E2),width: 1),
-                          borderRadius: BorderRadius.circular(6),color: Color(0xFFF9F9F9),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: DropdownButton(
-                            value: dropdownvalue,
-                            isExpanded: true,
-                            // padding: EdgeInsets.only(left: 15,right: 15),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(17.0),
-                                  child: Text(items,
-                                    style: GoogleFonts.raleway(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xFF463C3E)
-                                    )
-                                    ,),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownvalue = newValue!;
-                              });
-                            },
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          // border: Border.all(color: Color(0xFFE2E2E2),width: 1),
+                          borderRadius: BorderRadius.circular(6),color: const Color(0xFFF9F9F9),
+                        ),
+                        child:
+                        DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            fillColor: const Color(0xFFF4F4F4),
+                            contentPadding:
+                            const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
+                            // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.grey.shade300),
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey.shade300),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10.0))),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey.shade300,
+                                    width: 3.0),
+                                borderRadius:
+                                BorderRadius.circular(15.0)),
+                            enabled: true,
                           ),
+                          isExpanded: true,
+                          hint: Text(
+                            'Select account',
+                            style: TextStyle(
+                                color: AppTheme.userText,
+                                fontSize: AddSize.font14),
+                          ),
+                          value: selectedCAt.value == ""
+                              ? null
+                              : selectedCAt.value,
+                          items: vendorBankListController
+                              .bankListModel.value.data?.banks!
+                              .toList()
+                              .map((value) {
+                            return DropdownMenuItem(
+                              value: value.id.toString(),
+                              child: Text(
+                                value.name.toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedCAt.value = newValue.toString();
+                            });
+                            print(selectedCAt.value);
+                          },
                         ),
                       ),
-                    ),
-                    addHeight(15),
-                    RegistrationTextFieldChk1(
-                      hint: 'IBAN',
-                      onTap: (){},
-                    ),
-                    addHeight(15),
-                    RegistrationTextFieldChk1(
-                      hint: 'Account Holder Name',
-                      onTap: (){},
-                    ),
-                    addHeight(15),
-                    RegistrationTextFieldChk1(
-                      hint: 'BIC/SWIFT code',
-                      onTap: (){},
-                    ),
-                    addHeight(15),
-                    CommonButton(
-                      onPressed: () {
-                      },
-                      title: "Add Account",
-                    ),
-                  ],
+                      addHeight(15),
+                      RegistrationTextFieldChk1(
+                        controller: vendorBankDetailsController.bankAccountNumber,
+                        hint: 'IBAN',
+                        onTap: (){},
+                      ),
+                      addHeight(15),
+                      RegistrationTextFieldChk1(
+                        controller:vendorBankDetailsController.accountHolderName,
+                        hint: 'Account Holder Name',
+                        onTap: (){},
+                      ),
+                      addHeight(15),
+                      RegistrationTextFieldChk1(
+                        controller: vendorBankDetailsController.iFSCCode,
+                        hint: 'BIC/SWIFT code',
+                        onTap: (){},
+                      ),
+                      addHeight(15),
+                      CommonButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            vendorAddBankDetailsRepo(
+                                selectedCAt.value,
+                                vendorBankDetailsController
+                                    .accountHolderName.text,
+                                vendorBankDetailsController
+                                    .bankAccountNumber.text,
+                                vendorBankDetailsController
+                                    .iFSCCode.text,
+                                context).then((value){
+                              if(value.status==true) {
+                                NewHelper.showToast(
+                                    "Account Details Added Successfully");
+                              }
+                              else{
+                                NewHelper.showToast(
+                                    "Enter your Account details");
+                              }
+                            });
+                          }
+                        },
+                        title: "Add Account",
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
           ],
         ),
-      ),
+      );
+    }),
     );
   }
 }

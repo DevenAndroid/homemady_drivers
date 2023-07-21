@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   RegExp _phoneRegExp = RegExp(r'^\+?[0-9]{7,}$');
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a value';
+      return 'Email or Phone is required';
     } else if (!_emailRegExp.hasMatch(value) && !_phoneRegExp.hasMatch(value)) {
       return 'Please enter a valid email or phone number';
     }
@@ -33,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoginPasswordShow= true;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -124,16 +127,34 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           child: CommonTextFieldWidget(
+                            obscureText: isLoginPasswordShow,
                             hint: 'Password',
                             controller: passwordController,
-                            validator: (value){
-                              if(value!.isEmpty){
-                                return "Password is required";
-                              }
-                              else{
-                                return null;
-                              }
-                            },
+                            suffix: InkWell(
+                              onTap: () {
+                                isLoginPasswordShow = !isLoginPasswordShow;
+                                setState(() {
+
+                                });
+                              },
+                              child: Icon(
+                                  isLoginPasswordShow
+                                      ? CupertinoIcons.eye_slash_fill
+                                      : CupertinoIcons.eye,
+                                  size: 18,
+                                  color: Colors.grey),
+                            ),
+                            validator: MultiValidator([
+                              RequiredValidator(
+                                  errorText: 'Please Enter The Password'),
+                              MinLengthValidator(6,
+                                  errorText:
+                                  'Password must be at least 6 digits long'),
+                              PatternValidator(
+                                  r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                  errorText:
+                                  'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
+                            ]),
                           ),
                         ),
                         SizedBox(
@@ -254,9 +275,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   await SharedPreferences.getInstance();
                               pref.setString('user_info', jsonEncode(value));
                               NewHelper.showToast(value.message);
-                              ModelVerifyOtp? user = ModelVerifyOtp.fromJson(
-                                  jsonDecode(pref.getString('user_info')!));
-                              if (user.data!.asDriverVerified == true) {
+                              if (value.data!.asDriverVerified == true) {
+
                                 Get.offAllNamed(MyRouters.dashbordScreen);
                               } else {
                                 Get.offAllNamed(

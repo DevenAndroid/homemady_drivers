@@ -263,9 +263,9 @@ TextEditingController dobController = TextEditingController();
 TextEditingController ppsController = TextEditingController();
 TextEditingController veyearController = TextEditingController();
 TextEditingController makeController = TextEditingController();
-TextEditingController vdiController = TextEditingController();
+TextEditingController modelNameController = TextEditingController();
 TextEditingController colorController = TextEditingController();
-TextEditingController modelController = TextEditingController();
+TextEditingController typeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -317,7 +317,7 @@ TextEditingController modelController = TextEditingController();
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(
-                      controller: modelController,
+                      controller: typeController,
                       prefix: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 2),
@@ -482,7 +482,7 @@ TextEditingController modelController = TextEditingController();
                                   errorText: 'Please enter your vehicle model'),
                             ]),
                             onTap: () {},
-                            controller: vdiController,
+                            controller: modelNameController,
                           ),
                         ),
                         addWidth(17),
@@ -519,9 +519,16 @@ TextEditingController modelController = TextEditingController();
                         onTap: () {
                           pickImage();
                         },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: image.path != "" ?
+                        SizedBox(
+                          width: double.maxFinite,
+                          height: AddSize.size100,
+                          child: Image.file(
+                            image,
+                            errorBuilder: (_, __, ___) =>
+                            const Icon(Icons.add,size: 50,),
+                          ),
+                        ) : Column(
                           children: [
                             const Text('Upload',
                               style: TextStyle(
@@ -530,14 +537,7 @@ TextEditingController modelController = TextEditingController();
                                 fontWeight: FontWeight.w300,
                               ),),
                             addHeight(10),
-                            image.path != "" ?  Image.file(
-                              image,
-                              width: 140,
-                              height: 180,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
-                              const Icon(Icons.add,size: 50,),
-                            ) : Image.asset('assets/images/camera.png', height: 60,)
+                            Image.asset('assets/images/camera.png', height: 60,),
                           ],
                         ),
                       ),
@@ -553,7 +553,7 @@ TextEditingController modelController = TextEditingController();
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 25),
                             width: AddSize.screenWidth,
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
@@ -565,35 +565,36 @@ TextEditingController modelController = TextEditingController();
                               onTap: () {
                                 pickImage1();
                               },
-                            child :  Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('Front',
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),),
-                                  addHeight(10),
-                                  image1.path != "" ?  Image.file(
-                                    image1,
-                                    width: 140,
-                                    height: 180,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.add,size: 50,),
-                                  ) :
-                                  Image.asset('assets/images/camera.png', height: 60,)
-                                ],
+                            child :  image1.path != "" ?
+
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: AddSize.size100,
+                              child: Image.file(
+                                image1,
+                                errorBuilder: (_, __, ___) =>
+                                const Icon(Icons.add,size: 50,),
                               ),
+                            ) :
+                            Column(
+                              children: [
+                                const Text('Front',
+                                  style: TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                  ),),
+                                addHeight(10),
+                                Image.asset('assets/images/camera.png', height: 60,),
+                              ],
+                            ),
                             ),
                           ),
                         ),
                         addWidth(17),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 25),
                             width: AddSize.screenWidth,
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
@@ -605,28 +606,28 @@ TextEditingController modelController = TextEditingController();
                               onTap: () {
                                 pickImage2();
                               },
-                            child :  Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('Back',
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),),
-                                  addHeight(10),
-                                  image2.path != "" ?  Image.file(
-                                    image2,
-                                    width: 140,
-                                    height: 180,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.add,size: 50,),
-                                  ) :
-                                  Image.asset('assets/images/camera.png', height: 60,)
-                                ],
+                            child :  image2.path != "" ?
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: AddSize.size100,
+                              child: Image.file(
+                                image2,
+                                errorBuilder: (_, __, ___) =>
+                                const Icon(Icons.add,size: 50,),
                               ),
+                            ) :
+                            Column(
+                              children: [
+                                const Text('Back',
+                                  style: TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                  ),),
+                                addHeight(10),
+                                Image.asset('assets/images/camera.png', height: 60,),
+                              ],
+                            ),
                             ),
                           ),
                         ),
@@ -642,9 +643,9 @@ TextEditingController modelController = TextEditingController();
                           Map  <String, String> mapdata = {
                             'dob' : dobController.text.trim(),
                             'pps_no' :  ppsController.text.trim(),
-                            'vehicle_type'    : veyearController.text.trim(),
-                            'vehicle_name' :  veyearController.text.trim(),
-                            'vehicle_model' : dropdownvalue.toString(),
+                            'vehicle_type'    : dropdownvalue.toString(),
+                            'vehicle_name' :  modelNameController.text.trim(),
+                            'vehicle_model' :  modelNameController.text.trim(),
                             'vehicle_make' : makeController.text.trim(),
                             'vehicle_color' : colorController.text.trim(),
                             'address' : _address.toString(),

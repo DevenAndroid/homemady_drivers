@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
-import '../models/verify_otp_model.dart';
+import '../models/resend_otp_model.dart';
 import '../widgets/new_helper.dart';
 
-Future<ModelVerifyOtp> loginRepo(
+
+Future<ResendOtpModel> resendOtpRepo(
     {required String email,
-      required String password,
       // required String fcmToken,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
@@ -19,25 +18,23 @@ Future<ModelVerifyOtp> loginRepo(
   //print("These are details.....${pref}");
   var map = <String, dynamic>{};
   map['email'] = email;
-  map['password'] = password;
-  map['device_id'] = pref.getString('deviceId');
+  // map['device_id'] = pref.getString('deviceId');
   // map['device_token'] = fcmToken;
 
-  log("Login Data map$map");
+  //log("Login Data map$map");
   try {
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptHeader: 'application/json',
     };
 
-    http.Response response = await http.post(Uri.parse(ApiUrl.loginApi),
+    http.Response response = await http.post(Uri.parse(ApiUrl.resendOtpUrl),
         body: jsonEncode(map), headers: headers);
 
-    log("<<<<<<<Login Data from repository=======>${response.body}");
-
     if (response.statusCode == 200||response.statusCode == 400) {
+      print("<<<<<<<Resend otp  Data from repository=======>${response.body}");
       NewHelper.hideLoader(loader);
-      return ModelVerifyOtp.fromJson(json.decode(response.body));
+      return ResendOtpModel.fromJson(json.decode(response.body));
     } else {
       NewHelper.hideLoader(loader);
       throw Exception(response.body);

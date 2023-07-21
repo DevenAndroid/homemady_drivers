@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -22,6 +23,9 @@ class _SignupScreenState extends State<SignupScreen> {
   RxBool checkboxColor = false.obs;
   bool showErrorMessage = false;
   bool value = false;
+  bool isLoginPasswordShow= true;
+  bool isLoginPasswordShow1= true;
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -177,13 +181,32 @@ class _SignupScreenState extends State<SignupScreen> {
                           textInputAction: TextInputAction.next,
                           hint: 'Password',
                           controller: passwordController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Password is required";
-                            } else {
-                              return null;
-                            }
-                          },
+                          obscureText: isLoginPasswordShow,
+                          suffix: InkWell(
+                            onTap: () {
+                              isLoginPasswordShow = !isLoginPasswordShow;
+                              setState(() {
+
+                              });
+                            },
+                            child: Icon(
+                                isLoginPasswordShow
+                                    ? CupertinoIcons.eye_slash_fill
+                                    : CupertinoIcons.eye,
+                                size: 18,
+                                color: Colors.grey),
+                          ),
+                          validator: MultiValidator([
+                            RequiredValidator(
+                                errorText: 'Please Enter The Password'),
+                            MinLengthValidator(6,
+                                errorText:
+                                'Password must be at least 6 digits long'),
+                            PatternValidator(
+                                r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                errorText:
+                                'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
+                          ]),
                         ),
                       ),
                       addHeight(20),
@@ -204,6 +227,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: CommonTextFieldWidget(
                           hint: 'Confirm Password',
                           controller: confirmController,
+                          obscureText: isLoginPasswordShow1,
+                          suffix: InkWell(
+                            onTap: () {
+                              isLoginPasswordShow1 = !isLoginPasswordShow1;
+                              setState(() {
+
+                              });
+                            },
+                            child: Icon(
+                                isLoginPasswordShow1
+                                    ? CupertinoIcons.eye_slash_fill
+                                    : CupertinoIcons.eye,
+                                size: 18,
+                                color: Colors.grey),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "confirm the password";
@@ -264,7 +302,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   phoneController.text,
                                   passwordController.text,
                                   confirmController.text,
-                                  4,
+                                  3,
                                   context
                               ).then((value){
                                 if(value.status==true){

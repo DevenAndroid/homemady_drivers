@@ -132,3 +132,26 @@ class Helpers {
     return (!regex.hasMatch(value)) ? false : true;
   }
 }
+String? validateMobile(String? value) {
+  if (value!.length != 10) {
+    return 'Enter Mobile Number & must be of 10 digit';
+  } else {
+    return null;
+  }
+}
+
+String? validateName(String? name) {
+  if (name!.isEmpty) {
+    return 'Please Enter Name';
+  } else {
+    return null;
+  }
+}
+
+String? validateEmail(String? email) {
+  if (email!.isEmpty) {
+    return 'Please Enter Email';
+  } else {
+    return null;
+  }
+}
