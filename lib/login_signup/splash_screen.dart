@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user_profile_model.dart';
 import '../models/verify_otp_model.dart';
 import '../routers/routers.dart';
 class SplashScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () async {
       SharedPreferences pref = await SharedPreferences.getInstance();
       if (pref.getString('user_info') != null) {
-        ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+        UserProfileModel? user = UserProfileModel.fromJson(jsonDecode(pref.getString('user_info')!));
         if(user.data!.asDriverVerified == true){
           Get.offAllNamed(MyRouters.dashbordScreen);
         }

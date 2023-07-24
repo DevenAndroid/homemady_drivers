@@ -7,9 +7,13 @@ import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import '../controller/mode_update_controller.dart';
 import '../controller/userProfile_controller.dart';
+import '../repository/assigned_order_repo.dart';
+import '../repository/delivery_mode_update_repo.dart';
 import '../repository/get_deshborad.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
@@ -28,15 +32,16 @@ class _DashbordScreenState extends State<DashbordScreen> {
   int currentDrawer = 0;
   int value1 = 20;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  RxBool isSelect = false.obs;
-  RxBool isSelect1 = false.obs;
+  RxBool isSelect = true.obs;
+  RxBool isSelect1 = true.obs;
   RxBool isSelect2 = true.obs;
   RxBool isSelect3 = true.obs;
-  RxBool isSelect4 = false.obs;
+  RxBool isSelect4 = true.obs;
   RxBool isSelect5 = true.obs;
   RxBool isSelect6 = true.obs;
   final controller = Get.put(DeshBoradController());
   final controller1 = Get.put(UserProfileController());
+  final assignedController = Get.put(AssignedOrderController());
   final RxBool _store = false.obs;
 
   @override
@@ -45,6 +50,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
     super.initState();
     controller.getData();
     controller1.getData();
+    assignedController.getData();
     _store;
   }
 
@@ -90,7 +96,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                   placeholder: (context, url) =>
                                   const SizedBox(),
                                   errorWidget: (context, url, error) =>
-                                   Image.asset('assets/images/avtar.png'),
+                                      Image.asset('assets/images/avtar.png'),
                                 ),
                               ),
                             );
@@ -394,36 +400,57 @@ class _DashbordScreenState extends State<DashbordScreen> {
           Obx(() {
             return Row(
               children: [
-                const Text(' Delivey Mode', style: TextStyle(
+                const Text(' Delivey Mode  ', style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 10,
                     color: Color(0xFF303C5E)
                 ),
                 ),
-                Transform.scale(
-                  scale: 0.8,
-                  child: CupertinoSwitch(
-                      activeColor: const Color(0xFF7ED957),
-                      value: controller.isDataLoading.value
-                          ? (controller.model.value.data!.deliveryMode ?? false)
-                          : _store.value,
-                      onChanged: (val) {
-                        deshboradData().then((value) {
-                          if (value.status == true) {
-                            controller.getData();
-                            print(val);
-                            controller.model.value.data!.deliveryMode = val;
-                            if (controller.model.value.data!.deliveryMode ==
-                                true) {
-                              NewHelper.showToast("Delivery mode on");
-                            }
-                            else {
-                              NewHelper.showToast("Delivery mode off");
-                            }
-                          }
-                        });
+                // child: CupertinoSwitch(
+                //     activeColor: const Color(0xFF7ED957),
+                //     value: controller.isDataLoading.value
+                //         ? (controller.model.value.data!.deliveryMode ?? false)
+                //         : _store.value,
+                //     onChanged: (val) {
+                //       deshboradData().then((value) {
+                //         if (value.status == true) {
+                //           controller.getData();
+                //           print(val);
+                //           controller.model.value.data!.deliveryMode = val;
+                //           if (controller.model.value.data!.deliveryMode ==
+                //               true) {
+                //             NewHelper.showToast("Delivery mode on");
+                //           }
+                //           else {
+                //             NewHelper.showToast("Delivery mode off");
+                //           }
+                //         }
+                //       });
+                //     }
+                // ),
+                FlutterSwitch(
+                  height: AddSize.size20,
+                  width: AddSize.size40,
+                  activeColor: AppTheme.primaryColor,
+                  toggleSize: AddSize.size5 * 2.5,
+                  value: controller.isDataLoading.value
+                      ? (controller.model.value.data!.deliveryMode ?? false)
+                      : _store.value,
+                  onToggle: (val) {
+                    deliveryModeUpdateRepo().then((value) {
+                      if (value.status == true) {
+                        controller.getData();
+                        print(val);
+                        controller.model.value.data!.deliveryMode = val;
+                        if (controller.model.value.data!.deliveryMode == true) {
+                          NewHelper.showToast("Delivery mode on");
+                        }
+                        else {
+                          NewHelper.showToast("Delivery mode off");
+                        }
                       }
-                  ),
+                    });
+                  },
                 ),
               ],
             );
@@ -1219,156 +1246,211 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       color: const Color(0xFF303C5E)
                   ),),
                 addHeight(12.0),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF5F5F5F).withOpacity(
-                                    0.10),
-                                offset: const Offset(0.0, 0.5),
-                                blurRadius: 5,),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/calender_Img.png',
-                                      height: 18,),
-                                    addWidth(20),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        const Text('#258135452',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 14,
-                                              color: Color(0xFF303C5E)
-                                          ),),
-                                        addHeight(4),
-                                        Text('Mon 2 June, 2021 – 10:30am',
-                                          style: GoogleFonts.raleway(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                              color: const Color(0xFF303C5E)
-                                          ),),
-                                        addHeight(25),
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Get.toNamed(MyRouters
-                                                    .assignedOrderScreen);
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 25,
-                                                    vertical: 6),
-                                                decoration: BoxDecoration(
-                                                    color: const Color(
-                                                        0xFF7ED957),
-                                                    borderRadius: BorderRadius
-                                                        .circular(6)
-                                                ),
-                                                child: Text(
-                                                  'Accept'.toUpperCase(),
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight
-                                                          .w700,
-                                                      fontSize: 13,
-                                                      color: Colors.white
-                                                  ),),
-                                              ),
-                                            ),
-                                            addWidth(16),
-                                            InkWell(
-                                              onTap: () {
-                                                Get.toNamed(
-                                                    MyRouters
-                                                        .orderDeclineScreen);
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 25,
-                                                    vertical: 6),
-                                                decoration: BoxDecoration(
-                                                    color: const Color(
-                                                        0xFFF04148),
-                                                    borderRadius: BorderRadius
-                                                        .circular(6)
-                                                ),
-                                                child: Text(
-                                                  'Decline'.toUpperCase(),
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight
-                                                          .w700,
-                                                      fontSize: 13,
-                                                      color: Colors.white
-                                                  ),),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                  right: 5,
-                                  top: 8,
+
+                Obx(() {
+                  return controller
+                      .model.value.data!.list!.isNotEmpty ?
+                    ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller
+                        .model.value.data!.list!.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var item = controller
+                          .model.value.data!.list![index];
+                      return Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF5F5F5F).withOpacity(
+                                      0.10),
+                                  offset: const Offset(0.0, 0.5),
+                                  blurRadius: 5,),
+                              ],
+                            ),
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
                                   child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 4),
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xFF7ED957),
-                                            borderRadius: BorderRadius.circular(
-                                                6)
-                                        ),
-                                        child: Text('COD'.toUpperCase(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10,
-                                              color: Colors.white
-                                          ),),
+                                      Image.asset(
+                                        'assets/images/calender_Img.png',
+                                        height: 18,),
+                                      addWidth(20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                           Text('#${item.orderId.toString()}',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 14,
+                                                color: Color(0xFF303C5E)
+                                            ),),
+                                          addHeight(4),
+                                          Text(item.date.toString(),
+                                            style: GoogleFonts.raleway(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15,
+                                                color: const Color(0xFF303C5E)
+                                            ),),
+                                          addHeight(25),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  assignedOrderListRepo(
+                                                        orderId:
+                                                        item.orderId,
+                                                        status: "accept",
+                                                        context: context)
+                                                        .then((value) {
+                                                      if (value.status ==
+                                                          true) {
+                                                        controller
+                                                            .getData();
+                                                        assignedController
+                                                            .getData();
+                                                        Get.toNamed(MyRouters
+                                                            .assignedOrderScreen);
+                                                      }
+                                                    });
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 25,
+                                                      vertical: 6),
+                                                  decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFF7ED957),
+                                                      borderRadius: BorderRadius
+                                                          .circular(6)
+                                                  ),
+                                                  child: Text(
+                                                    'Accept'.toUpperCase(),
+                                                    style: const TextStyle(
+                                                        fontWeight: FontWeight
+                                                            .w700,
+                                                        fontSize: 13,
+                                                        color: Colors.white
+                                                    ),),
+                                                ),
+                                              ),
+                                              addWidth(16),
+                                              InkWell(
+                                                onTap: () {
+                                                  assignedOrderListRepo(
+                                                      orderId:
+                                                      item.orderId,
+                                                      status: "decline",
+                                                      context: context)
+                                                      .then((value) {
+                                                    if (value.status ==
+                                                        true) {
+                                                      assignedController
+                                                          .getData();
+                                                      Get.offAllNamed(
+                                                          MyRouters
+                                                              .orderDeclineScreen);
+                                                    }
+                                                  });
+
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 25,
+                                                      vertical: 6),
+                                                  decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFFF04148),
+                                                      borderRadius: BorderRadius
+                                                          .circular(6)
+                                                  ),
+                                                  child: Text(
+                                                    'Decline'.toUpperCase(),
+                                                    style: const TextStyle(
+                                                        fontWeight: FontWeight
+                                                            .w700,
+                                                        fontSize: 13,
+                                                        color: Colors.white
+                                                    ),),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                      addWidth(8.0),
-                                      const Text('€250.00',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 14,
-                                            color: Color(0xFF7ED957)
-                                        ),),
                                     ],
-                                  )
-                              )
-                            ],
+                                  ),
+                                ),
+                                Positioned(
+                                    right: 5,
+                                    top: 8,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 4),
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xFF7ED957),
+                                              borderRadius: BorderRadius
+                                                  .circular(
+                                                  6)
+                                          ),
+                                          child: Text(item.paymentMethod.toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 10,
+                                                color: Colors.white
+                                            ),),
+                                        ),
+                                        addWidth(8.0),
+                                         Text('\$ ${item.orderTotal.toString()}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                              color: Color(0xFF7ED957)
+                                          ),),
+                                      ],
+                                    )
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        addHeight(15),
-                      ],
-                    );
-                  },
-                ),
+                          addHeight(15),
+                        ],
+                      );
+                    },
+                  ):
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AddSize.padding20 * 2.8,
+                        vertical: AddSize.padding22),
+                    child: SizedBox(
+                        height: AddSize.size20,
+                        child: Text(
+                          "Delivery Request Not Available",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                              color: AppTheme.blackcolor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: AddSize.font14),
+                        )),
+                  );
+                }),
               ],
             ),
           ),

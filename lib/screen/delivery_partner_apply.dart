@@ -5,17 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/custome_textfiled.dart';
 import 'package:homemady_drivers/widgets/dimenestion.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../repository/registration.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/new_helper.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-
 
 class DeliveryPartnerApplyScreen extends StatefulWidget {
   const DeliveryPartnerApplyScreen({Key? key}) : super(key: key);
@@ -31,6 +32,13 @@ class _DeliveryPartnerApplyScreenState
   File image = File("");
   File image1 = File("");
   File image2 = File("");
+  TextEditingController dobController = TextEditingController();
+  TextEditingController ppsController = TextEditingController();
+  TextEditingController veyearController = TextEditingController();
+  TextEditingController makeController = TextEditingController();
+  TextEditingController modelNameController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -243,6 +251,7 @@ class _DeliveryPartnerApplyScreenState
   String? selectedTertiaryCategory;
   String? selectedCollection;
   String dropdownvalue = 'Car';
+  String selectedDate = '';
 
   var items = [
     'Car',
@@ -258,14 +267,83 @@ class _DeliveryPartnerApplyScreenState
     }
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF7ED957),
+              // header background color
+              onPrimary: Colors.white,
+              // header text color
+              onSurface: Color(
+                  0xFF7ED957), // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(
+                    0xFF7ED957), // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      //DateTime.now() - not to allow to choose before today.
+      lastDate: DateTime(2025),
+    ).then((value) {
+      // setState(() {
+      //   _dateTime = value!;
+      // });
+
+      if (value != null) {
+        String formattedDate = DateFormat(
+            'dd/MM/yyyy').format(value);
+        setState(() {
+          dobController.text = formatDate(value); //set output date to TextField value.
+          log("Seleted Date     $selectedDate");
+        });
+      }
+    });
+
+    if (pickedDate != null && pickedDate != dobController.text) {
+      String formattedDate = DateFormat(
+          'yyyy/MM/dd').format(pickedDate);
+      setState(() {
+        dobController.text = formatDate(pickedDate);
+        log("Seleted Date     $selectedDate");
+      });
+    }
+    // DatePicker.showDatePicker(
+    //   context,
+    //   showTitleActions: true,
+    //   minTime: DateTime(1900, 1, 1),
+    //   maxTime: DateTime.now(),
+    //   onChanged: (date) {
+    //     // Do something when the date is changed but not yet confirmed
+    //     print('onChanged: $date');
+    //   },
+    //   onConfirm: (date) {
+    //     setState(() {
+    //       dobController.text = formatDate(date);
+    //     });
+    //   },
+    //   currentTime: DateTime.now(),
+    //   locale: LocaleType.en, // Replace with the desired locale for the picker
+    // );
+  }
+
+  String formatDate(DateTime date) {
+    final DateFormat formatter = DateFormat('dd/MM/yyyy');
+    return formatter.format(date);
+  }
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
-TextEditingController dobController = TextEditingController();
-TextEditingController ppsController = TextEditingController();
-TextEditingController veyearController = TextEditingController();
-TextEditingController makeController = TextEditingController();
-TextEditingController modelNameController = TextEditingController();
-TextEditingController colorController = TextEditingController();
-TextEditingController typeController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -294,15 +372,46 @@ TextEditingController typeController = TextEditingController();
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RegistrationTextFieldChk(
-                      validator: MultiValidator([
-                        RequiredValidator(
-                            errorText: 'Please enter your dob'),
-                      ]),
+                    TextField(
                       controller: dobController,
-                      hint: 'Dath of birth',
-                       keyboardType: TextInputType.number,
+                      onTap: (){
+                        _selectDate(context);
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          hintText: 'Date of birth (dd/MM/YYYY)',
+                          focusColor: Colors.green,
+                          hintStyle: GoogleFonts.poppins(
+                            color: const Color(0xFF697164),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF9F9F9),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                          // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                              borderRadius:  BorderRadius.all(Radius.circular(6.0))),
+                          border: OutlineInputBorder(
+                              borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                              borderRadius: BorderRadius.circular(6.0)),
+                         ),
                     ),
+                    // RegistrationTextFieldChk(
+                    //   validator: MultiValidator([
+                    //     RequiredValidator(
+                    //         errorText: 'Please enter your dob'),
+                    //   ]),
+                    //
+                    //   controller: dobController,
+                    //   hint: 'Dath of birth',
+                    //    keyboardType: TextInputType.numberWithOptions(),
+                    // ),
                     addHeight(13),
                     RegistrationTextFieldChk(
                       onTap: () {},
@@ -310,10 +419,10 @@ TextEditingController typeController = TextEditingController();
                         RequiredValidator(
                             errorText: 'Please enter your PPS number'),
                       ]),
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       controller: ppsController,
                       hint: 'PPS number',
-                      length: 7,
+                      length: 9,
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(
@@ -444,7 +553,7 @@ TextEditingController typeController = TextEditingController();
                       children: [
                         Expanded(
                           child: RegistrationTextFieldChk(
-                            hint: '2000 Year',
+                            hint: 'Car Year',
                             onTap: () {},
                             validator: MultiValidator([
                               RequiredValidator(
@@ -465,8 +574,7 @@ TextEditingController typeController = TextEditingController();
                             ]),
                             onTap: () {},
                             controller: makeController,
-                            length: 4,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                           ),
                         ),
                       ],
@@ -680,5 +788,32 @@ TextEditingController typeController = TextEditingController();
         );
       }),
     );
+  }
+}
+
+class _SlashInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    // Ensure the input value has the desired format (dd/mm/yyyy) with automatic `/` insertion.
+    if (newValue.text.length == 1 && int.parse(newValue.text) > 3) {
+      return oldValue;
+    }
+    if (newValue.text.length == 2 && int.parse(newValue.text) > 31) {
+      return oldValue;
+    }
+    if (newValue.text.length == 3 && !newValue.text.endsWith('/')) {
+      return TextEditingValue(
+        text: '${newValue.text.substring(0, 2)}/${newValue.text.substring(2)}',
+        selection: TextSelection.collapsed(offset: newValue.selection.end + 1),
+      );
+    }
+    if (newValue.text.length == 6 && !newValue.text.endsWith('/')) {
+      return TextEditingValue(
+        text: '${newValue.text.substring(0, 5)}/${newValue.text.substring(5)}',
+        selection: TextSelection.collapsed(offset: newValue.selection.end + 1),
+      );
+    }
+
+    return newValue;
   }
 }

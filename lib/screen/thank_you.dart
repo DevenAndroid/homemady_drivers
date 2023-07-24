@@ -52,14 +52,14 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
            const SizedBox(
               height: 15,
             ),
-           const Text(
-              "Admin Will Verify and Update You by\nCall or Email",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                  color: Color(0xFF596774)),
-            ),
+           // const Text(
+           //    "Admin Will Verify and Update You by\nCall or Email",
+           //    textAlign: TextAlign.center,
+           //    style: TextStyle(
+           //        fontWeight: FontWeight.w300,
+           //        fontSize: 14,
+           //        color: Color(0xFF596774)),
+           //  ),
             SizedBox(
               height: AddSize.size10,
             ),
