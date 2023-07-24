@@ -1,21 +1,15 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:homemady_drivers/models/common_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../api_url/api_url.dart';
-import '../models/assigned_order_model.dart';
+import '../models/assigned_orderList_model.dart';
 import '../models/verify_otp_model.dart';
-import '../widgets/helper.dart';
 
-Future<ModelCommonResponse> assignedOrder({
-  required status, int? orderId,  context
+Future<assgnedOrderList> assignedOrderListRepo({
+  required status
 }) async {
-  Map<String, dynamic> map = {};
-  map['order_id'] = orderId;
-  map['status'] = status;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,11 +20,11 @@ Future<ModelCommonResponse> assignedOrder({
   };
   try {
     final response =
-    await http.post(Uri.parse(ApiUrl.assignedOrderListUrl), headers: headers,body: jsonEncode(map));
-    log("${ApiUrl.assignedOrderListUrl}?status=$status");
+    await http.get(Uri.parse(ApiUrl.assignedOrderListUrl1), headers: headers);
+    log("${ApiUrl.assignedOrderListUrl1}?status=$status");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");
-      return ModelCommonResponse.fromJson(jsonDecode(response.body));
+      return assgnedOrderList.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/location_controller.dart';
+import '../controller/order_details_controller.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
@@ -28,11 +29,13 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
   bool value = false;
   RxBool isSelect = false.obs;
   TabController? tabController;
+  final myOrderDetailsController = Get.put(MyOrderDetailsController());
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
+    myOrderDetailsController.getMyOrderDetails();
   }
 
   // Future<void> openMap(double latitude, double longitude) async {
@@ -63,22 +66,346 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
         .of(context)
         .size
         .width;
-    return Scaffold(
-        appBar: backAppBar(title: "Delivery Details", context: context),
-        body: NestedScrollView(
-          headerSliverBuilder: (_, __) {
-            return [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AddSize.padding16,
-                      vertical: AddSize.padding10),
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          addHeight(20),
-                          Container(
+    return Obx(() {
+      return Scaffold(
+          appBar: backAppBar(title: "Delivery Details", context: context),
+          body: myOrderDetailsController.isDataLoading.value
+              ? NestedScrollView(
+            headerSliverBuilder: (_, __) {
+              return [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AddSize.padding16,
+                        vertical: AddSize.padding10),
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            addHeight(20),
+                            Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade300,
+                                      offset: const Offset(.1, .1,
+                                      ),
+                                      blurRadius: 20.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding15,
+                                      vertical: AddSize.padding15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const ImageIcon(
+                                                  AssetImage(
+                                                      AppAssets.orderList),
+                                                  color: AppTheme.primaryColor,
+                                                  size: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: AddSize.size15,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Order ID: # ${myOrderDetailsController
+                                                          .model.value.data!
+                                                          .orderId.toString()}',
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .primaryColor,
+                                                          fontSize:
+                                                          AddSize.font16,
+                                                          fontWeight:
+                                                          FontWeight.w500),
+                                                    ),
+                                                    Text(
+                                                      myOrderDetailsController
+                                                          .model.value.data!.placedAt.toString(),
+                                                      style: TextStyle(
+                                                          color: AppTheme
+                                                              .blackcolor,
+                                                          fontSize:
+                                                          AddSize.font12,
+                                                          fontWeight:
+                                                          FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                      SizedBox(
+                                        height: height * .02,
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                        const NeverScrollableScrollPhysics(),
+                                        itemCount: myOrderDetailsController.model.value.data!.orderItems!.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Column(
+                                            children: [
+                                              orderList(
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .productName
+                                                    .toString(),
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .price
+                                                    .toString(),
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .qty
+                                                    .toString(),
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .qty
+                                                    .toString(),
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .status
+                                                    .toString(),
+                                              ),
+                                              SizedBox(
+                                                height: height * .005,
+                                              ),
+                                              index != 2
+                                                  ? const Divider()
+                                                  : const SizedBox(),
+                                              SizedBox(
+                                                height: height * .005,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )),
+
+                            Obx(() {
+                              return Positioned(
+                                  top: 10,
+                                  right: 10,
+                                  child:
+                                  isSelect.value == true ?
+                                  InkWell(
+                                    onTap: () {
+                                      isSelect.value = !isSelect.value;
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                4),
+                                            color:
+                                            AppTheme.primaryColor),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width * .04,
+                                              vertical: height * .005),
+                                          child:
+                                          InkWell(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return SimpleDialog(
+                                                    contentPadding: EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 20),
+                                                    children: [
+                                                      Text(
+                                                        'Emergency Number',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                            AddSize.font18,
+                                                            color: const Color(
+                                                                0xFF425159),
+                                                            fontWeight:
+                                                            FontWeight.w300),
+                                                      ),
+                                                      addHeight(10),
+                                                      Text(
+                                                        'Call Ambulance',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                            AddSize.font18,
+                                                            color: const Color(
+                                                                0xFF425159),
+                                                            fontWeight:
+                                                            FontWeight.w300),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Text(
+                                              'Emergency',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                  AddSize.font14,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            ),
+                                          ),
+                                        )),
+                                  ) : InkWell(
+                                    onTap: () {
+                                      isSelect.value = !isSelect.value;
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                4),
+                                            color:
+                                            AppTheme.primaryColor),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width * .04,
+                                              vertical: height * .005),
+                                          child: Text(
+                                            'Pickup',
+                                            style: TextStyle(
+                                                fontSize:
+                                                AddSize.font14,
+                                                color: AppTheme
+                                                    .backgroundcolor,
+                                                fontWeight:
+                                                FontWeight.w500),
+                                          ),
+                                        )),
+                                  )
+                              );
+                            })
+                          ],
+                        ),
+                        SizedBox(
+                          height: AddSize.size14,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade300,
+                                offset: const Offset(.1, .1,
+                                ),
+                                blurRadius: 20.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ],
+                          ),
+                          child: Card(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width * 0.02,
+                                    vertical: height * .0001),
+                                child: TabBar(
+                                  physics: const BouncingScrollPhysics(),
+                                  unselectedLabelColor: AppTheme.blackcolor,
+                                  labelColor: AppTheme.backgroundcolor,
+                                  tabs: const [
+                                    Tab(
+                                      child: Text(
+                                        "Customer Detail",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        "Home Cook Information",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )
+                                  ],
+                                  labelStyle: const TextStyle(
+                                      color: AppTheme.blackcolor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                  unselectedLabelStyle: const TextStyle(
+                                      color: AppTheme.blackcolor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                  controller: tabController,
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: AppTheme.primaryColor,
+                                  ),
+                                ),
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              physics: const BouncingScrollPhysics(),
+              controller: tabController,
+              children: [
+                SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AddSize.padding16),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -92,872 +419,522 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                   ),
                                 ],
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding15,
-                                    vertical: AddSize.padding15),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+                              child: Column(
+                                children: [
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child: Row(
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              const ImageIcon(
-                                                AssetImage(
-                                                    AppAssets.orderList),
-                                                color: AppTheme.primaryColor,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: AddSize.size15,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Order ID: #258147',
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .primaryColor,
-                                                        fontSize:
-                                                        AddSize.font16,
-                                                        fontWeight:
-                                                        FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    'Monday, 2 June, 2021',
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .blackcolor,
-                                                        fontSize:
-                                                        AddSize.font12,
-                                                        fontWeight:
-                                                        FontWeight.w400),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                    SizedBox(
-                                      height: height * .02,
-                                    ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                      const NeverScrollableScrollPhysics(),
-                                      itemCount: 3,
-                                      scrollDirection: Axis.vertical,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .spaceBetween,
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                               children: [
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Text('Meat Pasta ',
-                                                      style: GoogleFonts
-                                                          .raleway(
-                                                        color: const Color(
-                                                            0xFF303C5E),
-                                                        fontWeight: FontWeight
-                                                            .w700,
-                                                        fontSize: 16,
-                                                      ),),
-                                                    const Text('5Kg * 3 ',
-                                                      style: TextStyle(
-                                                        color: Color(
-                                                            0xFF303C5E),
-                                                        fontWeight: FontWeight
-                                                            .w500,
-                                                        fontSize: 14,
-                                                      ),),
-                                                  ],
-                                                ),
-                                                const Text('€18.00',
+                                                const Text(
+                                                  "Name",
                                                   style: TextStyle(
-                                                    color: Color(0xFF7ED957),
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 17,
-                                                  ),)
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                  myOrderDetailsController.model.value.data!.user!.name.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: height * .005,
+                                          ]),
+                                          GestureDetector(
+                                            onTap: (){
+                                              Get.toNamed(MyRouters.chatScreen);
+                                            },
+                                            child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: Color(0xFFFF980E),
+                                                  shape: CircleBorder()),
+                                              child: Center(
+                                                  child: Image(
+                                                    image: const AssetImage(
+                                                        AppAssets.chat),
+                                                    height: AddSize.size25,
+                                                    width: AddSize.size25,
+                                                  )),
                                             ),
-                                            index != 2
-                                                ? const Divider()
-                                                : const SizedBox(),
-                                            SizedBox(
-                                              height: height * .005,
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )),
-
-                          Obx(() {
-                            return Positioned(
-                                top: 10,
-                                right: 10,
-                                child:
-                                isSelect.value == true ?
-                               InkWell(
-                                  onTap: () {
-                                    isSelect.value = !isSelect.value;
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              4),
-                                          color:
-                                          AppTheme.primaryColor),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * .04,
-                                            vertical: height * .005),
-                                        child:
-                                        InkWell(
-                                          onTap: (){
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return SimpleDialog(
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                                                    children: [
-                                                      Text(
-                                                        'Emergency Number',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            AddSize.font18,
-                                                            color: const Color(0xFF425159),
-                                                            fontWeight:
-                                                            FontWeight.w300),
-                                                      ),
-                                                      addHeight(10),
-                                                      Text(
-                                                        'Call Ambulance',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            AddSize.font18,
-                                                            color: const Color(0xFF425159),
-                                                            fontWeight:
-                                                            FontWeight.w300),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                            );
-                                          },
-                                          child: Text(
-                                            'Emergency',
-                                            style: TextStyle(
-                                                fontSize:
-                                                AddSize.font14,
-                                                color: AppTheme
-                                                    .backgroundcolor,
-                                                fontWeight:
-                                                FontWeight.w500),
                                           ),
-                                        ),
-                                      )),
-                                ) :   InkWell(
-                                  onTap: () {
-                                    isSelect.value = !isSelect.value;
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              4),
-                                          color:
-                                          AppTheme.primaryColor),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * .04,
-                                            vertical: height * .005),
-                                        child: Text(
-                                          'Pickup',
-                                          style: TextStyle(
-                                              fontSize:
-                                              AddSize.font14,
-                                              color: AppTheme
-                                                  .backgroundcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                        ),
-                                      )),
-                                )
-                            );
-                          })
-                        ],
-                      ),
-                      SizedBox(
-                        height: AddSize.size14,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade300,
-                              offset: const Offset(.1, .1,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Divider(color: Color(0xFFEFEFEF),
+                                    height: 1,
+                                    thickness: 1,),
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child:
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "Phone no",
+                                                  style: TextStyle(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                    myOrderDetailsController.model.value.data!.user!.phone.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _makingPhoneCall("tel:+91");
+                                            },
+                                            child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: AppTheme
+                                                        .primaryColor,
+                                                    shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                      Icons.phone,
+                                                      color: Colors.white,
+                                                      // color: AppTheme.callPhoneColor,
+                                                    ))),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Divider(color: Color(0xFFEFEFEF),
+                                    height: 1,
+                                    thickness: 1,),
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child:
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "Address",
+                                                  style: TextStyle(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                    myOrderDetailsController.model.value.data!.user!.location.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // openMap();
+                                            },
+                                            child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: AppTheme.lightYellow,
+                                                  shape: CircleBorder()),
+                                              child: const Center(
+                                                  child: Icon(
+                                                    Icons.location_on,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                  )),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              blurRadius: 20.0,
-                              spreadRadius: 1.0,
                             ),
+
+                            addHeight(15),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    offset: const Offset(.1, .1,
+                                    ),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 1.0,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Subtotal:",
+                                    style: TextStyle(
+                                        color: Color(0xFF293044),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                     '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                    style: const TextStyle(
+                                        color: Color(0xFF797F90),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                        child: Card(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.02,
-                                  vertical: height * .0001),
-                              child: TabBar(
-                                physics: const BouncingScrollPhysics(),
-                                unselectedLabelColor: AppTheme.blackcolor,
-                                labelColor: AppTheme.backgroundcolor,
-                                tabs: const [
-                                  Tab(
-                                    child: Text(
-                                      "Customer Detail",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
+                      ),
+                    )),
+                SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AddSize.padding16),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    offset: const Offset(.1, .1,
                                     ),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 1.0,
                                   ),
-                                  Tab(
-                                    child: Text(
-                                      "Home Cook Information",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  )
                                 ],
-                                labelStyle: const TextStyle(
-                                    color: AppTheme.blackcolor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                                unselectedLabelStyle: const TextStyle(
-                                    color: AppTheme.blackcolor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                                controller: tabController,
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: AppTheme.primaryColor,
-                                ),
                               ),
-                            )),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            physics: const BouncingScrollPhysics(),
-            controller: tabController,
-            children: [
-              SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding16),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: const Offset(.1, .1,
-                                  ),
-                                  blurRadius: 20.0,
-                                  spreadRadius: 1.0,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Store Name",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Store abcd@3125A#',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        Container(
-                                          height: AddSize.size45,
-                                          width: AddSize.size45,
-                                          decoration: const ShapeDecoration(
-                                              color: Color(0xFFFF980E),
-                                              shape: CircleBorder()),
-                                          child: Center(
-                                              child: Image(
-                                                image: const AssetImage(
-                                                    AppAssets.store1Icon),
-                                                height: AddSize.size20,
-                                                width: AddSize.size20,
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const Divider(color: Color(0xFFEFEFEF),
-                                  height: 1,
-                                  thickness: 1,),
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child:
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "store phone no",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                '+91 9876454321',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _makingPhoneCall("tel:+91");
-                                          },
-                                          child: Container(
+                              child: Column(
+                                children: [
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "Store Name",
+                                                  style: TextStyle(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                    myOrderDetailsController.model.value.data!.vendor!.storeName.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                          GestureDetector(
+                                            onTap: (){
+                                              Get.toNamed(MyRouters.chatScreen);
+                                            },
+                                            child: Container(
                                               height: AddSize.size45,
                                               width: AddSize.size45,
                                               decoration: const ShapeDecoration(
-                                                  color: AppTheme.primaryColor,
+                                                  color: Color(0xFFFF980E),
                                                   shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                    Icons.phone,
-                                                    color: Colors.white,
-                                                    // color: AppTheme.callPhoneColor,
-                                                  ))),
-                                        ),
-                                      ],
+                                              child: Center(
+                                                  child: Image(
+                                                    image: const AssetImage(
+                                                        AppAssets.chat),
+                                                    height: AddSize.size25,
+                                                    width: AddSize.size25,
+                                                  )),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Divider(color: Color(0xFFEFEFEF),
-                                  height: 1,
-                                  thickness: 1,),
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child:
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "store address",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Douglas, Cork, T16 XN73, uk',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
+                                  const Divider(color: Color(0xFFEFEFEF),
+                                    height: 1,
+                                    thickness: 1,),
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child:
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "store phone no",
+                                                  style: TextStyle(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                  myOrderDetailsController.model.value.data!.vendor!.phone.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _makingPhoneCall("tel:+91");
+                                            },
+                                            child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: AppTheme
+                                                        .primaryColor,
+                                                    shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                      Icons.phone,
+                                                      color: Colors.white,
+                                                      // color: AppTheme.callPhoneColor,
+                                                    ))),
                                           ),
-                                        ]),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // openMap();
-                                          },
-                                          child: Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: const ShapeDecoration(
-                                                color: AppTheme.lightYellow,
-                                                shape: CircleBorder()),
-                                            child: const Center(
-                                                child: Icon(
-                                                  Icons.location_on,
-                                                  color: AppTheme
-                                                      .backgroundcolor,
-                                                )),
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          addHeight(15),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: const Offset(.1, .1,
-                                  ),
-                                  blurRadius: 20.0,
-                                  spreadRadius: 1.0,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const[
-                                Text(
-                                  "Subtotal:",
-                                  style: TextStyle(
-                                      color: Color(0xFF293044),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15),
-                                ),
-                                Text(
-                                  "€50.00",
-                                  style: TextStyle(
-                                      color: Color(0xFF797F90),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )),
-              SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding16),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: const Offset(.1, .1,
-                                  ),
-                                  blurRadius: 20.0,
-                                  spreadRadius: 1.0,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Store Name",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Store abcd@3125A#',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        Container(
-                                          height: AddSize.size45,
-                                          width: AddSize.size45,
-                                          decoration: const ShapeDecoration(
-                                              color: Color(0xFFFF980E),
-                                              shape: CircleBorder()),
-                                          child: Center(
-                                              child: Image(
-                                                image: const AssetImage(
-                                                    AppAssets.store1Icon),
-                                                height: AddSize.size20,
-                                                width: AddSize.size20,
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const Divider(color: Color(0xFFEFEFEF),
-                                  height: 1,
-                                  thickness: 1,),
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child:
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "store phone no",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                '+91 9876454321',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _makingPhoneCall("tel:+91");
-                                          },
-                                          child: Container(
+                                  const Divider(color: Color(0xFFEFEFEF),
+                                    height: 1,
+                                    thickness: 1,),
+                                  Card(
+                                    elevation: 0,
+                                    color: AppTheme.backgroundcolor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child:
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "store address",
+                                                  style: TextStyle(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                    myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                                  style: GoogleFonts.raleway(
+                                                      color: const Color(
+                                                          0xFF303C5E),
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // openMap();
+                                            },
+                                            child: Container(
                                               height: AddSize.size45,
                                               width: AddSize.size45,
                                               decoration: const ShapeDecoration(
-                                                  color: AppTheme.primaryColor,
+                                                  color: AppTheme.lightYellow,
                                                   shape: CircleBorder()),
                                               child: const Center(
                                                   child: Icon(
-                                                    Icons.phone,
-                                                    color: Colors.white,
-                                                    // color: AppTheme.callPhoneColor,
-                                                  ))),
-                                        ),
-                                      ],
+                                                    Icons.location_on,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                  )),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Divider(color: Color(0xFFEFEFEF),
-                                  height: 1,
-                                  thickness: 1,),
-                                Card(
-                                  elevation: 0,
-                                  color: AppTheme.backgroundcolor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child:
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "store address",
-                                                style: TextStyle(
-                                                    color:
-                                                    AppTheme.lightblack,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Douglas, Cork, T16 XN73, uk',
-                                                style: GoogleFonts.raleway(
-                                                    color: const Color(
-                                                        0xFF303C5E),
-                                                    fontWeight:
-                                                    FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // openMap();
-                                          },
-                                          child: Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: const ShapeDecoration(
-                                                color: AppTheme.lightYellow,
-                                                shape: CircleBorder()),
-                                            child: const Center(
-                                                child: Icon(
-                                                  Icons.location_on,
-                                                  color: AppTheme
-                                                      .backgroundcolor,
-                                                )),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
 
-                          addHeight(15),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: const Offset(.1, .1,
+                            addHeight(15),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    offset: const Offset(.1, .1,
+                                    ),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 1.0,
                                   ),
-                                  blurRadius: 20.0,
-                                  spreadRadius: 1.0,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const[
-                                Text(
-                                  "Subtotal:",
-                                  style: TextStyle(
-                                      color: Color(0xFF293044),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15),
-                                ),
-                                Text(
-                                  "€50.00",
-                                  style: TextStyle(
-                                      color: Color(0xFF797F90),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Subtotal:",
+                                    style: TextStyle(
+                                        color: Color(0xFF293044),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                   '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                    style: const TextStyle(
+                                        color: Color(0xFF797F90),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ))
-            ],
-          ),
-        )
-    );
+                    ))
+              ],
+            ),
+          ) : const Center(child: CircularProgressIndicator()),
+      );
+    });
   }
 
-  orderList(name, price, qty) {
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  name,
-                  style: TextStyle(
-                      fontSize: AddSize.font16,
-                      color: AppTheme.blackcolor,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Text(
-                "₹$price",
-                style: TextStyle(
-                    fontSize: AddSize.font16,
-                    color: AppTheme.primaryColor,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: height * .01,
-        ),
-        Row(
-          children: [
-            Text(
-              qty,
-              style: TextStyle(
-                  fontSize: AddSize.font14,
-                  color: AppTheme.lightblack,
-                  fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              width: width * .01,
-            ),
-            const Text("*"),
-            SizedBox(
-              width: width * .01,
-            ),
 
-          ],
-        ),
-      ],
-    );
-  }
 
   paymentDetails({
     required subTotal,
@@ -1087,4 +1064,86 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
       ],
     );
   }
+  orderList(name, price, qty, itemQty,status) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: AddSize.font16,
+                      color: AppTheme.blackcolor,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              Text(
+                "€${price}",
+                style: TextStyle(
+                    fontSize: AddSize.font16,
+                    color: AppTheme.primaryColor,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: height * .01,
+        ),
+        Row(
+          children: [
+            Text(
+              qty,
+              style: TextStyle(
+                  fontSize: AddSize.font14,
+                  color: AppTheme.lightblack,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              width: width * .01,
+            ),
+            const Text("*"),
+            SizedBox(
+              width: width * .01,
+            ),
+            Text(
+              itemQty,
+              style: TextStyle(
+                  fontSize: AddSize.font14,
+                  color: AppTheme.lightblack,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              width: width * .05,
+            ),
+            status == "R" ?
+            Container(
+                decoration: BoxDecoration(
+                    borderRadius:
+                    BorderRadius.circular(8),
+                    color: Colors.red),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width * .04,
+                      vertical: height * .005),
+                  child: Text(
+                    "Rejected",
+                    style: TextStyle(
+                        fontSize: AddSize.font14,
+                        color: AppTheme.backgroundcolor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                )):SizedBox()
+          ],
+        ),
+      ],
+    );
+  }
 }
+

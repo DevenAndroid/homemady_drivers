@@ -23,6 +23,8 @@ class ApiUrl {
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
   static const assignedOrderListUrl = "${baseUrl}assigned-order";
+  static const assignedOrderListUrl1 = "${baseUrl}assigned-order-list";
+  static const myOrderDetailsUrl = "${baseUrl}order-details";
 
 
 }

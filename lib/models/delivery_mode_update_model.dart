@@ -8,13 +8,13 @@ class DeliveryModeUpdateModel {
   DeliveryModeUpdateModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -33,34 +33,34 @@ class Data {
   String? lastName;
   String? phone;
   String? email;
-  Null? otp;
-  Null? otpCreatedAt;
+  dynamic otp;
+  dynamic otpCreatedAt;
   int? otpVerified;
   String? profileImage;
-  Null? socialProfileImage;
-  Null? latitude;
-  Null? longitude;
-  Null? location;
-  Null? defaultAddress;
-  Null? referalCode;
-  Null? deviceToken;
-  Null? deviceId;
+  dynamic socialProfileImage;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic defaultAddress;
+  dynamic referalCode;
+  dynamic deviceToken;
+  dynamic deviceId;
   int? isDriverOnline;
   int? isVendorOnline;
   int? deliveryRange;
   int? selfDelivery;
   int? collectionStatus;
-  Null? adminCommissionType;
-  Null? adminCommission;
+  dynamic adminCommissionType;
+  dynamic adminCommission;
   int? asDriverVerified;
   int? asVendorVerified;
   int? featuredStore;
-  Null? emailVerifiedAt;
+  dynamic emailVerifiedAt;
   int? status;
   int? isProfileComplete;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Data(
       {this.id,

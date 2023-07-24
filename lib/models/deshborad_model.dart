@@ -118,7 +118,7 @@ class Location {
   String? addressType;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Location(
       {this.id,
