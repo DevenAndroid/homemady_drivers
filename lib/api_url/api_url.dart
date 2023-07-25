@@ -30,7 +30,8 @@ class ApiUrl {
   static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
   static const driverInformationUrl = "${baseUrl}driver-information";
   static const driverUpdate = "${baseUrl}driver-information-edit";
-
+  static const socialUrl = "${baseUrl}social-login";
+  static const faq = "${baseUrl}faq-list";
 
 }
 
