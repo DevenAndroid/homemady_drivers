@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:homemady_drivers/widgets/new_helper.dart';
 
-import '../repository/change_password_repo.dart';
+import '../repository/resend_password_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/new_helper.dart';
+
+
 
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -18,11 +19,22 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  @override
+
   final _formKey = GlobalKey<FormState>();
+  TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool isLoginPasswordShow= true;
-  bool isLoginPasswordShow1= true;
+  var obscureText = true;
+  var obscureText1 = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(Get.arguments);
+    text = Get.arguments;
+  }
+  String text = '';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -80,36 +92,35 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
+                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'New Password',
-                                  obscureText: isLoginPasswordShow,
-                                  suffix: InkWell(
-                                    onTap: () {
-                                      isLoginPasswordShow = !isLoginPasswordShow;
-                                      setState(() {
-
-                                      });
-                                    },
-                                    child: Icon(
-                                        isLoginPasswordShow
-                                            ? CupertinoIcons.eye_slash_fill
-                                            : CupertinoIcons.eye,
-                                        size: 18,
-                                        color: Colors.grey),
-                                  ),
-                                  controller: passwordController,
+                                  controller: newPasswordController,
+                                  obscureText: obscureText,
+                                  suffix: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          obscureText = !obscureText;
+                                        });
+                                      },
+                                      child: obscureText
+                                          ? const Icon(
+                                        Icons.visibility_off,
+                                        color: Colors.grey,
+                                      )
+                                          : const Icon(
+                                        Icons.visibility,
+                                        color: Color(0xFF53B176),
+                                      )),
                                   validator: MultiValidator([
+                                    /* EmailValidator(
+                                        errorText:
+                                        'enter a valid email address'),*/
                                     RequiredValidator(
-                                        errorText: 'Please Enter The Password'),
-                                    MinLengthValidator(6,
-                                        errorText:
-                                        'Password must be at least 6 digits long'),
-                                    PatternValidator(
-                                        r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
-                                        errorText:
-                                        'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
+                                        errorText: 'Please enter a password')
                                   ]),
+
                                 ),
                               ),
                               addHeight(15),
@@ -126,51 +137,47 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         spreadRadius: 1.0,
                                       ),
                                     ],
+                                    color: Colors.white
                                 ),
                                 child: CommonTextFieldWidget(
                                   hint: 'Confirm New Password',
-                                  obscureText: isLoginPasswordShow1,
-                                  suffix: InkWell(
-                                    onTap: () {
-                                      isLoginPasswordShow1 = !isLoginPasswordShow1;
-                                      setState(() {
-
-                                      });
-                                    },
-                                    child: Icon(
-                                        isLoginPasswordShow1
-                                            ? CupertinoIcons.eye_slash_fill
-                                            : CupertinoIcons.eye,
-                                        size: 18,
-                                        color: Colors.grey),
-                                  ),
                                   controller: confirmPasswordController,
+                                  obscureText: obscureText1,
+                                  suffix: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          obscureText1 = !obscureText1;
+                                        });
+                                      },
+                                      child: obscureText1
+                                          ? const Icon(
+                                        Icons.visibility_off,
+                                        color: Colors.grey,
+                                      )
+                                          : const Icon(
+                                        Icons.visibility,
+                                        color: Color(0xFF53B176),
+                                      )),
                                   validator: (value) {
-                                    if (value!.trim().isEmpty) {
-                                      return "Confirm password is required";
-                                    } else if (value.trim().toString() !=
-                                        passwordController.text.trim()) {
-                                      return "Confirm password is not matching with password";
-                                    } else {
-                                      return null;
+                                    if (value!.isEmpty) {
+                                      return "confirm the password";
+                                    } else if (newPasswordController.text !=
+                                        confirmPasswordController.text) {
+                                      return "Confirm password should be match";
                                     }
+                                    return null;
                                   },
                                 ),
                               ),
 
                               addHeight(34),
                               CommonButton(title: 'Continue',onPressed: (){
-                                if (_formKey.currentState!.validate()) {
-                                  changePassword(Get.arguments[0],passwordController.text,
-                                      confirmPasswordController.text, context)
-                                      .then((value) async {
-                                    if (value.status == true) {
+                                if(_formKey.currentState!.validate()){
+                                  resetPasswordRepo(email: text,password: newPasswordController.text, confirmPassword: confirmPasswordController.text, context: context,).then((value) {
+                                    if(value.status == true){
                                       NewHelper.showToast(value.message);
                                       Get.offAllNamed(MyRouters.loginScreen);
-                                    } else {
-                                      NewHelper.showToast(value.message);
                                     }
-                                    return;
                                   });
                                 }
                                 // Get.toNamed(MyRouters.loginScreen);

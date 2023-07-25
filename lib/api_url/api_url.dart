@@ -25,6 +25,8 @@ class ApiUrl {
   static const assignedOrderListUrl = "${baseUrl}assigned-order";
   static const assignedOrderListUrl1 = "${baseUrl}assigned-order-list";
   static const myOrderDetailsUrl = "${baseUrl}order-details";
+  static const resetVerifyUrl = "${baseUrl}reset-verify-otp";
+  static const resetPasswordUrl = "${baseUrl}reset-password";
 
 
 }

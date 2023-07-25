@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../repository/forgot_pass_change_repo.dart';
 import '../repository/resend_otp_repo.dart';
 import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
@@ -165,17 +166,16 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                         padding: const EdgeInsets.only(left: 24.0,right: 24,top: 70,bottom: 20),
                         child: CommonButton(title: 'Verify OTP',
                           onPressed: (){
+                            print(text);
                             if(formKey99.currentState!.validate()){
-                              verifyOTPPassword(Get.arguments[0],otpController.text,context).then((value){
-                                if(value.status==true){
+                              verifyResetRepo(email: text, otp: otpController.text, context: context).then((value) {
+                                if(value.status == true){
                                   NewHelper.showToast(value.message);
-                                  Get.toNamed(MyRouters.changePasswordScreen,arguments: [Get.arguments[0]]);
-                                }
-                                else{
-                                  NewHelper.showToast(value.message);
+                                  Get.toNamed(MyRouters.changePasswordScreen,arguments: text);
                                 }
                               });
                             }
+                            // Get.toNamed(MyRouters.changePasswordScreen);
                           },
                         ),
                       ),
