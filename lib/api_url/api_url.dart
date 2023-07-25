@@ -27,6 +27,9 @@ class ApiUrl {
   static const myOrderDetailsUrl = "${baseUrl}order-details";
   static const resetVerifyUrl = "${baseUrl}reset-verify-otp";
   static const resetPasswordUrl = "${baseUrl}reset-password";
+  static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
+  static const driverInformationUrl = "${baseUrl}driver-information";
+  static const driverUpdate = "${baseUrl}driver-information-edit";
 
 
 }

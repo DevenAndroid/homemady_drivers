@@ -11,6 +11,7 @@ import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import '../controller/order_details_controller.dart';
 import '../repository/delivery_mode_update_repo.dart';
+import '../repository/update_order_status_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
@@ -32,6 +33,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
   String dropdownvalue = 'All Orders';
   final assignedController = Get.put(AssignedOrderController());
   final orderController = Get.put(MyOrderDetailsController());
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +42,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
     print("ggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
     assignedController.getOrderData1();
   }
+
   String? selectedTime;
   final List<String> dropDownTimeList = ["Pending", "Completed", "Decline"];
   var items = [
@@ -51,6 +54,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var width=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
@@ -98,6 +102,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                     });
                   },
                 ),
+                SizedBox(
+                  width: width * .020,
+                )
               ],
             );
           })
@@ -163,8 +170,8 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
             Obx(() {
               return assignedController.isDataLoading.value
                   ? assignedController.model.value.data!.isNotEmpty ?
-                   Padding(
-                padding: const EdgeInsets.all(11.0),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: assignedController.model.value.data!.length,
@@ -186,13 +193,14 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF5F5F5F).withOpacity(0.4),
-                                  offset: const Offset(0.0, 0.5),
-                                  blurRadius: 5,),
-                              ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF5F5F5F)
+                                  .withOpacity(0.10),
+                              offset: const Offset(0.0, 0.5),
+                              blurRadius: 5,
                             ),
+                          ]),
                             child: Stack(
                               children: [
                                 Padding(
@@ -217,14 +225,19 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                 style: GoogleFonts.raleway(
                                                     fontWeight: FontWeight.w800,
                                                     fontSize: 14,
-                                                    color: const Color(0xFF303C5E)
+                                                    color: const Color(
+                                                        0xFF303C5E)
                                                 ),),
                                               addHeight(4),
-                                              Text(assignedController.model.value.data![index].date.toString(),
+                                              Text(
+                                                assignedController.model.value
+                                                    .data![index].date
+                                                    .toString(),
                                                 style: GoogleFonts.raleway(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 15,
-                                                    color: const Color(0xFF303C5E)
+                                                    color: const Color(
+                                                        0xFF303C5E)
                                                 ),),
                                             ],
                                           ),
@@ -235,7 +248,8 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                         crossAxisAlignment: CrossAxisAlignment
                                             .start,
                                         children: [
-                                          Image.asset('assets/images/orderid.png',
+                                          Image.asset(
+                                            'assets/images/orderid.png',
                                             height: 18,),
                                           addWidth(20),
                                           Column(
@@ -246,14 +260,18 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                 style: GoogleFonts.raleway(
                                                     fontWeight: FontWeight.w800,
                                                     fontSize: 14,
-                                                    color: const Color(0xFF303C5E)
+                                                    color: const Color(
+                                                        0xFF303C5E)
                                                 ),),
                                               addHeight(4),
-                                              Text('# ${assignedController.model.value.data![index].orderId.toString()}',
+                                              Text('# ${assignedController.model
+                                                  .value.data![index].orderId
+                                                  .toString()}',
                                                 style: GoogleFonts.raleway(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 15,
-                                                    color: const Color(0xFF303C5E)
+                                                    color: const Color(
+                                                        0xFF303C5E)
                                                 ),),
                                             ],
                                           ),
@@ -275,18 +293,24 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                               children: [
                                                 Text('Location:',
                                                   style: GoogleFonts.raleway(
-                                                      fontWeight: FontWeight.w800,
+                                                      fontWeight: FontWeight
+                                                          .w800,
                                                       fontSize: 14,
-                                                      color: const Color(0xFF303C5E)
+                                                      color: const Color(
+                                                          0xFF303C5E)
                                                   ),),
                                                 addHeight(4),
 
                                                 Text(
-                                                  assignedController.model.value.data![index].location!.location.toString(),
+                                                  assignedController.model.value
+                                                      .data![index].location!
+                                                      .location.toString(),
                                                   style: GoogleFonts.raleway(
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight: FontWeight
+                                                          .w400,
                                                       fontSize: 15,
-                                                      color: const Color(0xFF303C5E)
+                                                      color: const Color(
+                                                          0xFF303C5E)
                                                   ),),
                                               ],
                                             ),
@@ -295,43 +319,209 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                       ),
                                       addHeight(10),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 36, vertical: 10),
+                                        padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/12),
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            InkWell(
-                                              onTap: () {
-                                                // Get.toNamed(MyRouters
-                                                //     .driverDeliveryOrderDetails);
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 25, vertical: 6),
-                                                decoration: BoxDecoration(
-                                                    color: const Color(
-                                                        0xFF7ED957),
-                                                    borderRadius: BorderRadius
-                                                        .circular(6)
-                                                ),
-                                                child: Text(
-                                                  'pickup'.toUpperCase(),
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 13,
-                                                      color: Colors.white
-                                                  ),),
-                                              ),
-                                            ),
+                                            Obx(() {
+                                              return assignedController
+                                                  .model
+                                                  .value
+                                                  .data![index]
+                                                  .orderStatus ==
+                                                  "Pickup" ?
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    driverUpdateOrder(
+                                                        orderId: assignedController
+                                                            .model
+                                                            .value
+                                                            .data![
+                                                        index]
+                                                            .orderId,
+                                                        status:
+                                                        "delivered",
+                                                        context:
+                                                        context)
+                                                        .then(
+                                                            (value) {
+                                                          if (value
+                                                              .status ==
+                                                              true) {
+                                                            NewHelper.showToast(
+                                                                "${value.message}"
+                                                                    .toString());
+                                                            assignedController
+                                                                .getOrderData1();
+                                                            // Get.toNamed(
+                                                            //     VerifyOtpDeliveryScreen
+                                                            //         .verifyOtpDeliveryScreen,
+                                                            //     arguments: [
+                                                            //       assignedController
+                                                            //           .model
+                                                            //           .value
+                                                            //           .data![index]
+                                                            //           .orderId
+                                                            //     ]);
+                                                          } else {
+                                                            NewHelper.showToast(value
+                                                                .message
+                                                                .toString());
+                                                          }
+                                                        });
+                                                  },
+                                                  style:
+                                                  ElevatedButton
+                                                      .styleFrom(
+                                                    padding: EdgeInsets
+                                                        .symmetric(
+                                                        horizontal:
+                                                        AddSize.padding22),
+                                                    minimumSize: Size(
+                                                        AddSize
+                                                            .size100,
+                                                        AddSize.size20 *
+                                                            1.8),
+                                                    primary: AppTheme
+                                                        .primaryColor,
+                                                    elevation: 0,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                  ),
+                                                  child: Text(
+                                                    "Deliver"
+                                                        .toUpperCase(),
+                                                    style: Theme.of(
+                                                        context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                        color: AppTheme
+                                                            .backgroundcolor,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500,
+                                                        fontSize:
+                                                        AddSize.font14),
+                                                  )) : assignedController
+                                                                        .model
+                                                                        .value
+                                                                        .data![index]
+                                                                        .orderStatus ==
+                                                                    "Accepted"
+                                                                ? ElevatedButton(
+                                                                    onPressed: () {
+                                                                      driverUpdateOrder(
+                                                                              orderId: assignedController
+                                                                                  .model
+                                                                                  .value
+                                                                                  .data![
+                                                                                      index]
+                                                                                  .orderId,
+                                                                              status:
+                                                                                  "pickup",
+                                                                              context:
+                                                                                  context)
+                                                                          .then(
+                                                                              (value) {
+                                                                        NewHelper.showToast(
+                                                                            "${value.message}"
+                                                                                .toString());
+                                                                        if (value
+                                                                                .status ==
+                                                                            true) {
+                                                                          assignedController
+                                                                              .getOrderData1();
+                                                                        }
+                                                                      });
+                                                                    },
+                                                                    style:
+                                                                        ElevatedButton
+                                                                            .styleFrom(
+                                                                      padding: EdgeInsets
+                                                                          .symmetric(
+                                                                              horizontal:
+                                                                                  AddSize.padding22),
+                                                                      minimumSize: Size(
+                                                                          AddSize
+                                                                              .size100,
+                                                                          AddSize.size20 *
+                                                                              1.8),
+                                                                      primary: AppTheme
+                                                                          .primaryColor,
+                                                                      elevation: 0,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  6)),
+                                                                    ),
+                                                                    child: Text(
+                                                                      "Pickup"
+                                                                          .toUpperCase(),
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .headline5!
+                                                                          .copyWith(
+                                                                              color: AppTheme
+                                                                                  .backgroundcolor,
+                                                                              fontWeight:
+                                                                                  FontWeight
+                                                                                      .w500,
+                                                                              fontSize:
+                                                                                  AddSize.font14),
+                                                                    ))
+                                                                : ElevatedButton(
+                                                                    onPressed: () {
+                                                                      null;
+                                                                    },
+                                                                    style:
+                                                                        ElevatedButton
+                                                                            .styleFrom(
+                                                                      padding: EdgeInsets
+                                                                          .symmetric(
+                                                                              horizontal:
+                                                                                  AddSize.padding22),
+                                                                      minimumSize: Size(
+                                                                          AddSize
+                                                                              .size100,
+                                                                          AddSize.size20 *
+                                                                              1.8),
+                                                                      primary: AppTheme
+                                                                          .primaryColor,
+                                                                      elevation: 0,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  6)),
+                                                                    ),
+                                                                    child: Text(
+                                                                      "Delivered"
+                                                                          .toUpperCase(),
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .headline5!
+                                                                          .copyWith(
+                                                                              color: AppTheme
+                                                                                  .backgroundcolor,
+                                                                              fontWeight:
+                                                                                  FontWeight
+                                                                                      .w500,
+                                                                              fontSize:
+                                                                                  AddSize.font14),
+                                                                    ));
+                                                      }),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
                                     right: 5,
                                     top: 8,
                                     child: Row(
@@ -341,10 +531,14 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                               horizontal: 12, vertical: 4),
                                           decoration: BoxDecoration(
                                               color: const Color(0xFF7ED957),
-                                              borderRadius: BorderRadius.circular(
+                                              borderRadius: BorderRadius
+                                                  .circular(
                                                   6)
                                           ),
-                                          child: Text(assignedController.model.value.data![index].paymentMethod.toString(),
+                                          child: Text(
+                                            assignedController.model.value
+                                                .data![index].paymentMethod
+                                                .toString(),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 10,
@@ -352,7 +546,10 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                             ),),
                                         ),
                                         addWidth(8.0),
-                                         Text('\$ ${assignedController.model.value.data![index].orderTotal.toString()}',
+                                        Text(
+                                          '\$ ${assignedController.model.value
+                                              .data![index].orderTotal
+                                              .toString()}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 14,
@@ -370,7 +567,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                     );
                   },
                 ),
-              ): Padding(
+              ) : Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: AddSize.padding20 * 5,
                     vertical: AddSize.padding20),
@@ -380,7 +577,8 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                   children: [
                     Text("Order not Available",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
+                        style: Theme
+                            .of(context)
                             .textTheme
                             .headline5!
                             .copyWith(
@@ -390,7 +588,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                             color: AppTheme.blackcolor)),
                   ],
                 ),
-              ):const Center(
+              ) : const Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 200),
                     child: CircularProgressIndicator(),

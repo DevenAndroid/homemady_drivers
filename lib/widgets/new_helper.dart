@@ -54,6 +54,17 @@ class NewHelper {
       throw Exception(e);
     }
   }
+  static createSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 5),
+      backgroundColor: Colors.black,
+      content: Text(
+        message,
+        style: const TextStyle(
+            fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.white),
+      ),
+    ));
+  }
   static hideLoader(OverlayEntry loader) {
     Timer(const Duration(milliseconds: 250), () {
       try {

@@ -14,6 +14,7 @@ import '../screen/chat_message.dart';
 import '../screen/chat_screen.dart';
 import '../screen/delivery_partner_apply.dart';
 import '../screen/deshborad_screen.dart';
+import '../screen/driver_partner_update.dart';
 import '../screen/faqs_screen.dart';
 import '../screen/feedback_screen.dart';
 import '../screen/help_center_screen.dart';
@@ -53,6 +54,7 @@ class MyRouters {
   static var privacyPolicies= "/privacyPolicies";
   static var faqsScreen= "/faqsScreen";
   static var myProfileScreen= "/myProfileScreen";
+  static var deliveryPartnerUpdateScreen= "/deliveryPartnerUpdateScreen";
 
 
 
@@ -66,6 +68,7 @@ class MyRouters {
     GetPage(name: '/emailVerificationScreen', page: () => const EmailVerificationScreen()),
     GetPage(name: '/thankYouVendorScreen', page: () => const ThankYouVendorScreen()),
     GetPage(name: '/deliveryPartnerApplyScreen', page: () => const DeliveryPartnerApplyScreen()),
+    GetPage(name: '/deliveryPartnerUpdateScreen', page: () => const DeliveryPartnerUpdateScreen()),
     GetPage(name: '/dashbordScreen', page: () => const DashbordScreen()),
     GetPage(name: '/assignedOrderScreen', page: () => const AssignedOrderScreen()),
     GetPage(name: '/bankDetailsScreen', page: () => const BankDetailsScreen()),

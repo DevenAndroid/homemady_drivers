@@ -56,6 +56,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var width=MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
       drawer: Obx(() {
@@ -309,7 +310,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 onTap: () {
                   setState(() {
                     currentDrawer = 5;
-                    Get.toNamed(MyRouters.deliveryPartnerApplyScreen);
+                    Get.toNamed(MyRouters.deliveryPartnerUpdateScreen);
                   });
                 },
               ),
@@ -455,6 +456,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     });
                   },
                 ),
+                SizedBox(
+                  width: width * .020,
+                )
               ],
             );
           })

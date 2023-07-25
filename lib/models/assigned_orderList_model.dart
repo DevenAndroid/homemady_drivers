@@ -32,6 +32,7 @@ class Data {
   int? orderId;
   String? paymentMethod;
   int? orderTotal;
+  String? orderStatus;
   Location? location;
 
   Data(
@@ -39,6 +40,7 @@ class Data {
         this.orderId,
         this.paymentMethod,
         this.orderTotal,
+        this.orderStatus,
         this.location});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class Data {
     orderId = json['order_id'];
     paymentMethod = json['payment_method'];
     orderTotal = json['order_total'];
+    orderStatus = json['order_status'];
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
@@ -57,6 +60,7 @@ class Data {
     data['order_id'] = this.orderId;
     data['payment_method'] = this.paymentMethod;
     data['order_total'] = this.orderTotal;
+    data['order_status'] = this.orderStatus;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }

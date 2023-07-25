@@ -225,6 +225,24 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           ),
                         ),
                       )),
+                  Positioned(
+                      top: height * .050,
+                      left: width * .020,
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          //color: AppTheme.primaryColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: SizedBox(
+                              width: width * 10,
+                              child: Icon(Icons.arrow_back)),
+                        ),
+                      )),
                   Positioned.fill(
                     top: height * .25,
                     child: Obx((){

@@ -75,188 +75,19 @@ class _DeliveryPartnerApplyScreenState
       print('Field to pick img : $e');
     }
   }
-  showUploadWindow() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AddSize.padding16,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: AddSize.size10),
-                    Text("Choose From Which",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: AddSize.font16)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          child: Text("Gallery",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-                     pickImage();
-                            Get.back();
-                          },
-                        ),
-                        TextButton(
-                          child: Text("Camera",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-
-                            pickImage1();
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AddSize.size20,
-                    ),
-                  ],
-                )),
-          ),
-        );
-      },
-    );
-  }
-  showUploadWindow1() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AddSize.padding16,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: AddSize.size10),
-                    Text("Choose From Which",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: AddSize.font16)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          child: Text("Gallery",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-                            pickImage2();
-                            Get.back();
-                          },
-                        ),
-                        TextButton(
-                          child: Text("Camera",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-                            pickImage2();
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AddSize.size20,
-                    ),
-                  ],
-                )),
-          ),
-        );
-      },
-    );
-  }
-  showUploadWindow2() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AddSize.padding16,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: AddSize.size10),
-                    Text("Choose From Which",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: AddSize.font16)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          child: Text("Gallery",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-                            pickImage1();
-                            Get.back();
-                          },
-                        ),
-                        TextButton(
-                          child: Text("Camera",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: AddSize.font14)),
-                          onPressed: () {
-                            pickImage2();
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AddSize.size20,
-                    ),
-                  ],
-                )),
-          ),
-        );
-      },
-    );
-  }
   String? _address = "";
   String? chooseOptionType;
   String? selectedCategory;
   String? selectedSecondaryCategory;
   String? selectedTertiaryCategory;
   String? selectedCollection;
-  String dropdownvalue = 'Car';
+  String dropdownvalue = 'car';
   String selectedDate = '';
 
   var items = [
-    'Car',
-    'Motorcycle',
-    'Bicycle',
+    'car',
+    'motorcycle',
+    'bicycle',
   ];
   RxBool showValidation = false.obs;
   bool checkValidation(bool bool1, bool2) {
@@ -553,7 +384,7 @@ class _DeliveryPartnerApplyScreenState
                       children: [
                         Expanded(
                           child: RegistrationTextFieldChk(
-                            hint: 'Car Year',
+                            hint: 'Year',
                             onTap: () {},
                             validator: MultiValidator([
                               RequiredValidator(
@@ -752,7 +583,7 @@ class _DeliveryPartnerApplyScreenState
                             'dob' : dobController.text.trim(),
                             'pps_no' :  ppsController.text.trim(),
                             'vehicle_type'    : dropdownvalue.toString(),
-                            'vehicle_name' :  modelNameController.text.trim(),
+                            'vehicle_name' :   veyearController.text.trim(),
                             'vehicle_model' :  modelNameController.text.trim(),
                             'vehicle_make' : makeController.text.trim(),
                             'vehicle_color' : colorController.text.trim(),
