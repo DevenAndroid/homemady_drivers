@@ -185,14 +185,14 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     .value
                                                     .data!
                                                     .orderItems![index]
-                                                    .qty
+                                                    .sizeId
                                                     .toString(),
                                                 myOrderDetailsController
                                                     .model
                                                     .value
                                                     .data!
                                                     .orderItems![index]
-                                                    .qty
+                                                    .status
                                                     .toString(),
                                                 myOrderDetailsController
                                                     .model
@@ -393,7 +393,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 ),
               ];
             },
-            body: TabBarView(
+            body: myOrderDetailsController.isDataLoading.value ?
+            TabBarView(
               physics: const BouncingScrollPhysics(),
               controller: tabController,
               children: [
@@ -449,6 +450,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       FontWeight.w500,
                                                       fontSize: 14),
                                                 ),
+                                                if( myOrderDetailsController.model.value.data!.user != null)
                                                 Text(
                                                   myOrderDetailsController.model.value.data!.user!.name.toString(),
                                                   style: GoogleFonts.raleway(
@@ -516,6 +518,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       FontWeight.w500,
                                                       fontSize: 14),
                                                 ),
+                                                if( myOrderDetailsController.model.value.data!.user != null)
                                                 Text(
                                                     myOrderDetailsController.model.value.data!.user!.phone.toString(),
                                                   style: GoogleFonts.raleway(
@@ -582,8 +585,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       FontWeight.w500,
                                                       fontSize: 14),
                                                 ),
+                                                if( myOrderDetailsController.model.value.data!.user != null)
                                                 Text(
-                                                    myOrderDetailsController.model.value.data!.user!.location.toString(),
+                                                    myOrderDetailsController.model.value.data!.address!.location.toString(),
                                                   style: GoogleFonts.raleway(
                                                       color: const Color(
                                                           0xFF303C5E),
@@ -662,7 +666,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                         ),
                       ),
                     )),
-                SingleChildScrollView(
+                myOrderDetailsController.isDataLoading.value ? SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -926,9 +930,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                           ],
                         ),
                       ),
-                    ))
+                    )) : CircularProgressIndicator()
               ],
-            ),
+            ): Center(child: CircularProgressIndicator(),),
           ) : const Center(child: CircularProgressIndicator()),
       );
     });

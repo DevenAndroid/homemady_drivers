@@ -332,45 +332,46 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                   .orderStatus ==
                                                   "Pickup" ?
                                               ElevatedButton(
-                                                  onPressed: () {
-                                                    driverUpdateOrder(
-                                                        orderId: assignedController
-                                                            .model
-                                                            .value
-                                                            .data![
-                                                        index]
-                                                            .orderId,
-                                                        status:
-                                                        "delivered",
-                                                        context:
-                                                        context)
-                                                        .then(
-                                                            (value) {
-                                                          if (value
-                                                              .status ==
-                                                              true) {
-                                                            NewHelper.showToast(
-                                                                "${value.message}"
-                                                                    .toString());
-                                                            assignedController
-                                                                .getOrderData1();
-                                                            // Get.toNamed(
-                                                            //     VerifyOtpDeliveryScreen
-                                                            //         .verifyOtpDeliveryScreen,
-                                                            //     arguments: [
-                                                            //       assignedController
-                                                            //           .model
-                                                            //           .value
-                                                            //           .data![index]
-                                                            //           .orderId
-                                                            //     ]);
-                                                          } else {
-                                                            NewHelper.showToast(value
-                                                                .message
-                                                                .toString());
-                                                          }
-                                                        });
-                                                  },
+                                                  // onPressed: () {
+                                                  //   driverUpdateOrder(
+                                                  //       orderId: assignedController
+                                                  //           .model
+                                                  //           .value
+                                                  //           .data![
+                                                  //       index]
+                                                  //           .orderId,
+                                                  //       status:
+                                                  //       "delivered",
+                                                  //       context:
+                                                  //       context)
+                                                  //       .then(
+                                                  //           (value) {
+                                                  //         if (value
+                                                  //             .status ==
+                                                  //             true) {
+                                                  //           NewHelper.showToast(
+                                                  //               "${value.message}"
+                                                  //                   .toString());
+                                                  //           assignedController
+                                                  //               .getOrderData1();
+                                                  //           // Get.toNamed(
+                                                  //           //     VerifyOtpDeliveryScreen
+                                                  //           //         .verifyOtpDeliveryScreen,
+                                                  //           //     arguments: [
+                                                  //           //       assignedController
+                                                  //           //           .model
+                                                  //           //           .value
+                                                  //           //           .data![index]
+                                                  //           //           .orderId
+                                                  //           //     ]);
+                                                  //         } else {
+                                                  //           NewHelper.showToast(value
+                                                  //               .message
+                                                  //               .toString());
+                                                  //         }
+                                                  //       });
+                                                  // },
+                                                onPressed: (){},
                                                   style:
                                                   ElevatedButton
                                                       .styleFrom(

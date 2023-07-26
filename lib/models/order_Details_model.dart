@@ -302,6 +302,8 @@ class Address {
   String? location;
   String? flatNo;
   String? landmark;
+  Null? note;
+  Null? pinCode;
   String? addressType;
   String? createdAt;
   String? updatedAt;
@@ -315,6 +317,8 @@ class Address {
         this.location,
         this.flatNo,
         this.landmark,
+        this.note,
+        this.pinCode,
         this.addressType,
         this.createdAt,
         this.updatedAt,
@@ -328,6 +332,8 @@ class Address {
     location = json['location'];
     flatNo = json['flat_no'];
     landmark = json['landmark'];
+    note = json['note'];
+    pinCode = json['pin_code'];
     addressType = json['address_type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -343,6 +349,8 @@ class Address {
     data['location'] = this.location;
     data['flat_no'] = this.flatNo;
     data['landmark'] = this.landmark;
+    data['note'] = this.note;
+    data['pin_code'] = this.pinCode;
     data['address_type'] = this.addressType;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
@@ -356,7 +364,8 @@ class OrderItems {
   int? productId;
   String? productName;
   int? price;
-  int? qty;
+  String? sizeQuantity;
+  String? sizeId;
   int? totalPrice;
   String? status;
   String? specialRequets;
@@ -366,7 +375,8 @@ class OrderItems {
         this.productId,
         this.productName,
         this.price,
-        this.qty,
+        this.sizeQuantity,
+        this.sizeId,
         this.totalPrice,
         this.status,
         this.specialRequets});
@@ -376,7 +386,8 @@ class OrderItems {
     productId = json['product_id'];
     productName = json['product_name'];
     price = json['price'];
-    qty = json['qty'];
+    sizeQuantity = json['size_quantity'];
+    sizeId = json['size_id'];
     totalPrice = json['total_price'];
     status = json['status'];
     specialRequets = json['special_requets'];
@@ -388,7 +399,8 @@ class OrderItems {
     data['product_id'] = this.productId;
     data['product_name'] = this.productName;
     data['price'] = this.price;
-    data['qty'] = this.qty;
+    data['size_quantity'] = this.sizeQuantity;
+    data['size_id'] = this.sizeId;
     data['total_price'] = this.totalPrice;
     data['status'] = this.status;
     data['special_requets'] = this.specialRequets;
