@@ -276,7 +276,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   'assets/images/message.png',
                   height: 15,
                 ),
-                title: Text('Message',
+                title: Text('My Chats',
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF4F535E),

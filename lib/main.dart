@@ -6,9 +6,12 @@ import 'package:homemady_drivers/routers/routers.dart';
 
 
 
+
+
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
