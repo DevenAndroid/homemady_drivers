@@ -31,6 +31,9 @@ class Data {
   bool senderExpansion = false;
   int? id;
   String? question;
+
+
+  
   String? answer;
 
   Data({this.id, this.question, this.answer});

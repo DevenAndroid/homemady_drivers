@@ -307,6 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'user_info', jsonEncode(value));
                                   NewHelper.showToast(value.message);
                                   if (value.data!.asDriverVerified == true) {
+                                    print('Loginnnnnnnnnn.................................');
                                     Get.offAllNamed(MyRouters.dashbordScreen);
                                   } else {
                                     Get.offAllNamed(
