@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../repository/mailtoadmin_repo.dart';
 import '../widgets/custome_size.dart';
@@ -18,6 +19,20 @@ class Help_Center_Screen extends StatefulWidget {
 }
 
 class _Help_Center_ScreenState extends State<Help_Center_Screen> {
+  void sendEmail() async {
+    // Change the email address and subject to suit your needs
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: 'support@homemady.com',
+      query: 'subject=Hello%20from%20Flutter',
+    );
+
+    // if (await canLaunch(params.toString())) {
+      await launch(params.toString());
+    // } else {
+    //   throw 'Could not launch email';
+    // }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +44,12 @@ class _Help_Center_ScreenState extends State<Help_Center_Screen> {
           children: [
             InkWell(
               onTap: (){
-                  mailToAdminRepo().then((value){
-                    if(value.status==true){
-                      NewHelper.showToast(value.message);
-                    }
-                  });
+                  // mailToAdminRepo().then((value){
+                  //   if(value.status==true){
+                  //     NewHelper.showToast(value.message);
+                  //   }
+                  // });
+                sendEmail();
               },
               child: Container(
                 decoration: BoxDecoration(

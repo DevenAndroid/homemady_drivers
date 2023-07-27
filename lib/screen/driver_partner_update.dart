@@ -42,7 +42,6 @@ class _DeliveryPartnerUpdateScreenState
   String? selectedSecondaryCategory;
   String? selectedTertiaryCategory;
   String? selectedCollection;
-  String selectedDate = '';
 
   var items = [
     'Car',
@@ -58,78 +57,93 @@ class _DeliveryPartnerUpdateScreenState
       return false;
     }
   }
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xFF7ED957),
-              // header background color
-              onPrimary: Colors.white,
-              // header text color
-              onSurface: Color(
-                  0xFF7ED957), // body text color
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: const Color(
-                    0xFF7ED957), // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1950),
-      //DateTime.now() - not to allow to choose before today.
-      lastDate: DateTime(2025),
-    ).then((value) {
-      // setState(() {
-      //   _dateTime = value!;
-      // });
-
-      if (value != null) {
-        String formattedDate = DateFormat(
-            'dd/MM/yyyy').format(value);
-        setState(() {
-          controller.dobController.text =
-              formatDate(value); //set output date to TextField value.
-          log("Seleted Date     $selectedDate");
-        });
-      }
-    });
-
-    if (pickedDate != null && pickedDate != controller.dobController.text) {
-      String formattedDate = DateFormat(
-          'yyyy/MM/dd').format(pickedDate);
-      setState(() {
-        controller.dobController.text = formatDate(pickedDate);
-        log("Seleted Date     $selectedDate");
-      });
+  var selectedDate = DateTime.now().obs;
+  DateTime today = DateTime.now();
+  void selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime(
+            DateTime.now().year - 18, DateTime.now().month, DateTime.now().day),
+        firstDate: DateTime(1900),
+        lastDate: DateTime(DateTime.now().year - 18, DateTime.now().month,
+            DateTime.now().day));
+    if (pickedDate != null && pickedDate != selectedDate.value) {
+      selectedDate.value = pickedDate;
+      controller.dobController.text =
+          DateFormat('dd-MM-yyyy').format(selectedDate.value).toString();
     }
-    // DatePicker.showDatePicker(
-    //   context,
-    //   showTitleActions: true,
-    //   minTime: DateTime(1900, 1, 1),
-    //   maxTime: DateTime.now(),
-    //   onChanged: (date) {
-    //     // Do something when the date is changed but not yet confirmed
-    //     print('onChanged: $date');
-    //   },
-    //   onConfirm: (date) {
-    //     setState(() {
-    //       dobController.text = formatDate(date);
-    //     });
-    //   },
-    //   currentTime: DateTime.now(),
-    //   locale: LocaleType.en, // Replace with the desired locale for the picker
-    // );
   }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   DateTime? pickedDate = await showDatePicker(
+  //     builder: (context, child) {
+  //       return Theme(
+  //         data: Theme.of(context).copyWith(
+  //           colorScheme: const ColorScheme.light(
+  //             primary: Color(0xFF7ED957),
+  //             // header background color
+  //             onPrimary: Colors.white,
+  //             // header text color
+  //             onSurface: Color(
+  //                 0xFF7ED957), // body text color
+  //           ),
+  //           textButtonTheme: TextButtonThemeData(
+  //             style: TextButton.styleFrom(
+  //               foregroundColor: const Color(
+  //                   0xFF7ED957), // button text color
+  //             ),
+  //           ),
+  //         ),
+  //         child: child!,
+  //       );
+  //     },
+  //
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(1950),
+  //     //DateTime.now() - not to allow to choose before today.
+  //     lastDate: DateTime(2025),
+  //   ).then((value) {
+  //     // setState(() {
+  //     //   _dateTime = value!;
+  //     // });
+  //
+  //     if (value != null) {
+  //       String formattedDate = DateFormat(
+  //           'dd/MM/yyyy').format(value);
+  //       setState(() {
+  //         controller.dobController.text =
+  //             formatDate(value); //set output date to TextField value.
+  //         log("Seleted Date     $selectedDate");
+  //       });
+  //     }
+  //   });
+  //
+  //   if (pickedDate != null && pickedDate != controller.dobController.text) {
+  //     String formattedDate = DateFormat(
+  //         'yyyy/MM/dd').format(pickedDate);
+  //     setState(() {
+  //       controller.dobController.text = formatDate(pickedDate);
+  //       log("Seleted Date     $selectedDate");
+  //     });
+  //   }
+  //   // DatePicker.showDatePicker(
+  //   //   context,
+  //   //   showTitleActions: true,
+  //   //   minTime: DateTime(1900, 1, 1),
+  //   //   maxTime: DateTime.now(),
+  //   //   onChanged: (date) {
+  //   //     // Do something when the date is changed but not yet confirmed
+  //   //     print('onChanged: $date');
+  //   //   },
+  //   //   onConfirm: (date) {
+  //   //     setState(() {
+  //   //       dobController.text = formatDate(date);
+  //   //     });
+  //   //   },
+  //   //   currentTime: DateTime.now(),
+  //   //   locale: LocaleType.en, // Replace with the desired locale for the picker
+  //   // );
+  // }
 
   String formatDate(DateTime date) {
     final DateFormat formatter = DateFormat('dd/MM/yyyy');
@@ -172,7 +186,7 @@ class _DeliveryPartnerUpdateScreenState
                     TextField(
                       controller: controller.dobController,
                       onTap: () {
-                        _selectDate(context);
+                        selectDate();
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
