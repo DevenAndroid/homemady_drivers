@@ -21,7 +21,7 @@ Future<ModelVerifyOtp> loginRepo(
   map['email'] = email;
   map['password'] = password;
   map['device_id'] = pref.getString('deviceId');
-  // map['device_token'] = fcmToken;
+  map['device_token'] = fcmToken;
 
   log("Login Data map$map");
   try {

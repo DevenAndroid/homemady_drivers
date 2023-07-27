@@ -181,7 +181,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   'assets/images/time_track.png',
                   height: 15,
                 ),
-                title: Text('Assigned Order',
+                title: Text('Assigned Orders',
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF4F535E),
@@ -228,7 +228,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   'assets/images/earn.png',
                   height: 15,
                 ),
-                title: Text('Earning',
+                title: Text('My Earnings',
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF4F535E),
@@ -301,7 +301,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   'assets/images/bx_wallet.png',
                   height: 15,
                 ),
-                title: Text('Update Driver Setting',
+                title: Text('Update Driver Settings',
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       color: const Color(0xFF4F535E),

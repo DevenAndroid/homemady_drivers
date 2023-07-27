@@ -45,9 +45,9 @@ class _DeliveryPartnerUpdateScreenState
   String selectedDate = '';
 
   var items = [
-    'car',
-    'motorcycle',
-    'bicycle',
+    'Car',
+    'Motorcycle',
+    'Bicycle',
   ];
   RxBool showValidation = false.obs;
 

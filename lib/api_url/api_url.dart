@@ -32,7 +32,7 @@ class ApiUrl {
   static const driverUpdate = "${baseUrl}driver-information-edit";
   static const socialUrl = "${baseUrl}social-login";
   static const faq = "${baseUrl}faq-list";
-
+  static const mailToAdminUrl = "${baseUrl}request-homemady-inspection";
 }
 
 Future getAuthHeader() async {

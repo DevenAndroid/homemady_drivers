@@ -228,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                // signInWithGoogle();
+                                signInWithGoogle();
                               },
                               child: Container(
                                 width: 152,
@@ -359,32 +359,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // signInWithGoogle() async {
-  //   await GoogleSignIn().signOut();
-  //   final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-  //   final GoogleSignInAuthentication googleAuth = await googleUser!
-  //       .authentication;
-  //   final credential = GoogleAuthProvider.credential(
-  //     idToken: googleAuth.idToken,
-  //     accessToken: googleAuth.accessToken,
-  //   );
-  //   print("Token---------${googleAuth.accessToken}");
-  //   final value = await FirebaseAuth.instance.signInWithCredential(credential);
-  //   log(value.credential!.accessToken!);
-  //   //log(value.additionalUserInfo.a);
-  //   var fromToken = await FirebaseMessaging.instance.getToken();
-  //
-  //   socialLogin(provider: "google",
-  //       token: value.credential!.accessToken!,
-  //       context: context).then((value) async {
-  //     if (value.status == true) {
-  //       SharedPreferences pref = await SharedPreferences.getInstance();
-  //       pref.setString('user_info', jsonEncode(value));
-  //       NewHelper.showToast(value.message);
-  //       Get.offAllNamed(MyRouters.dashbordScreen);
-  //     } else {
-  //       NewHelper.showToast(value.message);
-  //     }
-  //   });
-  // }
+  signInWithGoogle() async {
+    await GoogleSignIn().signOut();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser!
+        .authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+    print("Token---------${googleAuth.accessToken}");
+    final value = await FirebaseAuth.instance.signInWithCredential(credential);
+    log(value.credential!.accessToken!);
+    //log(value.additionalUserInfo.a);
+    var fromToken = await FirebaseMessaging.instance.getToken();
+
+    socialLogin(provider: "google",
+        token: value.credential!.accessToken!,
+        context: context).then((value) async {
+      if (value.status == true) {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('user_info', jsonEncode(value));
+        NewHelper.showToast(value.message);
+        Get.offAllNamed(MyRouters.dashbordScreen);
+      } else {
+        NewHelper.showToast(value.message);
+      }
+    });
+  }
 }
