@@ -238,7 +238,7 @@ class _DeliveryPartnerUpdateScreenState
                       keyboardType: TextInputType.text,
                       controller: controller.ppsController,
                       hint: 'PPS number',
-                      length: 9,
+                      length: 7,
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(
