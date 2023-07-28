@@ -33,6 +33,10 @@ class ApiUrl {
   static const socialUrl = "${baseUrl}social-login";
   static const faq = "${baseUrl}faq-list";
   static const mailToAdminUrl = "${baseUrl}request-homemady-inspection";
+  static const notificationUrl = "${baseUrl}notification-list";
+  static const ratingGetUrl = "${baseUrl}rating-and-review";
+
+
 }
 
 Future getAuthHeader() async {

@@ -195,7 +195,16 @@ class _DeliveryPartnerApplyScreenState
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: backAppBar(title: 'Delivery Partner Apply', context: context),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text('Delivery Partner Apply',
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 17,
+              color: Color(0xFF1A2E33)),
+        ),
+      ),
       body: Obx(() {
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

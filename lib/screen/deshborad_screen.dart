@@ -11,6 +11,8 @@ import '../controller/assigned_Orderlist_controller.dart';
 import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import '../controller/driver_information_controller.dart';
+import '../controller/get_feedback_controller.dart';
 import '../controller/mode_update_controller.dart';
 import '../controller/userProfile_controller.dart';
 import '../repository/assigned_order_repo.dart';
@@ -42,6 +44,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
   final controller = Get.put(DeshBoradController());
   final controller1 = Get.put(UserProfileController());
   final assignedController = Get.put(AssignedOrderController());
+  final controllerFeedback = Get.put(GetFeedbackController());
+  final controllerDriverId = Get.put(DriverInformationController());
+
   final RxBool _store = false.obs;
 
   @override
@@ -51,6 +56,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
     controller.getData();
     controller1.getData();
     // assignedController.getOrderData();
+    controllerFeedback.getData();
+    controllerDriverId.getData();
     _store;
   }
 
@@ -198,6 +205,28 @@ class _DashbordScreenState extends State<DashbordScreen> {
               ),
               ListTile(
                 visualDensity:
+                const VisualDensity(horizontal: -4, vertical: -2),
+                leading: Image.asset(
+                  'assets/images/notification-img.png',
+                  height: 15,
+                ),
+                title: Text('Notifications',
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      color: const Color(0xFF4F535E),
+                      fontWeight: FontWeight.w400,
+                    )),
+                onTap: () {
+                  Get.toNamed(MyRouters.notificationScreen);
+                },
+              ),
+              const Divider(
+                height: 5,
+                color: Color(0xffEFEFEF),
+                thickness: 1,
+              ),
+              ListTile(
+                visualDensity:
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/bx_wallet.png',
@@ -311,6 +340,32 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   setState(() {
                     currentDrawer = 5;
                     Get.toNamed(MyRouters.deliveryPartnerUpdateScreen);
+                  });
+                },
+              ),
+              const Divider(
+                height: 5,
+                color: Color(0xffEFEFEF),
+                thickness: 1,
+              ),
+              ListTile(
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -2),
+                leading: Image.asset(
+                  'assets/images/bx_wallet.png',
+                  height: 15,
+                ),
+                title: Text('Feedback',
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      color: const Color(0xFF4F535E),
+                      fontWeight: FontWeight.w400,
+                    )),
+                onTap: () {
+                  setState(() {
+                    controllerFeedback.driverId.value = controllerDriverId.model.value.data!.driverId.toString();
+                    print(controllerFeedback.driverId.value);
+                    Get.toNamed(MyRouters.feedBackScreen);
                   });
                 },
               ),

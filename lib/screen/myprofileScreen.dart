@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../controller/userProfile_controller.dart';
 import '../repository/update_profile_repo.dart';
 import '../widgets/app_assets.dart';
@@ -14,6 +17,7 @@ import '../widgets/dimenestion.dart';
 import '../widgets/editprofiletextfiled.dart';
 import '../widgets/helper.dart';
 import '../widgets/new_helper.dart';
+import '../widgets/phone_filed.dart';
 
 
 
@@ -38,6 +42,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   }
   final _formKey = GlobalKey<FormState>();
+  String initialCountryCode = "";
+  String countryCode = "";
   Rx<File> image = File("").obs;
   final ImagePicker picker = ImagePicker();
   showUploadWindow() {
@@ -111,6 +117,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget build(BuildContext context) {
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       body: Obx(() {
@@ -371,6 +379,75 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               ),
                                               const SizedBox(
                                                 height: 10,
+                                              ),
+                                              Container(
+                                                width: screenWidth,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: const Color(0xFF37C666).withOpacity(0.10),
+                                                      offset: const Offset(.1, .1,
+                                                      ),
+                                                      blurRadius: 20.0,
+                                                      spreadRadius: 1.0,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: CustomIntlPhoneField(
+                                                  controller: controller.mobileController,
+                                                  dropdownIconPosition:
+                                                  IconPosition.trailing,
+                                                  dropdownTextStyle: GoogleFonts.poppins(
+                                                      color: Colors.black),
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.digitsOnly
+                                                  ],
+                                                  keyboardType: TextInputType.number,
+                                                  decoration: InputDecoration(
+
+                                                    hintText: 'Phone',
+                                                    hintStyle: const TextStyle(
+                                                      color:  Color(0xff2F353F),
+                                                      fontSize: 13,
+                                                      // fontFamily: 'poppins',
+                                                      fontWeight: FontWeight.w300,
+                                                    ),
+                                                    counterText: "",
+                                                    enabled: true,
+                                                    contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10, vertical: 10),
+
+                                                    focusedBorder: OutlineInputBorder(
+                                                      borderSide: const BorderSide(color: Colors.white),
+                                                      borderRadius: BorderRadius.circular(10.0),
+                                                    ),
+                                                    enabledBorder: const OutlineInputBorder(
+                                                        borderSide: BorderSide(color: Colors.white),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: const BorderSide(color: Colors.white, width: 3.0),
+                                                        borderRadius: BorderRadius.circular(15.0)),
+                                                  ),
+                                                  initialCountryCode: initialCountryCode.isEmpty ? 'IE' : initialCountryCode,
+                                                  onCountryChanged: (value) {
+                                                    countryCode = value.dialCode;
+                                                    initialCountryCode = value.code;
+                                                    if (kDebugMode) {
+                                                      print(countryCode);
+                                                      print(initialCountryCode);
+                                                    }
+                                                  },
+                                                  onChanged: (phone) {
+                                                    countryCode = phone.countryCode;
+                                                    initialCountryCode = phone.countryISOCode;
+                                                    if (kDebugMode) {
+                                                      print(countryCode);
+                                                      print(initialCountryCode);
+                                                    }
+                                                  },
+                                                ),
                                               ),
                                               EditProfileTextFieldWidget(
                                                 hint: "Enter Your Mobile Number",

@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/new_helper.dart';
+import '../widgets/phone_filed.dart';
 
 
 class SignupScreen extends StatefulWidget {
@@ -25,6 +29,8 @@ class _SignupScreenState extends State<SignupScreen> {
   bool value = false;
   bool isLoginPasswordShow= true;
   bool isLoginPasswordShow1= true;
+  String initialCountryCode = "";
+  String countryCode = "";
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -147,21 +153,90 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ],
                         ),
-                        child: CommonTextFieldWidget(
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          length: 10,
-                          hint: 'Phone',
+                        child: CustomIntlPhoneField(
                           controller: phoneController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "phone is required";
-                            } else {
-                              return null;
+                          dropdownIconPosition:
+                          IconPosition.trailing,
+                          dropdownTextStyle: GoogleFonts.poppins(
+                              color: Colors.black),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+
+                            hintText: 'Phone',
+                            hintStyle: const TextStyle(
+                              color:  Color(0xff2F353F),
+                              fontSize: 13,
+                              // fontFamily: 'poppins',
+                              fontWeight: FontWeight.w300,
+                            ),
+                            counterText: "",
+                            enabled: true,
+                            contentPadding:
+                            const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                            border: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white, width: 3.0),
+                                borderRadius: BorderRadius.circular(15.0)),
+                          ),
+                          initialCountryCode: initialCountryCode.isEmpty ? 'IE' : initialCountryCode,
+                          onCountryChanged: (value) {
+                            countryCode = value.dialCode;
+                            initialCountryCode = value.code;
+                            if (kDebugMode) {
+                              print(countryCode);
+                              print(initialCountryCode);
+                            }
+                          },
+                          onChanged: (phone) {
+                            countryCode = phone.countryCode;
+                            initialCountryCode = phone.countryISOCode;
+                            if (kDebugMode) {
+                              print(countryCode);
+                              print(initialCountryCode);
                             }
                           },
                         ),
                       ),
+                      // Container(
+                      //   width: screenWidth,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: const Color(0xFF37C666).withOpacity(0.10),
+                      //         offset: const Offset(.1, .1,
+                      //         ),
+                      //         blurRadius: 20.0,
+                      //         spreadRadius: 1.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   child: CommonTextFieldWidget(
+                      //     textInputAction: TextInputAction.next,
+                      //     keyboardType: TextInputType.number,
+                      //     length: 10,
+                      //     hint: 'Phone',
+                      //     controller: phoneController,
+                      //     validator: (value) {
+                      //       if (value!.isEmpty) {
+                      //         return "phone is required";
+                      //       } else {
+                      //         return null;
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
                       addHeight(20),
                       Container(
                         width: screenWidth,

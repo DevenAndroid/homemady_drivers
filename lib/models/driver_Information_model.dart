@@ -23,6 +23,7 @@ class DriverInformationModel {
 }
 
 class Data {
+  int? driverId;
   String? dob;
   String? ppsNo;
   String? vehicleType;
@@ -36,7 +37,8 @@ class Data {
   String? licenceBackImage;
 
   Data(
-      {this.dob,
+      {this.driverId,
+        this.dob,
         this.ppsNo,
         this.vehicleType,
         this.address,
@@ -49,6 +51,7 @@ class Data {
         this.licenceBackImage});
 
   Data.fromJson(Map<String, dynamic> json) {
+    driverId = json['driverId'];
     dob = json['dob'];
     ppsNo = json['pps_no'];
     vehicleType = json['vehicle_type'];
@@ -64,6 +67,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['driverId'] = this.driverId;
     data['dob'] = this.dob;
     data['pps_no'] = this.ppsNo;
     data['vehicle_type'] = this.vehicleType;

@@ -568,27 +568,41 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                     );
                   },
                 ),
-              ) : Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: AddSize.padding20 * 5,
-                    vertical: AddSize.padding20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("Order not Available",
-                        textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .headline5!
-                            .copyWith(
-                            height: 1.5,
-                            fontWeight: FontWeight.w500,
-                            fontSize: AddSize.font14,
-                            color: AppTheme.blackcolor)),
-                  ],
-                ),
+              ) : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  addHeight(  MediaQuery.of(context).size.height*.12,),
+                  SizedBox(
+                     height: MediaQuery.of(context).size.height*.30,
+                      child: Image.asset('assets/images/Cart illustartion.png')),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height*.030,
+                  ),
+                  Text("No Orders",
+                      textAlign: TextAlign.center,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.w700,
+                          fontSize: AddSize.font20,
+                          color: AppTheme.blackcolor)),
+                  addHeight(  MediaQuery.of(context).size.height*.010,),
+                  Text("Bong, it appears that you don't have any orders yet",
+                      textAlign: TextAlign.center,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.w500,
+                          fontSize: AddSize.font16,
+                          color: const Color(0xFF9E9E9E))),
+                ],
               ) : const Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 200),
