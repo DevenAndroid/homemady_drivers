@@ -29,9 +29,9 @@ class assgnedOrderList {
 
 class Data {
   String? date;
-  int? orderId;
+  dynamic orderId;
   String? paymentMethod;
-  int? orderTotal;
+  dynamic orderTotal;
   String? orderStatus;
   Location? location;
 
@@ -69,8 +69,8 @@ class Data {
 }
 
 class Location {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? latitude;
   String? longitude;
   String? location;
@@ -79,7 +79,7 @@ class Location {
   String? addressType;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Location(
       {this.id,

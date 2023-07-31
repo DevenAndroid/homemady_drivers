@@ -17,6 +17,7 @@ import '../widgets/dimenestion.dart';
 import '../widgets/editprofiletextfiled.dart';
 import '../widgets/helper.dart';
 import '../widgets/new_helper.dart';
+import '../widgets/phn_filed1.dart';
 import '../widgets/phone_filed.dart';
 
 
@@ -384,17 +385,18 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                 width: screenWidth,
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: const Color(0xFF37C666).withOpacity(0.10),
-                                                      offset: const Offset(.1, .1,
-                                                      ),
-                                                      blurRadius: 20.0,
-                                                      spreadRadius: 1.0,
-                                                    ),
-                                                  ],
+                                                  color:  const Color(0xFFF3F3F3),
+                                                  // boxShadow: [
+                                                  //   BoxShadow(
+                                                  //     color: const Color(0xFF37C666).withOpacity(0.10),
+                                                  //     offset: const Offset(.1, .1,
+                                                  //     ),
+                                                  //     blurRadius: 20.0,
+                                                  //     spreadRadius: 1.0,
+                                                  //   ),
+                                                  // ],
                                                 ),
-                                                child: CustomIntlPhoneField(
+                                                child: CustomIntlPhoneField1(
                                                   controller: controller.mobileController,
                                                   dropdownIconPosition:
                                                   IconPosition.trailing,
@@ -405,7 +407,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   ],
                                                   keyboardType: TextInputType.number,
                                                   decoration: InputDecoration(
-
                                                     hintText: 'Phone',
                                                     hintStyle: const TextStyle(
                                                       color:  Color(0xff2F353F),
@@ -418,7 +419,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     contentPadding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10, vertical: 10),
-
                                                     focusedBorder: OutlineInputBorder(
                                                       borderSide: const BorderSide(color: Colors.white),
                                                       borderRadius: BorderRadius.circular(10.0),
@@ -449,13 +449,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   },
                                                 ),
                                               ),
-                                              EditProfileTextFieldWidget(
-                                                hint: "Enter Your Mobile Number",
-                                                controller: controller.mobileController,
-                                                validator: validateMobile,
-                                                keyboardType: TextInputType.number,
-                                                length: 10,
-                                              ),
+                                              // EditProfileTextFieldWidget(
+                                              //   hint: "Enter Your Mobile Number",
+                                              //   controller: controller.mobileController,
+                                              //   validator: validateMobile,
+                                              //   keyboardType: TextInputType.number,
+                                              //   length: 10,
+                                              // ),
                                               const SizedBox(
                                                 height: 40,
                                               ),

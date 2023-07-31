@@ -23,7 +23,7 @@ class DriverInformationModel {
 }
 
 class Data {
-  int? driverId;
+  dynamic driverId;
   String? dob;
   String? ppsNo;
   String? vehicleType;

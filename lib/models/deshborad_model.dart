@@ -25,8 +25,8 @@ class DashboardModel {
 class Data {
   String? username;
   bool? deliveryMode;
-  int? deliveredOrders;
-  int? pendingOrders;
+  dynamic deliveredOrders;
+  dynamic pendingOrders;
   List<List1>? list;
 
   Data(
@@ -64,9 +64,9 @@ class Data {
 
 class List1 {
   String? date;
-  int? orderId;
+  dynamic orderId;
   String? paymentMethod;
-  int? orderTotal;
+  dynamic orderTotal;
   Location? location;
   VendorLocation? vendorLocation;
 
@@ -108,8 +108,8 @@ class List1 {
 }
 
 class Location {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? latitude;
   String? longitude;
   String? location;
@@ -165,8 +165,8 @@ class Location {
 }
 
 class VendorLocation {
-  int? storeId;
-  int? id;
+  dynamic storeId;
+  dynamic id;
   String? storeName;
   String? number;
   String? ppsNo;
@@ -355,8 +355,8 @@ class VendorLocation {
 // }
 //
 // class Location {
-//   int? id;
-//   int? userId;
+//   dynamic id;
+//   dynamic userId;
 //   dynamic latitude;
 //   dynamic longitude;
 //   dynamic location;
@@ -432,7 +432,7 @@ class VendorLocation {
 // }
 //
 // class VendorLocation {
-//   int? id;
+//   dynamic id;
 //   dynamic storeName;
 //   dynamic phone;
 //   dynamic storeImage;

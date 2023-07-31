@@ -23,19 +23,19 @@ class DeliveryModeUpdateModel {
 }
 
 class Data {
-  int? id;
-  int? isDriver;
-  int? isVendor;
-  int? marketingBalance;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic id;
+  dynamic isDriver;
+  dynamic isVendor;
+  dynamic marketingBalance;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? lastName;
   String? phone;
   String? email;
   dynamic otp;
   dynamic otpCreatedAt;
-  int? otpVerified;
+  dynamic otpVerified;
   String? profileImage;
   dynamic socialProfileImage;
   dynamic latitude;
@@ -45,19 +45,19 @@ class Data {
   dynamic referalCode;
   dynamic deviceToken;
   dynamic deviceId;
-  int? isDriverOnline;
-  int? isVendorOnline;
-  int? deliveryRange;
-  int? selfDelivery;
-  int? collectionStatus;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic collectionStatus;
   dynamic adminCommissionType;
   dynamic adminCommission;
-  int? asDriverVerified;
-  int? asVendorVerified;
-  int? featuredStore;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic featuredStore;
   dynamic emailVerifiedAt;
-  int? status;
-  int? isProfileComplete;
+  dynamic status;
+  dynamic isProfileComplete;
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;

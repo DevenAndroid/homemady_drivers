@@ -23,12 +23,12 @@ class WithdrawalRequestModel {
 }
 
 class Data {
-  int? userId;
+  dynamic userId;
   String? amount;
   String? status;
   String? updatedAt;
   String? createdAt;
-  int? id;
+  dynamic id;
 
   Data(
       {this.userId,

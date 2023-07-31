@@ -46,7 +46,7 @@ class Data {
 }
 
 class Banks {
-  int? id;
+  dynamic id;
   String? name;
 
   Banks({this.id, this.name});

@@ -38,14 +38,14 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
     myOrderDetailsController.getMyOrderDetails();
   }
 
-  // Future<void> openMap(double latitude, double longitude) async {
-  //   String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-  //   if (await canLaunch(googleUrl)) {
-  //     await launch(googleUrl);
-  //   } else {
-  //     throw 'Could not open the map.';
-  //   }
-  // }
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
 
   _makingPhoneCall(call) async {
     var url = Uri.parse(call);
@@ -223,100 +223,28 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                               return Positioned(
                                   top: 10,
                                   right: 10,
-                                  child:
-                                  isSelect.value == true ?
-                                  InkWell(
-                                    onTap: () {
-                                      isSelect.value = !isSelect.value;
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                4),
-                                            color:
-                                            AppTheme.primaryColor),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: width * .04,
-                                              vertical: height * .005),
-                                          child:
-                                          InkWell(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return SimpleDialog(
-                                                    contentPadding: EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 20),
-                                                    children: [
-                                                      Text(
-                                                        'Emergency Number',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            AddSize.font18,
-                                                            color: const Color(
-                                                                0xFF425159),
-                                                            fontWeight:
-                                                            FontWeight.w300),
-                                                      ),
-                                                      addHeight(10),
-                                                      Text(
-                                                        'Call Ambulance',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            AddSize.font18,
-                                                            color: const Color(
-                                                                0xFF425159),
-                                                            fontWeight:
-                                                            FontWeight.w300),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: Text(
-                                              'Emergency',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                  AddSize.font14,
-                                                  color: AppTheme
-                                                      .backgroundcolor,
-                                                  fontWeight:
-                                                  FontWeight.w500),
-                                            ),
-                                          ),
-                                        )),
-                                  ) : InkWell(
-                                    onTap: () {
-                                      isSelect.value = !isSelect.value;
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                4),
-                                            color:
-                                            AppTheme.primaryColor),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: width * .04,
-                                              vertical: height * .005),
-                                          child: Text(
-                                            'Pickup',
-                                            style: TextStyle(
-                                                fontSize:
-                                                AddSize.font14,
-                                                color: AppTheme
-                                                    .backgroundcolor,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          ),
-                                        )),
-                                  )
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              4),
+                                          color:
+                                          AppTheme.primaryColor),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width * .04,
+                                            vertical: height * .005),
+                                        child: Text(
+                                            myOrderDetailsController.model.value.data!.deliveryStatus.toString(),
+                                          style: TextStyle(
+                                              fontSize:
+                                              AddSize.font14,
+                                              color: AppTheme
+                                                  .backgroundcolor,
+                                              fontWeight:
+                                              FontWeight.w500),
+                                        ),
+                                      )),
                               );
                             })
                           ],
@@ -556,51 +484,44 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                   const Divider(color: Color(0xFFEFEFEF),
                                     height: 1,
                                     thickness: 1,),
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                              horizontal: AddSize.padding15,
+                                              vertical: AddSize.padding15),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
+                                            double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "Address",
-                                                  style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                if( myOrderDetailsController.model.value.data!.user != null)
-                                                Text(
-                                                    myOrderDetailsController.model.value.data!.address!.location.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const Text(
+                                                            "Address",
+                                                            style: TextStyle(
+                                                                color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
+                                                          ),
+                                                          if( myOrderDetailsController.model.value.data!.user != null)
+                                                                        Text(
+                                                                            myOrderDetailsController.model.value.data!.address!.location.toString(),
+                                                                          style: GoogleFonts.raleway(
+                                                                              color: const Color(
+                                                                                  0xFF303C5E),
+                                                                              fontWeight:
+                                                                              FontWeight.w700,
+                                                                              fontSize: 16),
+                                                                        ),
+                                                        ],
+                                                      ),
+                                                    ),
                                           GestureDetector(
                                             onTap: () {
-                                              // openMap();
+                                              openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
+                                                  double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
                                             },
                                             child: Container(
                                               height: AddSize.size45,
@@ -615,11 +536,77 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         .backgroundcolor,
                                                   )),
                                             ),
-                                          ),
-                                        ],
+                                          )
+                                                  ],
+
+                                      // Card(
+                                      //   elevation: 0,
+                                      //   color: AppTheme.backgroundcolor,
+                                      //   shape: RoundedRectangleBorder(
+                                      //       borderRadius: BorderRadius.circular(
+                                      //           10)),
+                                      //   child: Padding(
+                                      //     padding: EdgeInsets.symmetric(
+                                      //         horizontal: AddSize.padding15,
+                                      //         vertical: AddSize.padding15),
+                                      //     child:
+                                      //     FittedBox(
+                                      //       child: Row(
+                                      //         mainAxisAlignment:
+                                      //         MainAxisAlignment.spaceBetween,
+                                      //         children: [
+                                      //           Column(
+                                      //             crossAxisAlignment:
+                                      //             CrossAxisAlignment.start,
+                                      //             children: [
+                                      //               const Text(
+                                      //                 "Address",
+                                      //                 style: TextStyle(
+                                      //                     color:
+                                      //                     AppTheme.lightblack,
+                                      //                     fontWeight:
+                                      //                     FontWeight.w500,
+                                      //                     fontSize: 14),
+                                      //               ),
+                                      //               if( myOrderDetailsController.model.value.data!.user != null)
+                                      //               Text(
+                                      //                   myOrderDetailsController.model.value.data!.address!.location.toString(),
+                                      //                 style: GoogleFonts.raleway(
+                                      //                     color: const Color(
+                                      //                         0xFF303C5E),
+                                      //                     fontWeight:
+                                      //                     FontWeight.w700,
+                                      //                     fontSize: 16),
+                                      //               ),
+                                      //             ],
+                                      //           ),
+                                      //           addWidth(MediaQuery.of(context).size.width*.015),
+                                      //           GestureDetector(
+                                      //             onTap: () {
+                                      //               // openMap();
+                                      //             },
+                                      //             child: Container(
+                                      //               height: AddSize.size45,
+                                      //               width: AddSize.size45,
+                                      //               decoration: const ShapeDecoration(
+                                      //                   color: AppTheme.lightYellow,
+                                      //                   shape: CircleBorder()),
+                                      //               child: const Center(
+                                      //                   child: Icon(
+                                      //                     Icons.location_on,
+                                      //                     color: AppTheme
+                                      //                         .backgroundcolor,
+                                      //                   )),
+                                      //             ),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       ),
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
@@ -822,51 +809,43 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                   const Divider(color: Color(0xFFEFEFEF),
                                     height: 1,
                                     thickness: 1,),
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding15,
+                                        vertical: AddSize.padding15),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   "store address",
                                                   style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
+                                                      color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
                                                 ),
-                                                Text(
+                                                if( myOrderDetailsController.model.value.data!.user != null)
+                                                  Text(
                                                     myOrderDetailsController.model.value.data!.vendor!.location.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
+                                                    style: GoogleFonts.raleway(
+                                                        color: const Color(
+                                                            0xFF303C5E),
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
                                               ],
                                             ),
-                                          ]),
+                                          ),
                                           GestureDetector(
                                             onTap: () {
-                                              // openMap();
-                                            },
+                                              openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                              },
                                             child: Container(
                                               height: AddSize.size45,
                                               width: AddSize.size45,
@@ -880,11 +859,74 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         .backgroundcolor,
                                                   )),
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
                                     ),
                                   ),
+                                  // Card(
+                                  //   elevation: 0,
+                                  //   color: AppTheme.backgroundcolor,
+                                  //   shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(
+                                  //           10)),
+                                  //   child: Padding(
+                                  //     padding: EdgeInsets.symmetric(
+                                  //         horizontal: AddSize.padding15,
+                                  //         vertical: AddSize.padding15),
+                                  //     child:
+                                  //     Row(
+                                  //       mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //       children: [
+                                  //         Row(children: [
+                                  //           Column(
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               const Text(
+                                  //                 "store address",
+                                  //                 style: TextStyle(
+                                  //                     color:
+                                  //                     AppTheme.lightblack,
+                                  //                     fontWeight:
+                                  //                     FontWeight.w500,
+                                  //                     fontSize: 14),
+                                  //               ),
+                                  //               Text(
+                                  //                   myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                  //                 style: GoogleFonts.raleway(
+                                  //                     color: const Color(
+                                  //                         0xFF303C5E),
+                                  //                     fontWeight:
+                                  //                     FontWeight.w700,
+                                  //                     fontSize: 16),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ]),
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             // openMap();
+                                  //           },
+                                  //           child: Container(
+                                  //             height: AddSize.size45,
+                                  //             width: AddSize.size45,
+                                  //             decoration: const ShapeDecoration(
+                                  //                 color: AppTheme.lightYellow,
+                                  //                 shape: CircleBorder()),
+                                  //             child: const Center(
+                                  //                 child: Icon(
+                                  //                   Icons.location_on,
+                                  //                   color: AppTheme
+                                  //                       .backgroundcolor,
+                                  //                 )),
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),

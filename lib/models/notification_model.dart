@@ -23,7 +23,7 @@ class NotificationModel {
 }
 
 class Data {
-  int? count;
+  dynamic count;
   List<NotificationData>? notificationData;
 
   Data({this.count, this.notificationData});
@@ -50,11 +50,11 @@ class Data {
 }
 
 class NotificationData {
-  int? id;
+  dynamic id;
   String? title;
   String? body;
   String? notificationType;
-  int? seen;
+  dynamic seen;
   String? time;
 
   NotificationData(

@@ -26,7 +26,7 @@ class ModelVerifyOtp {
 }
 
 class Data {
-  int? id;
+  dynamic id;
   bool? isDriver;
   bool? isVendor;
   bool? isMarketingManager;
@@ -42,7 +42,7 @@ class Data {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  int? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;

@@ -23,7 +23,7 @@ class PrivacyPolicyModel {
 }
 
 class Data {
-  int? id;
+  dynamic id;
   String? title;
   String? slug;
   String? content;

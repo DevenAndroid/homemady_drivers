@@ -23,7 +23,7 @@ class ModeUpdateModel {
 }
 
 class Data {
-  int? id;
+  dynamic id;
   bool? isDriver;
   bool? isVendor;
   String? latitude;
@@ -39,7 +39,7 @@ class Data {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  int? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;

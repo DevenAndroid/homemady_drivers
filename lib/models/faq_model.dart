@@ -29,7 +29,7 @@ class faqScreen {
 
 class Data {
   bool senderExpansion = false;
-  int? id;
+  dynamic id;
   String? question;
 
 

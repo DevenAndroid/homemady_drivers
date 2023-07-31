@@ -81,7 +81,7 @@ class Data {
 }
 
 class Reviews {
-  int? id;
+  dynamic id;
   String? userName;
   String? profileImage;
   String? review;
@@ -118,10 +118,10 @@ class Reviews {
 }
 
 class Meta {
-  int? totalPage;
-  int? currentPage;
-  int? totalItem;
-  int? perPage;
+  dynamic totalPage;
+  dynamic currentPage;
+  dynamic totalItem;
+  dynamic perPage;
 
   Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
 

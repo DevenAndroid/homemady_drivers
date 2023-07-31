@@ -23,7 +23,7 @@ class VendorAddAccountDetailsModel {
 }
 
 class Data {
-  int? id;
+  dynamic id;
   String? bank;
   String? accountName;
   String? accountNo;

@@ -50,7 +50,7 @@ class Data {
 }
 
 class WithdrawalList {
-  int? id;
+  dynamic id;
   String? amount;
   String? date;
   String? status;

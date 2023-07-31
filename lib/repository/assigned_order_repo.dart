@@ -11,7 +11,7 @@ import '../models/verify_otp_model.dart';
 import '../widgets/helper.dart';
 
 Future<ModelCommonResponse> assignedOrder({
-  required status, int? orderId,  context
+  required status, dynamic orderId,  context
 }) async {
   Map<String, dynamic> map = {};
   map['order_id'] = orderId;

@@ -1,7 +1,7 @@
 class ResendOtpModel {
   bool? status;
   String? message;
-  int? data;
+  dynamic data;
 
   ResendOtpModel({this.status, this.message, this.data});
 

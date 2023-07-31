@@ -23,13 +23,13 @@ class orderDetailsModel {
 }
 
 class Data {
-  int? orderId;
-  int? itemTotal;
-  int? tax;
-  int? deliveryCharges;
-  int? packingFee;
-  Null? couponDiscount;
-  int? grandTotal;
+  dynamic orderId;
+  dynamic itemTotal;
+  dynamic tax;
+  dynamic deliveryCharges;
+  dynamic packingFee;
+  dynamic couponDiscount;
+  dynamic grandTotal;
   User? user;
   Vendor? vendor;
   User? driver;
@@ -113,7 +113,7 @@ class Data {
 }
 
 class User {
-  int? id;
+  dynamic id;
   bool? isDriver;
   bool? isVendor;
   String? latitude;
@@ -129,7 +129,7 @@ class User {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  int? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -210,15 +210,15 @@ class User {
 }
 
 class Vendor {
-  int? storeId;
-  int? id;
+  dynamic storeId;
+  dynamic id;
   String? storeName;
   String? number;
   String? ppsNo;
-  int? category;
-  int? secondarycategory;
-  int? tertiarycategory;
-  int? collection;
+  dynamic category;
+  dynamic secondarycategory;
+  dynamic tertiarycategory;
+  dynamic collection;
   String? phone;
   String? storeImage;
   String? location;
@@ -295,19 +295,19 @@ class Vendor {
 }
 
 class Address {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? latitude;
   String? longitude;
   String? location;
   String? flatNo;
   String? landmark;
-  Null? note;
-  Null? pinCode;
+  dynamic note;
+  dynamic pinCode;
   String? addressType;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Address(
       {this.id,
@@ -360,13 +360,13 @@ class Address {
 }
 
 class OrderItems {
-  int? id;
-  int? productId;
+  dynamic id;
+  dynamic productId;
   String? productName;
-  int? price;
+  dynamic price;
   String? sizeQuantity;
   String? sizeId;
-  int? totalPrice;
+  dynamic totalPrice;
   String? status;
   String? specialRequets;
 

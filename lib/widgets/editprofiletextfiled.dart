@@ -18,9 +18,9 @@ class EditProfileTextFieldWidget extends StatelessWidget {
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final bool? readOnly;
-  final int? value = 0;
-  final int? minLines;
-  final int? maxLines;
+  final dynamic value = 0;
+  final dynamic minLines;
+  final dynamic maxLines;
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;
@@ -75,7 +75,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
           labelStyle: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: const Color(0xFFF3F3F3),
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -107,9 +107,9 @@ class EditProfileTextFieldWidget1 extends StatelessWidget {
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final bool? readOnly;
-  final int? value = 0;
-  final int? minLines;
-  final int? maxLines;
+  final dynamic value = 0;
+  final dynamic minLines;
+  final dynamic maxLines;
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;

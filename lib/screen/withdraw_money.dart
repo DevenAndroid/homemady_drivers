@@ -19,7 +19,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
   final withdrawalListController = Get.put(WithdrawalListController());
   final TextEditingController addMoneyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final List<String> moneyList = ["500", "800", "1000"];
+  final List<String> moneyList = ["50", "250", "500"];
 
   final walletStatus = "";
 
@@ -144,7 +144,9 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                         controller: addMoneyController,
                                         cursorColor: const Color(0xFF7ED957),
                                         // validator: validateMoney,
-                                        decoration: InputDecoration()),
+                                        decoration: InputDecoration(
+                                          hintText: '€0',
+                                        )),
                                     SizedBox(
                                       height: AddSize.size15,
                                     ),

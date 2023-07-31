@@ -39,7 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child:
               controller.isDataLoading.value && controller.model.value.data!.notificationData!.isNotEmpty ?
               ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: controller.model.value.data!.notificationData!.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,

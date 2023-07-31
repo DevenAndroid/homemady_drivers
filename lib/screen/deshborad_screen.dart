@@ -30,9 +30,9 @@ class DashbordScreen extends StatefulWidget {
 
 class _DashbordScreenState extends State<DashbordScreen> {
   bool state = true;
-  double _value = 20;
+  double _value = 1;
   int currentDrawer = 0;
-  int value1 = 20;
+  int value1 = 1;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   RxBool isSelect = true.obs;
   RxBool isSelect1 = true.obs;
@@ -527,16 +527,33 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 _scaffoldKey.currentState!.openDrawer();
               },
               child: Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Image.asset(
-                  'assets/images/menu_left_icon.png',
-                  height: 24,
-                ),
+                padding: const EdgeInsets.only(left: 6),
+                 child : Obx(() {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        imageUrl: controller1.isDataLoading.value
+                            ? ( controller1
+                            .model.value.data!.profileImage).toString()
+                            : '',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height*.050,
+                        width: 40,
+                        errorWidget: (_, __, ___) => Image.asset(
+                          'assets/images/Ellipse 67.png',
+                          fit: BoxFit.cover,
+                          height: 50,
+                          width: 50,
+                        ),
+                        placeholder: (_, __) => const SizedBox(),
+                      ),
+                    );
+                  })
               ),
             ),
           ],
         ),
-        leadingWidth: AddSize.size40 * 0.9,
+        // leadingWidth: AddSize.size40 * ,
         title: const Text(
           'Dashbord',
           style: TextStyle(
@@ -1370,10 +1387,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                 ),
                               ),
                               child: Slider(
-                                min: 0.0,
+                                min: 1.0,
                                 max: 100.0,
                                 value: _value,
-                                divisions: 10,
+                                divisions: 99,
                                 label: '${_value.round()}Km',
                                 onChanged: (value) {
                                   setState(() {
