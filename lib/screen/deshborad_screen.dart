@@ -1336,21 +1336,21 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                 blurRadius: 5,
                               ),
                             ]),
-                        child: Column(
+                        child:   Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Set Delivery Location',
+                                  "Set Delivery Location",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                      color: Color(0xFF303C5E)),
-                                ),
-                                Text(
-                                  '$value1 Km',
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xff516670),
+                                      fontSize: 14),
+                                ), Text(
+                                  '${value1} Km',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff516670),
@@ -1358,50 +1358,61 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                 ),
                               ],
                             ),
-                            addHeight(25),
-                            SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                trackHeight: 8.0,
-                                trackShape: const RoundedRectSliderTrackShape(),
-                                activeTrackColor: const Color(0xff6CD241),
-                                inactiveTrackColor:
-                                    const Color(0xFF7ED957).withOpacity(0.12),
-                                thumbShape: const RoundSliderThumbShape(
-                                  enabledThumbRadius: 7.0,
-                                  pressedElevation: 8.0,
-                                ),
-                                thumbColor: Colors.white,
-                                overlayColor:
-                                    const Color(0xFF7ED957).withOpacity(0.12),
-                                overlayShape: const RoundSliderOverlayShape(
-                                    overlayRadius: 2.0),
-                                tickMarkShape: const RoundSliderTickMarkShape(),
-                                activeTickMarkColor: const Color(0xff6CD241),
-                                inactiveTickMarkColor: Colors.transparent,
-                                valueIndicatorShape:
-                                    const PaddleSliderValueIndicatorShape(),
-                                valueIndicatorColor: const Color(0xff6CD241),
-                                valueIndicatorTextStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              child: Slider(
-                                min: 1.0,
-                                max: 100.0,
-                                value: _value,
-                                divisions: 99,
-                                label: '${_value.round()}Km',
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value;
-                                    value1 = value.toInt();
-                                  });
-                                },
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 40,
+                              width: AddSize.screenWidth,
+                              child: Row(
+                                children: [
+                                  SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+                                      trackHeight: 8.0,
+                                      trackShape: RoundedRectSliderTrackShape(),
+                                      activeTrackColor: Color(0xff6CD241),
+                                      inactiveTrackColor: Color(0xFF7ED957).withOpacity(0.12),
+                                      thumbShape: const RoundSliderThumbShape(
+                                        enabledThumbRadius: 7.0,
+                                        pressedElevation: 8.0,
+                                      ),
+                                      thumbColor: Colors.white,
+                                      overlayColor: const Color(0xFF7ED957).withOpacity(0.12),
+                                      overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
+                                      tickMarkShape: const RoundSliderTickMarkShape(),
+                                      activeTickMarkColor: const Color(0xff6CD241),
+                                      inactiveTickMarkColor: Colors.transparent,
+                                      valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+                                      valueIndicatorColor: const Color(0xff6CD241),
+                                      valueIndicatorTextStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    child: Expanded(
+                                      child: Slider(
+                                        min: 1.0,
+                                        max: 15.0,
+                                        autofocus: true,
+                                        value: _value,
+                                        divisions: 14,
+                                        label: '${_value.round()} Km',
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _value = value;
+                                            value1 = value.toInt();
+                                            print("Delivery Rang iss ${value1}");
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                        ),
+                        )
                       ),
                       addHeight(16.0),
                       Text(
