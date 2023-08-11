@@ -719,7 +719,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                           ]),
                                           GestureDetector(
                                             onTap: (){
-                                              Get.toNamed(MyRouters.chatScreen);
+
+                                              // Get.toNamed(MyRouters.chatScreen);
                                             },
                                             child: Container(
                                               height: AddSize.size45,

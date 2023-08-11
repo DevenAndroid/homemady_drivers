@@ -60,11 +60,13 @@ dependencies:
   flutter_html:
   flutter_switch:
   firebase_messaging: ^14.6.5
-  firebase_core: ^2.4.1
   google_sign_in: ^6.0.0
   firebase_auth: ^4.2.6
   flutter_math_fork:
   intl_phone_field:
+  cloud_firestore: ^4.8.4
+  firebase_core: ^2.15.0
+
 
 dev_dependencies:
   flutter_test:

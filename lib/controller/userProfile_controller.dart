@@ -13,10 +13,12 @@ class UserProfileController extends GetxController{
   Rx<UserProfileModel> model = UserProfileModel().obs;
   RxBool isDataLoading = false.obs;
   Rx<File> image = File("").obs;
+  dynamic valueRange = 1;
   final ImagePicker picker = ImagePicker();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  String get myProfileID => model.value.data!.id.toString();
   // FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
   getData(){
@@ -28,6 +30,7 @@ class UserProfileController extends GetxController{
         nameController.text = model.value.data!.name.toString();
         emailController.text = model.value.data!.email.toString();
         mobileController.text = model.value.data!.phone.toString();
+        valueRange = model.value.data!.deliveryRange;
       }
     });
     //loginRepo().

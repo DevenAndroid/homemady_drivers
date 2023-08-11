@@ -35,6 +35,8 @@ class ApiUrl {
   static const mailToAdminUrl = "${baseUrl}request-homemady-inspection";
   static const notificationUrl = "${baseUrl}notification-list";
   static const ratingGetUrl = "${baseUrl}rating-and-review";
+  static const setDeliveryLocation = "${baseUrl}set-delivery-location";
+  static const paymentUrl = "${baseUrl}payment";
 
 
 }

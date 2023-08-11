@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ import '../controller/userProfile_controller.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/get_deshborad.dart';
+import '../repository/set_delivery_range_repo.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
 
@@ -30,7 +33,6 @@ class DashbordScreen extends StatefulWidget {
 
 class _DashbordScreenState extends State<DashbordScreen> {
   bool state = true;
-  double _value = 1;
   int currentDrawer = 0;
   int value1 = 1;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -64,6 +66,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
+    log(controller1.valueRange);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Obx(() {
@@ -135,7 +138,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/dashboard_icon.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('Dashboard',
                     style: GoogleFonts.poppins(
@@ -160,7 +163,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/personImg.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('My Account',
                     style: GoogleFonts.poppins(
@@ -186,7 +189,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/time_track.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('Assigned Orders',
                     style: GoogleFonts.poppins(
@@ -208,7 +211,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/notification-img.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('Notifications',
                     style: GoogleFonts.poppins(
@@ -230,7 +233,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/bx_wallet.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('Bank Details',
                     style: GoogleFonts.poppins(
@@ -255,7 +258,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/earn.png',
-                  height: 15,
+                  height: 17,
                 ),
                 title: Text('My Earnings',
                     style: GoogleFonts.poppins(
@@ -303,7 +306,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/message.png',
-                  height: 15,
+                  height: 17,
                 ),
                 title: Text('My Chats',
                     style: GoogleFonts.poppins(
@@ -314,7 +317,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 onTap: () {
                   setState(() {
                     currentDrawer = 5;
-                    Get.toNamed(MyRouters.chatScreen);
+                    Get.toNamed(MyRouters.notificationScreen2);
                   });
                 },
               ),
@@ -328,7 +331,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/bx_wallet.png',
-                  height: 15,
+                  height: 17,
                 ),
                 title: Text('Update Driver Settings',
                     style: GoogleFonts.poppins(
@@ -352,8 +355,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 visualDensity:
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
-                  'assets/images/bx_wallet.png',
-                  height: 15,
+                  'assets/images/feedback_img.png',
+                  height: 20,
+                  color: const Color(0xFF4F535E),
                 ),
                 title: Text('Feedback',
                     style: GoogleFonts.poppins(
@@ -379,7 +383,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/metro-security.png',
-                  height: 15,
+                  height: 18,
                 ),
                 title: Text('Privacy Policy',
                     style: GoogleFonts.poppins(
@@ -404,7 +408,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     const VisualDensity(horizontal: -4, vertical: -2),
                 leading: Image.asset(
                   'assets/images/help_center.png',
-                  height: 15,
+                  height: 17,
                 ),
                 title: Text('Help Center',
                     style: GoogleFonts.poppins(
@@ -413,6 +417,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       fontWeight: FontWeight.w400,
                     )),
                 onTap: () {
+
                   setState(() {
                     currentDrawer = 7;
                     Get.toNamed(MyRouters.help_Center_Screen);
@@ -540,10 +545,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         height: MediaQuery.of(context).size.height*.050,
                         width: 40,
                         errorWidget: (_, __, ___) => Image.asset(
-                          'assets/images/Ellipse 67.png',
-                          fit: BoxFit.cover,
-                          height: 50,
-                          width: 50,
+                          'assets/images/user_img.png',
+                          fit: BoxFit.contain,
+                          height: 30,
+                          width: 30,
                         ),
                         placeholder: (_, __) => const SizedBox(),
                       ),
@@ -563,7 +568,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
         ),
       ),
       body: Obx(() {
-        return controller.isDataLoading.value
+        return controller.isDataLoading.value && controller1.isDataLoading.value
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
@@ -1298,15 +1303,14 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: const [
-                                          Text(
-                                            '\$0.0',
-                                            style: TextStyle(
+                                        children:  [
+                                          Text( '€ ${controller1.model.value.data!.earnedBalance.toString()}',
+                                            style: const TextStyle(
                                                 color: Color(0xFFFF980E),
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 21),
                                           ),
-                                          Text(
+                                          const Text(
                                             'Earnings',
                                             style: TextStyle(
                                                 color: Color(0xFF393E50),
@@ -1350,7 +1354,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       color: Color(0xff516670),
                                       fontSize: 14),
                                 ), Text(
-                                  '${value1} Km',
+                                  '${controller1.valueRange.toString()} Km',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff516670),
@@ -1395,16 +1399,24 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                         min: 1.0,
                                         max: 15.0,
                                         autofocus: true,
-                                        value: _value,
+                                        value: double.parse(controller1.valueRange.toString()),
                                         divisions: 14,
-                                        label: '${_value.round()} Km',
-                                        onChanged: (value) {
+                                        label: '${controller1.valueRange.round()} Km',
+                                        onChangeEnd: (value) {
                                           setState(() {
-                                            _value = value;
+                                            controller1.valueRange = value;
                                             value1 = value.toInt();
                                             print("Delivery Rang iss ${value1}");
                                           });
-                                        },
+                                          setDeliveryLocationRepo(
+                                            deliveryRange: value1,
+                                            context: context,
+                                          ).then((value) async {
+                                            if (value.status == true) {
+                                              NewHelper.showToast(value.message);
+                                            }
+                                          });
+                                        }, onChanged: (double value) {  },
                                       ),
                                     ),
                                   ),
