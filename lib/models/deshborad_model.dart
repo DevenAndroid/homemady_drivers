@@ -23,6 +23,7 @@ class DashboardModel {
 }
 
 class Data {
+  List<bool>? weekData;
   String? username;
   bool? deliveryMode;
   dynamic deliveredOrders;
@@ -31,12 +32,14 @@ class Data {
 
   Data(
       {this.username,
+      this.weekData,
         this.deliveryMode,
         this.deliveredOrders,
         this.pendingOrders,
         this.list});
 
   Data.fromJson(Map<String, dynamic> json) {
+    weekData = json['week_data'].cast<bool>();
     username = json['username'];
     deliveryMode = json['delivery_mode'];
     deliveredOrders = json['deliveredOrders'];
@@ -51,6 +54,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['week_data'] = this.weekData;
     data['username'] = this.username;
     data['delivery_mode'] = this.deliveryMode;
     data['deliveredOrders'] = this.deliveredOrders;
@@ -167,21 +171,21 @@ class Location {
 class VendorLocation {
   dynamic storeId;
   dynamic id;
-  String? storeName;
-  String? number;
-  String? ppsNo;
-  String? category;
-  String? secondarycategory;
-  String? tertiarycategory;
-  String? collection;
-  String? phone;
-  String? storeImage;
-  String? location;
-  String? latitude;
-  String? longitude;
-  String? deliveryRange;
-  String? ppsCardImage;
-  String? remark;
+  dynamic storeName;
+  dynamic number;
+  dynamic ppsNo;
+  dynamic category;
+  dynamic secondarycategory;
+  dynamic tertiarycategory;
+  dynamic collection;
+  dynamic phone;
+  dynamic storeImage;
+  dynamic location;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic deliveryRange;
+  dynamic ppsCardImage;
+  dynamic remark;
   bool? status;
 
   VendorLocation(

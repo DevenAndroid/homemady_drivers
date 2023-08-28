@@ -37,6 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
+  TextEditingController countryCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -189,54 +190,26 @@ class _SignupScreenState extends State<SignupScreen> {
                                 borderSide: const BorderSide(color: Colors.white, width: 3.0),
                                 borderRadius: BorderRadius.circular(15.0)),
                           ),
-                          initialCountryCode: initialCountryCode.isEmpty ? 'IE' : initialCountryCode,
-                          onCountryChanged: (value) {
-                            countryCode = value.dialCode;
-                            initialCountryCode = value.code;
-                            if (kDebugMode) {
-                              print(countryCode);
-                              print(initialCountryCode);
+                            initialCountryCode:  'IE',
+                            onCountryChanged: (phone) {
+                              countryCodeController.text = "+${phone.dialCode}";
+                              print('Dial Code is:'+phone.dialCode);
+                              // countryCode = value.dialCode;
+                              //  initialCountryCode = value.code;
+                              /*  if (kDebugMode) {
+                                                      print(countryCode);
+                                                      print(initialCountryCode);
+                                                    }*/
+                            },
+                            onChanged: (phone){
+                              print(phone);
+                              print(phoneController);
+
                             }
-                          },
-                          onChanged: (phone) {
-                            countryCode = phone.countryCode;
-                            initialCountryCode = phone.countryISOCode;
-                            if (kDebugMode) {
-                              print(countryCode);
-                              print(initialCountryCode);
-                            }
-                          },
+
                         ),
                       ),
-                      // Container(
-                      //   width: screenWidth,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     boxShadow: [
-                      //       BoxShadow(
-                      //         color: const Color(0xFF37C666).withOpacity(0.10),
-                      //         offset: const Offset(.1, .1,
-                      //         ),
-                      //         blurRadius: 20.0,
-                      //         spreadRadius: 1.0,
-                      //       ),
-                      //     ],
-                      //   ),
-                      //   child: CommonTextFieldWidget(
-                      //     textInputAction: TextInputAction.next,
-                      //     keyboardType: TextInputType.number,
-                      //     length: 10,
-                      //     hint: 'Phone',
-                      //     controller: phoneController,
-                      //     validator: (value) {
-                      //       if (value!.isEmpty) {
-                      //         return "phone is required";
-                      //       } else {
-                      //         return null;
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
+
                       addHeight(20),
                       Container(
                         width: screenWidth,
@@ -278,7 +251,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 errorText:
                                 'Password must be at least 6 digits long'),
                             PatternValidator(
-                                r"(?=.*[A-Z])(?=.*\W)(?=.*?[#?!@$%^&*-])(?=.*[0-9])",
+                                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.])",
                                 errorText:
                                 'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
                           ]),
@@ -378,6 +351,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   passwordController.text,
                                   confirmController.text,
                                   3,
+                                  countryCodeController.text,
                                   context
                               ).then((value){
                                 if(value.status==true){

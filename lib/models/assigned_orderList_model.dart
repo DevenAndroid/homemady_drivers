@@ -28,11 +28,11 @@ class assgnedOrderList {
 }
 
 class Data {
-  String? date;
+  dynamic date;
   dynamic orderId;
-  String? paymentMethod;
+  dynamic paymentMethod;
   dynamic orderTotal;
-  String? orderStatus;
+  dynamic orderStatus;
   Location? location;
 
   Data(
@@ -71,14 +71,14 @@ class Data {
 class Location {
   dynamic id;
   dynamic userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? landmark;
-  String? addressType;
-  String? createdAt;
-  String? updatedAt;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic flatNo;
+  dynamic landmark;
+  dynamic addressType;
+  dynamic createdAt;
+  dynamic updatedAt;
   dynamic deletedAt;
 
   Location(

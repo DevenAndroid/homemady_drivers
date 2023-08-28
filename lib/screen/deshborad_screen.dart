@@ -10,16 +10,13 @@ import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/assigned_Orderlist_controller.dart';
-import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import '../controller/driver_information_controller.dart';
 import '../controller/get_feedback_controller.dart';
-import '../controller/mode_update_controller.dart';
 import '../controller/userProfile_controller.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
-import '../repository/get_deshborad.dart';
 import '../repository/set_delivery_range_repo.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
@@ -35,6 +32,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   bool state = true;
   int currentDrawer = 0;
   int value1 = 1;
+  bool? value2 =false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   RxBool isSelect = true.obs;
   RxBool isSelect1 = true.obs;
@@ -49,17 +47,21 @@ class _DashbordScreenState extends State<DashbordScreen> {
   final controllerFeedback = Get.put(GetFeedbackController());
   final controllerDriverId = Get.put(DriverInformationController());
 
+  List days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+
   final RxBool _store = false.obs;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.getData();
-    controller1.getData();
-    // assignedController.getOrderData();
-    controllerFeedback.getData();
-    controllerDriverId.getData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.getData();
+      controller1.getData();
+      controllerFeedback.getData();
+      controllerDriverId.getData();
+    });
+
     _store;
   }
 
@@ -471,28 +473,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       fontSize: 10,
                       color: Color(0xFF303C5E)),
                 ),
-                // child: CupertinoSwitch(
-                //     activeColor: const Color(0xFF7ED957),
-                //     value: controller.isDataLoading.value
-                //         ? (controller.model.value.data!.deliveryMode ?? false)
-                //         : _store.value,
-                //     onChanged: (val) {
-                //       deshboradData().then((value) {
-                //         if (value.status == true) {
-                //           controller.getData();
-                //           print(val);
-                //           controller.model.value.data!.deliveryMode = val;
-                //           if (controller.model.value.data!.deliveryMode ==
-                //               true) {
-                //             NewHelper.showToast("Delivery mode on");
-                //           }
-                //           else {
-                //             NewHelper.showToast("Delivery mode off");
-                //           }
-                //         }
-                //       });
-                //     }
-                // ),
+
                 FlutterSwitch(
                   height: AddSize.size20,
                   width: AddSize.size40,
@@ -575,6 +556,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   child: Column(
+
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -593,627 +575,79 @@ class _DashbordScreenState extends State<DashbordScreen> {
                             color: Color(0xFF303C5E)),
                       ),
                       addHeight(25.0),
-                      // Wrap(
-                      //   spacing: 10.0,
-                      //   children: [
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //        const Text('Su',style: TextStyle(
-                      //           fontSize: 10,
-                      //           fontWeight: FontWeight.w400,
-                      //           color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue1,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue1 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('Mo',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue2,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue2 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('Tu',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue3,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue3 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('We',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue4,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue4 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('Th',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue5,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue5 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('Fr',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       children: [
-                      //         Transform.scale(
-                      //           scale: 1.5,
-                      //           child: Checkbox(
-                      //               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      //               side: BorderSide(color: Colors.grey.shade300,width: 1.4),
-                      //               activeColor: Color(0xff7ED957),
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.circular(3)),
-                      //               value: _isValue6,
-                      //               onChanged: (bool? value) {
-                      //                 setState(() {
-                      //                   _isValue6 = value;
-                      //                 });
-                      //               }),
-                      //         ),
-                      //         const Text('Sa',style: TextStyle(
-                      //             fontSize: 10,
-                      //             fontWeight: FontWeight.w400,
-                      //             color: Color(0xFF303C5E)
-                      //         ),)
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      Obx(() {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
+
+                      FittedBox(
+                        child: Wrap(children: List.generate(controller.model.value.data!.weekData!.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                            child: Column(
+
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect.value = !isSelect.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
+                                Container(
+                                  height: 28,
+                                  width:  28,
+
+                                  decoration:
+                                  BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(4.0),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        offset: const Offset(
+                                          .1,
+                                          .1,
+                                        ),
+                                        blurRadius: 19.0,
+                                        spreadRadius: 1.0,
+                                      ),
+                                    ],
+                                  ),
+
+                                  child: Theme(
+                                    data: ThemeData(
+                                        unselectedWidgetColor: Colors.transparent
+                                    ),
+                                    child: Checkbox(
+
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(2)
+                                      ),
+                                      value: controller.model.value.data != null ? controller.model.value.data!.weekData![index]:false,
+                                      checkColor: Colors.white,
+                                      activeColor: const Color(0xff7ED957),
+                                      onChanged: (bool? value){
+                                      },
+
                                     ),
                                   ),
                                 ),
-                                addHeight(5),
-                                const Text(
-                                  'Su',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
+
                               ],
                             ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect1.value = !isSelect1.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect1.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect1.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'Mo',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect2.value = !isSelect2.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect2.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect2.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'Tu',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect3.value = !isSelect3.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect3.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect3.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'We',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect4.value = !isSelect4.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect4.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect4.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'Th',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect5.value = !isSelect5.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect5.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect5.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'Fr',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    isSelect6.value = !isSelect6.value;
-                                  },
-                                  child: Container(
-                                    height: 28,
-                                    width: 28,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    decoration: isSelect6.value == true
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: const Color(0xFF7ED957),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(
-                                                  .1,
-                                                  .1,
-                                                ),
-                                                blurRadius: 19.0,
-                                                spreadRadius: 1.0,
-                                              ),
-                                            ],
-                                          ),
-                                    child: Center(
-                                      child: isSelect6.value == true
-                                          ? const SizedBox()
-                                          : Image.asset(
-                                              'assets/images/checkbox.png'),
-                                    ),
-                                  ),
-                                ),
-                                addHeight(5),
-                                const Text(
-                                  'Sa',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF303C5E)),
-                                )
-                              ],
-                            ),
-                          ],
+                          );
+                        })),
+                      ),
+                      Wrap(children: List.generate(days.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 16),
+                          child: Column(
+
+                            children: [
+                               Text(
+                                days[index].toString(),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF303C5E)),
+                              )
+
+                            ],
+                          ),
                         );
-                      }),
+                      })),
+
                       addHeight(26.0),
                       Row(
                         children: [
@@ -1396,7 +830,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     ),
                                     child: Expanded(
                                       child: Slider(
-                                        min: 1.0,
+                                        min: 0.0,
                                         max: 15.0,
                                         autofocus: true,
                                         value: double.parse(controller1.valueRange.toString()),
@@ -1509,7 +943,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                             onTap: () {
                                                               assignedOrder(
                                                                       orderId: item
-                                                                          .orderId,
+                                                                          .orderId.toString(),
                                                                       status:
                                                                           "accept",
                                                                       context:

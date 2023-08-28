@@ -11,6 +11,7 @@ class AppAssets {
   static const String decline = "assets/images/decline.png";
   static const String takeCameraIcon = "assets/images/cameraImage.png";
   static const String chat = "assets/images/chating_img.png";
+  static const String thankYou = "assets/images/thankYou.png";
 
 
 }

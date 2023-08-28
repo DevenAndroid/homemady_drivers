@@ -26,7 +26,9 @@ import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
 import '../screen/order_details.dart';
 import '../screen/privacy_policies.dart';
+import '../screen/successfull_screen.dart';
 import '../screen/thank_you.dart';
+import '../screen/verification_screen.dart';
 import '../screen/withdraw_money.dart';
 
 
@@ -93,6 +95,8 @@ class MyRouters {
     GetPage(name: '/myProfileScreen', page: () => const MyProfileScreen()),
     GetPage(name: '/notificationScreen', page: () => const NotificationScreen()),
     GetPage(name: '/notificationScreen2', page: () => const NotificationScreen2()),
+    GetPage(name: '/deliveredSuccessfullyScreen', page: () => const DeliveredSuccessfullyScreen()),
+    GetPage(name: VerifyOtpDeliveryScreen.verifyOtpDeliveryScreen, page: () => const VerifyOtpDeliveryScreen()),
 
 
 

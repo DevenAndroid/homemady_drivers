@@ -102,7 +102,9 @@ class NewHelper {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
-        backgroundColor: const Color(0xFF7ED957),
+        backgroundColor: Colors.red,
+
+        // const Color(0xFF7ED957),
         textColor: Colors.white,
         fontSize: 16.0);
   }

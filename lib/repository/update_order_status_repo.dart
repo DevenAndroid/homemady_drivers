@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:homemady_drivers/models/common_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
@@ -10,7 +11,7 @@ import '../models/assigned_orderList_model.dart';
 import '../models/verify_otp_model.dart';
 import '../widgets/new_helper.dart';
 
-Future<assgnedOrderList> driverUpdateOrder(
+Future<ModelCommonResponse1> driverUpdateOrder(
     {required orderId, required status, required BuildContext context}) async {
   var map = <String, dynamic>{};
   map['order_id'] = orderId;
@@ -31,7 +32,7 @@ Future<assgnedOrderList> driverUpdateOrder(
   print(response.body);
   if (response.statusCode == 200 ||response.statusCode == 400) {
     NewHelper.hideLoader(loader);
-    return assgnedOrderList.fromJson(json.decode(response.body));
+    return ModelCommonResponse1.fromJson(json.decode(response.body));
   } else {
     NewHelper.createSnackBar(context, response.body.toString());
     NewHelper.hideLoader(loader);

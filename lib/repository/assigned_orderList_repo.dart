@@ -18,7 +18,7 @@ Future<assgnedOrderList> assignedOrderListRepo({
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-  try {
+  // try {
     final response =
     await http.get(Uri.parse(ApiUrl.assignedOrderListUrl1), headers: headers);
     log("${ApiUrl.assignedOrderListUrl1}?status=$status");
@@ -28,7 +28,7 @@ Future<assgnedOrderList> assignedOrderListRepo({
     } else {
       throw Exception(response.body);
     }
-  } catch (e) {
-    throw Exception(e.toString());
-  }
+  // } catch (e) {
+  //   throw Exception(e.toString());
+  // }
 }

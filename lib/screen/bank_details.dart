@@ -212,6 +212,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                               if(value.status==true) {
                                 NewHelper.showToast(
                                     "Account Details Added Successfully");
+                                Get.back();
                               }
                               else{
                                 NewHelper.showToast(

@@ -40,6 +40,7 @@ class Data {
   bool? isDriverOnline;
   bool? isVendorOnline;
   dynamic deliveryRange;
+  dynamic countryCode;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -56,6 +57,7 @@ class Data {
         this.lastName,
         this.email,
         this.phone,
+        this.countryCode,
         this.walletBalance,
         this.earnedBalance,
         this.profileImage,
@@ -76,6 +78,7 @@ class Data {
     longitude = json['longitude'];
     location = json['location'];
     name = json['name'];
+    countryCode = json['country_Code'];
     lastName = json['last_name'];
     email = json['email'];
     phone = json['phone'];
@@ -102,6 +105,7 @@ class Data {
     data['location'] = this.location;
     data['name'] = this.name;
     data['last_name'] = this.lastName;
+    data['country_Code'] = this.countryCode;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['wallet_balance'] = this.walletBalance;

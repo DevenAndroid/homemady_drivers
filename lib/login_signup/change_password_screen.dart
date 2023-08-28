@@ -114,11 +114,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         color: Color(0xFF53B176),
                                       )),
                                   validator: MultiValidator([
-                                    /* EmailValidator(
-                                        errorText:
-                                        'enter a valid email address'),*/
                                     RequiredValidator(
-                                        errorText: 'Please enter a password')
+                                        errorText: 'Please Enter The Password'),
+                                    MinLengthValidator(6,
+                                        errorText:
+                                        'Password must be at least 8 digits long'),
+                                    PatternValidator(
+                                        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
+                                        errorText:
+                                        'Password must be minimum 8 characters,with \n1 Capital letter1 special character & 1 numerical.')
                                   ]),
 
                                 ),
@@ -158,15 +162,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         Icons.visibility,
                                         color: Color(0xFF53B176),
                                       )),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "confirm the password";
-                                    } else if (newPasswordController.text !=
-                                        confirmPasswordController.text) {
-                                      return "Confirm password should be match";
-                                    }
-                                    return null;
-                                  },
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please Enter The Password'),
+                                    MinLengthValidator(6,
+                                        errorText:
+                                        'Password must be at least 8 digits long'),
+                                    PatternValidator(
+                                        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
+                                        errorText:
+                                        'Password must be minimum 8 characters,with \n1 Capital letter1 special character & 1 numerical.')
+                                  ]),
                                 ),
                               ),
 
@@ -177,6 +183,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     if(value.status == true){
                                       NewHelper.showToast(value.message);
                                       Get.offAllNamed(MyRouters.loginScreen);
+                                    }
+                                    else{
+                                      NewHelper.showToast(value.message);
                                     }
                                   });
                                 }

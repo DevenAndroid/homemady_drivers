@@ -13,8 +13,10 @@ class ApiUrl {
   static const deshboradurl = "${baseUrl}driver-delivery-request-list";
   static const resendOtpUrl = "${baseUrl}resend-otp";
   static const privacyPolicyUrl = "${baseUrl}pages";
+  static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
   static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";
   static const vendorBankListUrl = "${baseUrl}banks-list";
+  static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const vendorBankDetailsUrl = "${baseUrl}account-details";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";

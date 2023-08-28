@@ -16,3 +16,26 @@ class ModelCommonResponse {
     return data;
   }
 }
+
+
+class ModelCommonResponse1 {
+  bool? status;
+  String? message;
+  dynamic data;
+
+  ModelCommonResponse1({this.status, this.message,this.data});
+
+  ModelCommonResponse1.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    data = json['data'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    data['data'] = this.data;
+    return data;
+  }
+}

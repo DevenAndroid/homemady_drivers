@@ -430,23 +430,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                         borderSide: const BorderSide(color: Colors.white, width: 3.0),
                                                         borderRadius: BorderRadius.circular(15.0)),
                                                   ),
-                                                  initialCountryCode: initialCountryCode.isEmpty ? 'IE' : initialCountryCode,
-                                                  onCountryChanged: (value) {
-                                                    countryCode = value.dialCode;
-                                                    initialCountryCode = value.code;
-                                                    if (kDebugMode) {
-                                                      print(countryCode);
-                                                      print(initialCountryCode);
+                                                    initialCountryCode: controller.initialCode.value,
+                                                    onCountryChanged: (phone) {
+                                                      controller.countryCode.value = "+${phone.dialCode}";
+                                                      print(phone.dialCode);
+                                                    },
+                                                    onChanged: (phone){
+                                                      print(phone);
+                                                      print(controller.mobileController);
+
                                                     }
-                                                  },
-                                                  onChanged: (phone) {
-                                                    countryCode = phone.countryCode;
-                                                    initialCountryCode = phone.countryISOCode;
-                                                    if (kDebugMode) {
-                                                      print(countryCode);
-                                                      print(initialCountryCode);
-                                                    }
-                                                  },
                                                 ),
                                               ),
                                               // EditProfileTextFieldWidget(
@@ -465,6 +458,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     'name' : controller.nameController.text,
                                                     'email' : controller.emailController.text,
                                                     'phone' : controller.mobileController.text,
+                                                    'country_code' : controller.countryCodeController.text,
                                                   };
                                                   editUserProfileRepo(
                                                       context: context,
