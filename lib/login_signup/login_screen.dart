@@ -164,9 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: MultiValidator([
                               RequiredValidator(
                                   errorText: 'Please Enter The Password'),
-                              MinLengthValidator(6,
-                                  errorText:
-                                  'Password must be at least 6 digits long'),
+                              // MinLengthValidator(6,
+                              //     errorText:
+                              //     'Password must be at least 6 digits long'),
                               // PatternValidator(
                               //     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
                               //     errorText:
@@ -307,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'user_info', jsonEncode(value));
                                   NewHelper.showToast(value.message);
                                   if (value.data!.asDriverVerified == true) {
-                                    print('Loginnnnnnnnnn.................................');
+                                    print('Loging.................................');
                                     Get.offAllNamed(MyRouters.dashbordScreen);
                                   } else {
                                     Get.offAllNamed(

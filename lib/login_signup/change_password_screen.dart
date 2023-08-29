@@ -119,10 +119,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     MinLengthValidator(6,
                                         errorText:
                                         'Password must be at least 8 digits long'),
-                                    // PatternValidator(
-                                    //     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
-                                    //     errorText:
-                                    //     'Password must be minimum 8 characters,with \n1 Capital letter1 special character & 1 numerical.')
+                                    PatternValidator(
+                                        r'^[a-zA-Z0-9.@#*]+$',
+                                        errorText:
+                                        'Password must be minimum 8 characters,with \n1 Capital letter1 special character & 1 numerical.')
                                   ]),
 
                                 ),
