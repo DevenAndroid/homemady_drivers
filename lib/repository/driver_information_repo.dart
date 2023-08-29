@@ -20,6 +20,7 @@ Future<DriverInformationModel> driverInformationRepo() async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   log(user.authToken.toString());
+  //log(respose.);
   http.Response response =
   await http.get(Uri.parse(ApiUrl.driverInformationUrl), headers: headers);
   log("<<<<<<<DriverInformation from repository=======>${response.body}");

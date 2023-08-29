@@ -42,7 +42,12 @@ class _DeliveryPartnerUpdateScreenState
   String? selectedSecondaryCategory;
   String? selectedTertiaryCategory;
   String? selectedCollection;
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.getData();
+  }
   var items = [
     'Car',
     'Motorcycle',
