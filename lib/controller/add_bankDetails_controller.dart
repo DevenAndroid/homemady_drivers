@@ -11,6 +11,7 @@ class VendorBankDetailsController extends GetxController {
   final TextEditingController bankAccountNumber = TextEditingController();
   final TextEditingController accountHolderName = TextEditingController();
   final TextEditingController iFSCCode = TextEditingController();
+  final TextEditingController bankController = TextEditingController();
 
   Future getVendorBankDetails() async {
     isDataLoading = false.obs;

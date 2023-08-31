@@ -90,7 +90,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(controller.model.value.data!.totalReviews![4].title.toString(),style: const TextStyle(
+                        const Text('Delivery',style: TextStyle(
                           color: Color(0xFF969AA3),
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

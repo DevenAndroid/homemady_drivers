@@ -122,7 +122,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                           borderRadius: BorderRadius.circular(6),color: const Color(0xFFF9F9F9),
                         ),
                         child:
-                        DropdownButtonFormField(
+                        /*DropdownButtonFormField(
                           decoration: InputDecoration(
                             fillColor: const Color(0xFFF4F4F4),
                             contentPadding:
@@ -176,6 +176,11 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                             });
                             print(selectedCAt.value);
                           },
+                        ),*/
+                        RegistrationTextFieldChk1(
+                          controller: vendorBankDetailsController.bankController,
+                          hint: 'Your Bank',
+                          onTap: (){},
                         ),
                       ),
                       addHeight(15),

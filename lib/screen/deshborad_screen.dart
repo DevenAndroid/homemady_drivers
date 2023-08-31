@@ -541,7 +541,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
         ),
         // leadingWidth: AddSize.size40 * ,
         title: const Text(
-          'Dashbord',
+          'Dashboard',
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 17,

@@ -236,10 +236,11 @@ class _DeliveryPartnerUpdateScreenState
                     addHeight(13),
                     RegistrationTextFieldChk(
                       onTap: () {},
-                      validator: MultiValidator([
-                        RequiredValidator(
-                            errorText: 'Please enter your PPS number'),
-                      ]),
+                      validator: (value) {
+                        if (value!.length < 7) {
+                          return "Enter valid PPS number";
+                        }
+                      },
                       keyboardType: TextInputType.text,
                       controller: controller.ppsController,
                       hint: 'PPS number',
