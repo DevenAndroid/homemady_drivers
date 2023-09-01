@@ -279,7 +279,7 @@ class _DeliveryPartnerApplyScreenState
                           }
                         }
 
-                        return 'Input must have 7 digits and 1 or 2 letters.';
+                        return 'Input must have 7 digits and 1 or 2 capital letters.';
                       },
                       keyboardType: TextInputType.text,
                       controller: ppsController,
