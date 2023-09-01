@@ -12,7 +12,7 @@ import '../widgets/new_helper.dart';
 Future<VendorAddAccountDetailsModel> vendorAddBankDetailsRepo(String bank,
     String account_name, String account_no, String ifsc_code, context) async {
   Map<String, String> map = {};
-  map['bank'] = bank;
+  map['bank_name'] = bank;
   map['account_name'] = account_name;
   map['account_no'] = account_no;
   map['ifsc_code'] = ifsc_code;

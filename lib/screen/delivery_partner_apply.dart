@@ -270,14 +270,21 @@ class _DeliveryPartnerApplyScreenState
                     addHeight(13),
                     RegistrationTextFieldChk(
                       onTap: () {},
-                      validator: MultiValidator([
-                        RequiredValidator(
-                            errorText: 'Please enter your PPS number'),
-                      ]),
+                      validator: (value){
+                        if (value!.length == 8 || value.length == 9) {
+                          int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
+
+                          if (letterCount >= 1 && letterCount <= 2) {
+                            return null; // Valid input
+                          }
+                        }
+
+                        return 'Input must have 7 digits and 1 or 2 letters.';
+                      },
                       keyboardType: TextInputType.text,
                       controller: ppsController,
                       hint: 'PPS number',
-                      length: 7,
+                      length: 9,
                     ),
                     addHeight(13),
                     RegistrationTextFieldChk(

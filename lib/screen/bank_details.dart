@@ -70,6 +70,11 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
       body:  Obx((){
       if (vendorBankDetailsController.isDataLoading.value &&
           vendorBankDetailsController.bankDetailsModel.value.data != null) {
+        vendorBankDetailsController.bankController.text =
+            (vendorBankDetailsController
+                .bankDetailsModel.value.data!.bank ??
+                "")
+                .toString();
         vendorBankDetailsController.bankAccountNumber.text =
             (vendorBankDetailsController
                 .bankDetailsModel.value.data!.accountNo ??
@@ -206,7 +211,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             vendorAddBankDetailsRepo(
-                                selectedCAt.value,
+                                vendorBankDetailsController.bankController.text,
                                 vendorBankDetailsController
                                     .accountHolderName.text,
                                 vendorBankDetailsController
