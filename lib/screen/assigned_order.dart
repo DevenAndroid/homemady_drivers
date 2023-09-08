@@ -206,25 +206,27 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                       height: 18,
                                                     ),
                                                     addWidth(20),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          'Date:',
-                                                          style: GoogleFonts.raleway(
-                                                              fontWeight: FontWeight.w800,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF303C5E)),
-                                                        ),
-                                                        addHeight(4),
-                                                        Text(
-                                                          assignedController.model.value.data![index].date.toString(),
-                                                          style: GoogleFonts.raleway(
-                                                              fontWeight: FontWeight.w400,
-                                                              fontSize: 15,
-                                                              color: const Color(0xFF303C5E)),
-                                                        ),
-                                                      ],
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            'Date:',
+                                                            style: GoogleFonts.raleway(
+                                                                fontWeight: FontWeight.w800,
+                                                                fontSize: 14,
+                                                                color: const Color(0xFF303C5E)),
+                                                          ),
+                                                          addHeight(4),
+                                                          Text(
+                                                            assignedController.model.value.data![index].date.toString(),
+                                                            style: GoogleFonts.raleway(
+                                                                fontWeight: FontWeight.w400,
+                                                                fontSize: 15,
+                                                                color: const Color(0xFF303C5E)),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

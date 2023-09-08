@@ -788,7 +788,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       color: Color(0xff516670),
                                       fontSize: 14),
                                 ), Text(
-                                  '${controller1.valueRange.toString()} Km',
+                                  '${controller1.valueRange} Km',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff516670),
@@ -830,12 +830,12 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     ),
                                     child: Expanded(
                                       child: Slider(
-                                        min: 0.0,
+                                        min: 1.0,
                                         max: 15.0,
                                         autofocus: true,
                                         value: double.parse(controller1.valueRange.toString()),
                                         divisions: 14,
-                                        label: '${controller1.valueRange.round()} Km',
+                                        label: '${controller1.valueRange} Km',
                                         onChangeEnd: (value) {
                                           setState(() {
                                             controller1.valueRange = value;
@@ -912,137 +912,139 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                     height: 18,
                                                   ),
                                                   addWidth(20),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        '#${item.orderId.toString()}',
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            fontSize: 14,
-                                                            color: Color(
-                                                                0xFF303C5E)),
-                                                      ),
-                                                      addHeight(4),
-                                                      Text(
-                                                        item.date.toString(),
-                                                        style: GoogleFonts.raleway(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 15,
-                                                            color: const Color(
-                                                                0xFF303C5E)),
-                                                      ),
-                                                      addHeight(25),
-                                                      Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              assignedOrder(
-                                                                      orderId: item
-                                                                          .orderId.toString(),
-                                                                      status:
-                                                                          "accept",
-                                                                      context:
-                                                                          context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value
-                                                                        .status ==
-                                                                    true) {
-                                                                  controller
-                                                                      .getData();
-                                                                  assignedController
-                                                                      .getOrderData1();
-                                                                  Get.offAllNamed(
-                                                                      MyRouters
-                                                                          .assignedOrderScreen);
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      25,
-                                                                  vertical: 6),
-                                                              decoration: BoxDecoration(
-                                                                  color: const Color(
-                                                                      0xFF7ED957),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              6)),
-                                                              child: Text(
-                                                                'Accept'
-                                                                    .toUpperCase(),
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize:
-                                                                        13,
-                                                                    color: Colors
-                                                                        .white),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          '#${item.orderId.toString()}',
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.w800,
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF303C5E)),
+                                                        ),
+                                                        addHeight(4),
+                                                        Text(
+                                                          item.date.toString(),
+                                                          style: GoogleFonts.raleway(
+                                                              fontWeight:
+                                                                  FontWeight.w400,
+                                                              fontSize: 15,
+                                                              color: const Color(
+                                                                  0xFF303C5E)),
+                                                        ),
+                                                        addHeight(25),
+                                                        Row(
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                assignedOrder(
+                                                                        orderId: item
+                                                                            .orderId.toString(),
+                                                                        status:
+                                                                            "accept",
+                                                                        context:
+                                                                            context)
+                                                                    .then(
+                                                                        (value) {
+                                                                  if (value
+                                                                          .status ==
+                                                                      true) {
+                                                                    controller
+                                                                        .getData();
+                                                                    assignedController
+                                                                        .getOrderData1();
+                                                                    Get.offAllNamed(
+                                                                        MyRouters
+                                                                            .assignedOrderScreen);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        25,
+                                                                    vertical: 6),
+                                                                decoration: BoxDecoration(
+                                                                    color: const Color(
+                                                                        0xFF7ED957),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                6)),
+                                                                child: Text(
+                                                                  'Accept'
+                                                                      .toUpperCase(),
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          addWidth(16),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              assignedOrder(
-                                                                      orderId: item
-                                                                          .orderId,
-                                                                      status:
-                                                                          "decline",
-                                                                      context:
-                                                                          context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value
-                                                                        .status ==
-                                                                    true) {
-                                                                  assignedController
-                                                                      .getOrderData1();
-                                                                  Get.offAllNamed(
-                                                                      MyRouters
-                                                                          .orderDeclineScreen);
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      25,
-                                                                  vertical: 6),
-                                                              decoration: BoxDecoration(
-                                                                  color: const Color(
-                                                                      0xFFF04148),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              6)),
-                                                              child: Text(
-                                                                'Decline'
-                                                                    .toUpperCase(),
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize:
-                                                                        13,
-                                                                    color: Colors
-                                                                        .white),
+                                                            addWidth(16),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                assignedOrder(
+                                                                        orderId: item
+                                                                            .orderId,
+                                                                        status:
+                                                                            "decline",
+                                                                        context:
+                                                                            context)
+                                                                    .then(
+                                                                        (value) {
+                                                                  if (value
+                                                                          .status ==
+                                                                      true) {
+                                                                    assignedController
+                                                                        .getOrderData1();
+                                                                    Get.offAllNamed(
+                                                                        MyRouters
+                                                                            .orderDeclineScreen);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        25,
+                                                                    vertical: 6),
+                                                                decoration: BoxDecoration(
+                                                                    color: const Color(
+                                                                        0xFFF04148),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                6)),
+                                                                child: Text(
+                                                                  'Decline'
+                                                                      .toUpperCase(),
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )
-                                                    ],
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
