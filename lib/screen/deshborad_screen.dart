@@ -77,7 +77,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
             padding: EdgeInsets.zero,
             children: [
               SizedBox(
-                height: 230,
+                //height: 230,
                 child: DrawerHeader(
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
@@ -86,21 +86,21 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         Color(0xFF68C541),
                       ],
                     )),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Obx(() {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                color: Color(0xFF44B5AB),
-                              ),
-                              child: ClipOval(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Obx(() {
+                            return ClipRRect(
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(100)),
+                              child: Container(
+
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF44B5AB),
+                                ),
                                 child: CachedNetworkImage(
-                                  width: 100,
-                                  height: 100,
+                                  //width: 100,
+                                  //height: 100,
                                   fit: BoxFit.cover,
                                   imageUrl: controller1
                                       .model.value.data!.profileImage
@@ -113,26 +113,24 @@ class _DashbordScreenState extends State<DashbordScreen> {
                               ),
                             );
                           }),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.008,
-                          ),
-                          Text(controller1.model.value.data!.name.toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                color: const Color(0xFFFFFFFF),
-                                fontWeight: FontWeight.w600,
-                              )),
-                          FittedBox(
-                            child: Text(
-                                controller1.model.value.data!.email.toString(),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 15,
-                                  color: const Color(0xFFFFFFFF),
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ),
-                        ],
-                      ),
+                        ),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * 0.008,
+                        // ),
+                        Text(controller1.model.value.data!.name.toString(),
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: const Color(0xFFFFFFFF),
+                              fontWeight: FontWeight.w600,
+                            )),
+                        Text(
+                            controller1.model.value.data!.email.toString(),
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              color: const Color(0xFFFFFFFF),
+                              fontWeight: FontWeight.w400,
+                            )),
+                      ],
                     )),
               ),
               ListTile(
