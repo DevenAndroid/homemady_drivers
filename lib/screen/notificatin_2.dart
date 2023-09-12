@@ -323,8 +323,9 @@ class NotificationScreen2State extends State<NotificationScreen2> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/images/No_Message.png',
+                                'assets/images/message_image.png',
                                 height: 250,
+
                               ),
                               const SizedBox(
                                 height: 10,
@@ -378,7 +379,7 @@ class NotificationScreen2State extends State<NotificationScreen2> {
                       TextSpan(
                           text: ' end-to-end encrypted'.tr,
                           style:
-                          TextStyle(fontSize: AddSize.font12, fontWeight: FontWeight.w500, color: const Color(0xFFFF9102))),
+                          TextStyle(fontSize: AddSize.font12, fontWeight: FontWeight.w500, color: const Color(0xFF7ED957))),
                     ])),
               ],
             ),

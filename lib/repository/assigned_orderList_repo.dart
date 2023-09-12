@@ -8,7 +8,7 @@ import '../models/assigned_orderList_model.dart';
 import '../models/verify_otp_model.dart';
 
 Future<assgnedOrderList> assignedOrderListRepo({
-  required status
+  required filterKeyword
 }) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
@@ -20,8 +20,8 @@ Future<assgnedOrderList> assignedOrderListRepo({
   };
   // try {
     final response =
-    await http.get(Uri.parse(ApiUrl.assignedOrderListUrl1), headers: headers);
-    log("${ApiUrl.assignedOrderListUrl1}?status=$status");
+    await http.get(Uri.parse("${ApiUrl.assignedOrderListUrl1}?status=$filterKeyword"), headers: headers);
+    log("${ApiUrl.assignedOrderListUrl1}?status=$filterKeyword");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");
       return assgnedOrderList.fromJson(jsonDecode(response.body));

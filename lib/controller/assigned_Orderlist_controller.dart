@@ -29,11 +29,11 @@ class AssignedOrderController extends GetxController {
   // }
 
   getOrderData1() async {
-    print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+   // print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     if(gg == true)return;
     gg = true;
     // isDataLoading.value = false;
-    assignedOrderListRepo(status: status.value).then((value) {
+    assignedOrderListRepo( filterKeyword: status.value).then((value) {
       gg = false;
       isDataLoading.value = true;
       model.value = value;

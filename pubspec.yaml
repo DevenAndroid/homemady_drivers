@@ -45,6 +45,7 @@ dependencies:
   flutter_slidable:
   image_picker:
   file_picker:
+  socket_io_client: ^2.0.2
   url_launcher:
   flutter_rating_bar:
   percent_indicator:

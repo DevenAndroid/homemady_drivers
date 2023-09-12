@@ -362,19 +362,21 @@ class Address {
 class OrderItems {
   dynamic id;
   dynamic productId;
-  String? productName;
+  dynamic productName;
   dynamic price;
-  String? sizeQuantity;
-  String? sizeId;
+  dynamic qty;
+  dynamic sizeQuantity;
+  dynamic sizeId;
   dynamic totalPrice;
   String? status;
-  String? specialRequets;
+  dynamic specialRequets;
 
   OrderItems(
       {this.id,
         this.productId,
         this.productName,
         this.price,
+        this.qty,
         this.sizeQuantity,
         this.sizeId,
         this.totalPrice,
@@ -386,6 +388,7 @@ class OrderItems {
     productId = json['product_id'];
     productName = json['product_name'];
     price = json['price'];
+    qty = json['qty'];
     sizeQuantity = json['size_quantity'];
     sizeId = json['size_id'];
     totalPrice = json['total_price'];
@@ -397,6 +400,7 @@ class OrderItems {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['product_id'] = this.productId;
+    data['qty'] = this.qty;
     data['product_name'] = this.productName;
     data['price'] = this.price;
     data['size_quantity'] = this.sizeQuantity;

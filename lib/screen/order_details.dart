@@ -12,7 +12,7 @@ import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'notificatin_2.dart';
 
 class DriverDeliveryOrderDetails extends StatefulWidget {
   const DriverDeliveryOrderDetails({Key? key}) : super(key: key);
@@ -192,7 +192,14 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     .value
                                                     .data!
                                                     .orderItems![index]
-                                                    .status
+                                                    .sizeQuantity
+                                                    .toString(),
+                                                myOrderDetailsController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderItems![index]
+                                                    .qty
                                                     .toString(),
                                                 myOrderDetailsController
                                                     .model
@@ -393,7 +400,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                           ]),
                                           GestureDetector(
                                             onTap: (){
-                                              Get.toNamed(MyRouters.chatScreen);
+                                              Get.toNamed(NotificationScreen2.notificationScreen2);
                                             },
                                             child: Container(
                                               height: AddSize.size45,
@@ -1111,7 +1118,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
       ],
     );
   }
-  orderList(name, price, qty, itemQty,status) {
+  orderList(name, price, sizeOfProduct, sizeQty, itemQty,status) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -1146,7 +1153,14 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
         Row(
           children: [
             Text(
-              qty,
+              sizeQty,
+              style: TextStyle(
+                  fontSize: AddSize.font14,
+                  color: AppTheme.lightblack,
+                  fontWeight: FontWeight.w500),
+            ),
+            Text(
+              sizeOfProduct,
               style: TextStyle(
                   fontSize: AddSize.font14,
                   color: AppTheme.lightblack,
