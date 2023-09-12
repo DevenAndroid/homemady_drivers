@@ -10,6 +10,7 @@ class ApiUrl {
   static const driverRegistrationApi = "${baseUrl}driver-register";
   static const forgotPassword = "${baseUrl}forget-password?email=";
   static const resetPassword = "${baseUrl}reset-password";
+  static const updateLocationUrl = "${baseUrl}update-location";
   static const deshboradurl = "${baseUrl}driver-delivery-request-list";
   static const resendOtpUrl = "${baseUrl}resend-otp";
   static const privacyPolicyUrl = "${baseUrl}pages";

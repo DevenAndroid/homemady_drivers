@@ -70,6 +70,11 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
       body:  Obx((){
       if (vendorBankDetailsController.isDataLoading.value &&
           vendorBankDetailsController.bankDetailsModel.value.data != null) {
+        vendorBankDetailsController.bankController.text =
+            (vendorBankDetailsController
+                .bankDetailsModel.value.data!.bank ??
+                "")
+                .toString();
         vendorBankDetailsController.bankAccountNumber.text =
             (vendorBankDetailsController
                 .bankDetailsModel.value.data!.accountNo ??
@@ -122,7 +127,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                           borderRadius: BorderRadius.circular(6),color: const Color(0xFFF9F9F9),
                         ),
                         child:
-                        DropdownButtonFormField(
+                        /*DropdownButtonFormField(
                           decoration: InputDecoration(
                             fillColor: const Color(0xFFF4F4F4),
                             contentPadding:
@@ -176,6 +181,11 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                             });
                             print(selectedCAt.value);
                           },
+                        ),*/
+                        RegistrationTextFieldChk1(
+                          controller: vendorBankDetailsController.bankController,
+                          hint: 'Your Bank',
+                          onTap: (){},
                         ),
                       ),
                       addHeight(15),
@@ -201,7 +211,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             vendorAddBankDetailsRepo(
-                                selectedCAt.value,
+                                vendorBankDetailsController.bankController.text,
                                 vendorBankDetailsController
                                     .accountHolderName.text,
                                 vendorBankDetailsController

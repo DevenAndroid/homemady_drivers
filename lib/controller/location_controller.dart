@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../repository/update_user_location_repoo.dart';
+
 class LocationController extends GetxController {
   RxBool servicestatus = false.obs;
   RxBool haspermission = false.obs;
@@ -40,7 +42,7 @@ class LocationController extends GetxController {
               "Location",
             ),
             content: const Text(
-              "Please turn on GPS location service to narrow down the nearest eateries.",
+              "Please turn on GPS location service to narrow down the nearest cook.",
             ),
             actions: <Widget>[
               TextButton(
@@ -92,21 +94,21 @@ class LocationController extends GetxController {
       print(country.value);
       print(long.value);
       print(lat.value);
-      // await updateLocation(
-      //    latitude: lat.toString(),
-      //    longitude: long.toString(),
-      //  ).then((value) {
-      //    log("+++++++++${value.message!}");
-      //    if(value.status == true){
-      //        final homeController = Get.put(HomePageController());
-      //     /*   homeController.getData().then((value) {
-      //          final nearStoreController = Get.put(NearStoreController());
-      //          nearStoreController.isPaginationLoading.value = true;
-      //          nearStoreController.loadMore.value = true;
-      //          nearStoreController.getData(isFirstTime: true);
-      //        });*/
-      //    }
-      //  });
+      await updateLocation(
+         latitude: lat.toString(),
+         longitude: long.toString(),
+       ).then((value) {
+         log("+++++++++${value.message!}");
+         if(value.status == true){
+             //final homeController = Get.put(HomePageController());
+          /*   homeController.getData().then((value) {
+               final nearStoreController = Get.put(NearStoreController());
+               nearStoreController.isPaginationLoading.value = true;
+               nearStoreController.loadMore.value = true;
+               nearStoreController.getData(isFirstTime: true);
+             });*/
+         }
+       });
     });
   }
 

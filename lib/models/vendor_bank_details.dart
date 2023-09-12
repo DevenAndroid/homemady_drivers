@@ -33,7 +33,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    bank = json['bank'];
+    bank = json['bank_name'];
     accountName = json['account_name'];
     accountNo = json['account_no'];
     ifscCode = json['ifsc_code'];
@@ -42,7 +42,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['bank'] = this.bank;
+    data['bank_name'] = this.bank;
     data['account_name'] = this.accountName;
     data['account_no'] = this.accountNo;
     data['ifsc_code'] = this.ifscCode;

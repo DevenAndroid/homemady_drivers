@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
-  TextEditingController countryCodeController = TextEditingController();
+  TextEditingController countryCodeController = TextEditingController(text: "353");
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -251,7 +251,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 errorText:
                                 'Password must be at least 6 digits long'),
                             PatternValidator(
-                                r'^[a-zA-Z0-9.@#*]+$',
+                                r'^[a-zA-Z0-9.@#*!()+,-/:;<=>?[\]^_]+$',
                                 errorText:
                                 'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
                           ]),
