@@ -78,7 +78,8 @@ class LocationController extends GetxController {
     }
   }
 
-  Future getLocation() async {
+  Future
+  getLocation() async {
     log("Getting user location.........");
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);

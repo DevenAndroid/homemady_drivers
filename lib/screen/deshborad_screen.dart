@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +19,7 @@ import '../controller/driver_information_controller.dart';
 import '../controller/get_feedback_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/userProfile_controller.dart';
+import '../models/verify_otp_model.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/set_delivery_range_repo.dart';
@@ -51,16 +54,18 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
 
   // sokit connect
-  connectToServer() {
+  connectToServer() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
     if (socket1 != null) {
       socket1!.disconnect();
       socket1!.dispose();
     }
     //192.168.1.28      54.204.238.132
-    io.Socket socket = io.io('http://54.204.238.132:3001', <String, dynamic>{
+    io.Socket socket = io.io('https://55ac-2401-4900-1c1b-2c01-5411-32c-c6b8-21ac.ngrok.io/app', <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
-     //  "auth": {'token':employeeId.value.toString()},
+      "auth": {"access_token":user.authToken.toString()},
     });
 
     socket.onError((data) {
@@ -78,6 +83,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
         if (kDebugMode) print('onConnecting $data');
       }
     });
+
     socket.onConnectTimeout((data) {
       if (kDebugMode) {
         if (kDebugMode) print('onConnectTimeout $data');
@@ -95,11 +101,15 @@ class _DashbordScreenState extends State<DashbordScreen> {
   }
 
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+     // locationController.checkGps(context);
+      connectToServer();
       controller.getData();
       controller1.getData();
       controllerFeedback.getData();

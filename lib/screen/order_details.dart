@@ -69,7 +69,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
     return Obx(() {
       return Scaffold(
           appBar: backAppBar(title: "Delivery Details", context: context),
-          body: myOrderDetailsController.isDataLoading.value
+          body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null
               ? NestedScrollView(
             headerSliverBuilder: (_, __) {
               return [
@@ -385,7 +385,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       FontWeight.w500,
                                                       fontSize: 14),
                                                 ),
-                                                if( myOrderDetailsController.model.value.data!.user != null)
+                                                // if( myOrderDetailsController.model.value.data!.user != null)
                                                 Text(
                                                   myOrderDetailsController.model.value.data!.user!.name.toString(),
                                                   style: GoogleFonts.raleway(
@@ -635,24 +635,49 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                   ),
                                 ],
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                              child: Column(
                                 children: [
-                                  const Text(
-                                    "Subtotal:",
-                                    style: TextStyle(
-                                        color: Color(0xFF293044),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('Tip for Delivery partner:',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xff1A2E33)
+                                        ),),
+                                      const Spacer(),
+                                      Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color(0xff486769)
+                                        ),),
+                                    ],
                                   ),
-                                  Text(
-                                     '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
-                                    style: const TextStyle(
-                                        color: Color(0xFF797F90),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
+
+                                  addHeight(10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Subtotal:",
+                                        style: TextStyle(
+                                            color: Color(0xFF293044),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15),
+                                      ),
+                                      Text(
+                                        '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                        style: const TextStyle(
+                                            color: Color(0xFF797F90),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14),
+                                      ),
+                                    ],
                                   ),
+
                                 ],
                               ),
                             )
@@ -956,23 +981,47 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                   ),
                                 ],
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                              child: Column(
                                 children: [
-                                  const Text(
-                                    "Subtotal:",
-                                    style: TextStyle(
-                                        color: Color(0xFF293044),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('Tip for Delivery partner:',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xff1A2E33)
+                                        ),),
+                                      const Spacer(),
+                                      Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color(0xff486769)
+                                        ),),
+                                    ],
                                   ),
-                                  Text(
-                                   '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
-                                    style: const TextStyle(
-                                        color: Color(0xFF797F90),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
+
+                                  addHeight(10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Subtotal:",
+                                        style: TextStyle(
+                                            color: Color(0xFF293044),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15),
+                                      ),
+                                      Text(
+                                       '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                        style: const TextStyle(
+                                            color: Color(0xFF797F90),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
