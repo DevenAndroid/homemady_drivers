@@ -30,6 +30,7 @@ class Data {
   dynamic packingFee;
   dynamic couponDiscount;
   dynamic grandTotal;
+  dynamic tipAmount;
   User? user;
   Vendor? vendor;
   User? driver;
@@ -48,6 +49,7 @@ class Data {
         this.couponDiscount,
         this.grandTotal,
         this.user,
+        this.tipAmount,
         this.vendor,
         this.driver,
         this.address,
@@ -62,6 +64,7 @@ class Data {
     tax = json['tax'];
     deliveryCharges = json['delivery_charges'];
     packingFee = json['packing_fee'];
+    tipAmount = json['tip_amount'];
     couponDiscount = json['coupon_discount'];
     grandTotal = json['grand_total'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -85,6 +88,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this.orderId;
     data['item_total'] = this.itemTotal;
+    data['tip_amount'] = this.tipAmount;
     data['tax'] = this.tax;
     data['delivery_charges'] = this.deliveryCharges;
     data['packing_fee'] = this.packingFee;

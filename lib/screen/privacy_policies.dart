@@ -21,13 +21,14 @@ class _PrivacyPoliciesState extends State<PrivacyPolicies> {
     return Obx(() {
       return Scaffold(
         appBar: backAppBar(title: 'Privacy Policy', context: context),
-        body: controller.isDataLoading.value ?
+        body: controller.isDataLoading.value && controller.model.value.data != null ?
         SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 16),
             child: Column(
               children:  [
+
                 Html(
                   data: controller.model.value.data!.content.toString(),
                   style: {

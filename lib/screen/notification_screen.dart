@@ -49,7 +49,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
-                        myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].title.toString();
+                        myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].orderId.toString();
+                        print("Order id is ${myOrderDetailsController.id.value}");
                         Get.toNamed(DriverDeliveryOrderDetails.driverDeliveryOrderDetails);
                       },
                       child: Padding(
@@ -121,7 +122,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10,top: 2),
                                       child: Text(
-                                        '#${controller.model.value.data!.notificationData![index].title.toString()}',
+                                        '${controller.model.value.data!.notificationData![index].title.toString()}',
                                         style: GoogleFonts.poppins(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
