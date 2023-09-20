@@ -11,6 +11,7 @@ import '../widgets/new_helper.dart';
 Future<ModelVerifyOtp> loginRepo(
     {required String email,
       required String password,
+      required String role,
       required String fcmToken,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
@@ -20,6 +21,7 @@ Future<ModelVerifyOtp> loginRepo(
   var map = <String, dynamic>{};
   map['email_number'] = email;
   map['password'] = password;
+  map['role'] = role;
   map['device_id'] = pref.getString('deviceId');
   map['device_token'] = fcmToken;
 

@@ -1035,7 +1035,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                           orderId: item
                                                                               .orderId,
                                                                           status:
-                                                                              "decline",
+                                                                              "Decline",
                                                                           context:
                                                                               context)
                                                                       .then(

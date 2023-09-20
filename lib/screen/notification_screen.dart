@@ -149,7 +149,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                       ),
                     );
-                  }): Column(
+                  }):
+              Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

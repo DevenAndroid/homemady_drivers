@@ -315,59 +315,8 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                           children: [
                                             Obx(() {
                                               return assignedController.model.value.data![index].orderStatus ==
-                                                  "Pickup"
+                                                  "Picked Up"
                                                   ? ElevatedButton(
-                                                  onPressed: () {},
-                                                  style: ElevatedButton.styleFrom(
-                                                    padding:
-                                                    EdgeInsets.symmetric(horizontal: AddSize.padding22),
-                                                    minimumSize: Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                    primary: AppTheme.primaryColor,
-                                                    elevation: 0,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(6)),
-                                                  ),
-                                                  child: Text(
-                                                    "Deliver".toUpperCase(),
-                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                                                        color: AppTheme.backgroundcolor,
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: AddSize.font14),
-                                                  ))
-                                                  : assignedController.model.value.data![index].orderStatus ==
-                                                  "Accepted"
-                                                  ? ElevatedButton(
-                                                  onPressed: () {
-                                                    driverUpdateOrder(
-                                                        orderId: assignedController
-                                                            .model.value.data![index].orderId,
-                                                        status: "pickup",
-                                                        context: context)
-                                                        .then((value) {
-                                                      NewHelper.showToast("${value.message}".toString());
-                                                      if (value.status == true) {
-                                                        assignedController.getOrderData1();
-                                                      }
-                                                    });
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: AddSize.padding22),
-                                                    minimumSize:
-                                                    Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                    primary: AppTheme.primaryColor,
-                                                    elevation: 0,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(6)),
-                                                  ),
-                                                  child: Text(
-                                                    "Pickup".toUpperCase(),
-                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                                                        color: AppTheme.backgroundcolor,
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: AddSize.font14),
-                                                  ))
-                                                  : ElevatedButton(
                                                   onPressed: () {
                                                     print("Assignes order id ${assignedController
                                                         .model.value.data![index].orderId}");
@@ -406,6 +355,60 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                   ),
                                                   child: Text(
                                                     "Delivered".toUpperCase(),
+                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                                                        color: AppTheme.backgroundcolor,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: AddSize.font14),
+                                                  ))
+                                                  : assignedController.model.value.data![index].orderStatus ==
+                                                  "Accepted"
+                                                  ? ElevatedButton(
+                                                  onPressed: () {
+                                                    driverUpdateOrder(
+                                                        orderId: assignedController
+                                                            .model.value.data![index].orderId,
+                                                        status: "pickup",
+                                                        context: context)
+                                                        .then((value) {
+                                                      NewHelper.showToast("${value.message}".toString());
+                                                      if (value.status == true) {
+                                                        assignedController.getOrderData1();
+                                                      }
+                                                    });
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: AddSize.padding22),
+                                                    minimumSize:
+                                                    Size(AddSize.size100, AddSize.size20 * 1.8),
+                                                    primary: AppTheme.primaryColor,
+                                                    elevation: 0,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(6)),
+                                                  ),
+                                                  child: Text(
+                                                    "Pickup".toUpperCase(),
+                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                                                        color: AppTheme.backgroundcolor,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: AddSize.font14),
+                                                  )):
+                                              ElevatedButton(
+                                                  onPressed: () {
+
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: AddSize.padding22),
+                                                    minimumSize:
+                                                    Size(AddSize.size100, AddSize.size20 * 1.8),
+                                                    primary: AppTheme.primaryColor,
+                                                    elevation: 0,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(6)),
+                                                  ),
+                                                  child: Text(
+                                                    "Decline".toUpperCase(),
                                                     style: Theme.of(context).textTheme.headline5!.copyWith(
                                                         color: AppTheme.backgroundcolor,
                                                         fontWeight: FontWeight.w500,

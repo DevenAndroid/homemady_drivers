@@ -33,12 +33,14 @@ class Data {
   dynamic paymentMethod;
   dynamic orderTotal;
   dynamic orderStatus;
+  dynamic accpetanceStatus;
   Location? location;
 
   Data(
       {this.date,
         this.orderId,
         this.paymentMethod,
+        this.accpetanceStatus,
         this.orderTotal,
         this.orderStatus,
         this.location});
@@ -49,6 +51,7 @@ class Data {
     paymentMethod = json['payment_method'];
     orderTotal = json['order_total'];
     orderStatus = json['order_status'];
+    accpetanceStatus = json['accpetance_status'];
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
@@ -60,6 +63,7 @@ class Data {
     data['order_id'] = this.orderId;
     data['payment_method'] = this.paymentMethod;
     data['order_total'] = this.orderTotal;
+    data['accpetance_status'] = this.accpetanceStatus;
     data['order_status'] = this.orderStatus;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
