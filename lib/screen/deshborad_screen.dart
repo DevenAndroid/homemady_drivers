@@ -121,6 +121,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     var width=MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
@@ -142,27 +143,33 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Obx(() {
-                            return ClipRRect(
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(100)),
-                              child: Container(
-
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF44B5AB),
-                                ),
-                                child: CachedNetworkImage(
-                                  //width: 100,
-                                  //height: 100,
+                          child:  Obx((){
+                            return  Container(
+                              margin: const EdgeInsets.all(4),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              decoration: const ShapeDecoration(
+                                shape: CircleBorder(),
+                                color: Colors.white,
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                controller1.isDataLoading.value
+                                    ? (controller1.model.value.data!
+                                    .profileImage ??
+                                    "")
+                                    .toString()
+                                // : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                                    :    'assets/images/user_img.png',
+                                height: screenSize.height * 0.12,
+                                width: screenSize.height * 0.12,
+                                errorWidget: (_, __, ___) => Image.asset(
+                                  'assets/images/user_img.png',
                                   fit: BoxFit.cover,
-                                  imageUrl: controller1
-                                      .model.value.data!.profileImage
-                                      .toString(),
-                                  placeholder: (context, url) =>
-                                      const SizedBox(),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset('assets/images/avtar.png'),
+                                  height: 50,
+                                  width: 50,
                                 ),
+                                placeholder: (_, __) => const SizedBox(),
+                                fit: BoxFit.cover,
                               ),
                             );
                           }),
