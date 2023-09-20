@@ -143,37 +143,70 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child:  Obx((){
-                            return  Container(
-                              margin: const EdgeInsets.all(4),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: const ShapeDecoration(
-                                shape: CircleBorder(),
-                                color: Colors.white,
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                controller1.isDataLoading.value
-                                    ? (controller1.model.value.data!
-                                    .profileImage ??
-                                    "")
-                                    .toString()
-                                // : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                                    :    'assets/images/user_img.png',
-                                height: screenSize.height * 0.12,
-                                width: screenSize.height * 0.12,
-                                errorWidget: (_, __, ___) => Image.asset(
-                                  'assets/images/user_img.png',
-                                  fit: BoxFit.cover,
-                                  height: 50,
-                                  width: 50,
-                                ),
-                                placeholder: (_, __) => const SizedBox(),
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          }),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Get.to(navigationPage.elementAt(_currentPage))
+                              // Get.to(MyProfile());
+                            },
+                            child: Card(
+                                elevation: 3,
+                                shape: const CircleBorder(),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Container(
+                                    margin: const EdgeInsets.all(4),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    decoration: const ShapeDecoration(
+                                      shape: CircleBorder(),
+                                      color: Colors.white,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                      controller1.isDataLoading.value
+                                          ? (controller1.model.value.data!
+                                          .profileImage ??
+                                          "")
+                                          .toString()
+                                          : "",
+                                      height: screenSize.height * 0.12,
+                                      width: screenSize.height * 0.12,
+                                      errorWidget: (_, __, ___) => const SizedBox(),
+                                      placeholder: (_, __) => const SizedBox(),
+                                      fit: BoxFit.cover,
+                                    ))),
+                          ),
                         ),
+                        // Expanded(
+                        //   child:  Obx((){
+                        //     return  Container(
+                        //       margin: const EdgeInsets.all(4),
+                        //       clipBehavior: Clip.antiAliasWithSaveLayer,
+                        //       decoration: const ShapeDecoration(
+                        //         shape: CircleBorder(),
+                        //         color: Colors.white,
+                        //       ),
+                        //       child: CachedNetworkImage(
+                        //         imageUrl:
+                        //         controller1.isDataLoading.value
+                        //             ? (controller1.model.value.data!
+                        //             .profileImage ??
+                        //             "")
+                        //             .toString()
+                        //         // : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        //             :    'assets/images/user_img.png',
+                        //         height: screenSize.height * 0.12,
+                        //         width: screenSize.height * 0.12,
+                        //         errorWidget: (_, __, ___) => Image.asset(
+                        //           'assets/images/user_img.png',
+                        //           fit: BoxFit.cover,
+                        //           height: 50,
+                        //           width: 50,
+                        //         ),
+                        //         placeholder: (_, __) => const SizedBox(),
+                        //         fit: BoxFit.cover,
+                        //       ),
+                        //     );
+                        //   }),
+                        // ),
                         // SizedBox(
                         //   height: MediaQuery.of(context).size.height * 0.008,
                         // ),
