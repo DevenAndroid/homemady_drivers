@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../controller/userProfile_controller.dart';
 import '../repository/update_profile_repo.dart';
+import '../repository/user_profile_repo.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
@@ -38,13 +39,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.getData();
-    });
+         });
 
 
   }
   final _formKey = GlobalKey<FormState>();
-  String initialCountryCode = "";
-  String countryCode = "";
   Rx<File> image = File("").obs;
   final ImagePicker picker = ImagePicker();
   showUploadWindow() {
@@ -432,6 +431,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   ),
                                                     initialCountryCode: controller.initialCode.value,
                                                     onCountryChanged: (phone) {
+                                                      print('initial showing country code...'+controller.initialCode.value);
                                                       controller.countryCode.value = "+${phone.dialCode}";
                                                       print(phone.dialCode);
                                                     },
@@ -467,7 +467,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                       file1: controller.image.value).then((value) {
                                                     NewHelper.showToast(value.message);
                                                     if(value.status == true){
-                                                      controller.getData();
+                                                     controller.getData();
                                                     }
                                                     else{
                                                       NewHelper.showToast(value.message);

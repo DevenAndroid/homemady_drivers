@@ -35,7 +35,7 @@ Future<ModelCommonResponse> register(
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
   };
-
+  log(map.toString());
   http.Response response = await http.post(Uri.parse(ApiUrl.registrationApi),
       body: jsonEncode(map), headers: headers);
   log(response.body);

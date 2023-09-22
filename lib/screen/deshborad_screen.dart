@@ -96,13 +96,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
         if (kDebugMode) print('==================  onConnect $data');
         // onlineOffline();
       }
-
     });
   }
-
-
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -210,7 +205,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         // SizedBox(
                         //   height: MediaQuery.of(context).size.height * 0.008,
                         // ),
-                        Text(controller1.model.value.data!.name.toString(),
+                        Text(controller1.model.value.data!.name.toString().capitalizeFirst.toString(),
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: const Color(0xFFFFFFFF),
@@ -637,7 +632,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hi, ${controller.model.value.data!.username.toString()}',
+                          'Hi, ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 20,

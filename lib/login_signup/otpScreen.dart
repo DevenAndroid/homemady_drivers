@@ -67,7 +67,7 @@ class _OtpScreenState extends State<OtpScreen> {
             ],
           )),
           Positioned(
-            top: 370,
+            top: 340,
               left: 0,
               right: 0,
               bottom: 0,
