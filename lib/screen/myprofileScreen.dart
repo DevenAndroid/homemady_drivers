@@ -458,7 +458,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     'name' : controller.nameController.text,
                                                     'email' : controller.emailController.text,
                                                     'phone' : controller.mobileController.text,
-                                                    'country_code' : controller.countryCodeController.text,
+                                                    'country_code' : controller.countryCode.value,
                                                   };
                                                   editUserProfileRepo(
                                                       context: context,

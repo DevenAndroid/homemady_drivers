@@ -33,7 +33,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     return Obx(() {
       return Scaffold(
         appBar: backAppBar(title: 'Feedback', context: context),
-        body: controller.isDataLoading.value ? controller.model.value.data!.reviewsList!.isNotEmpty ?
+        body: controller.isDataLoading.value ?
         SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
@@ -139,6 +139,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                   color: Color(0xFFE8F2EC),
                 ),
                 addHeight(20),
+                controller.model.value.data!.reviewsList!.isNotEmpty ?
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
@@ -249,11 +250,17 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                       ],
                     );
                   },
+                ) : const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('No FeedBack',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400),),
+                  ],
                 ),
               ],
             ),
           ),
-        ) : const Center(child: Text('No FeedBack')) : const Center(child: CircularProgressIndicator()),
+        ) : const Center(child: CircularProgressIndicator()),
       );
     });
   }

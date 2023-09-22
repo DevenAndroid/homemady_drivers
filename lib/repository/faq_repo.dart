@@ -7,10 +7,10 @@ import '../models/faq_model.dart';
 
 
 
-Future<faqScreen> faqRepo() async {
+Future<faqScreen> faqRepo({required type}) async {
   try {
     http.Response response = await http.get(
-      Uri.parse(ApiUrl.faq),
+      Uri.parse('${ApiUrl.faq}?type=$type'),
 
     );
     print(response.body);

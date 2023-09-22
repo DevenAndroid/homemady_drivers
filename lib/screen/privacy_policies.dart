@@ -20,7 +20,7 @@ class _PrivacyPoliciesState extends State<PrivacyPolicies> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        appBar: backAppBar(title: 'Privacy Policy', context: context),
+        appBar: backAppBar(title: 'Privacy Policy :', context: context),
         body: controller.isDataLoading.value && controller.model.value.data != null ?
         SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -28,17 +28,6 @@ class _PrivacyPoliciesState extends State<PrivacyPolicies> {
             padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 16),
             child: Column(
               children:  [
-                Html(
-                  data: 'This is essentially Legal statement or policy',
-                  style: {
-                    'body': Style(
-                      fontWeight: FontWeight.w500,
-                      fontSize:  FontSize(18 ),
-                      color: const Color(0xFF363539),
-                    )
-                  },
-                ),
-                const SizedBox(height: 5),
                 Html(
                   data: controller.model.value.data!.content.toString(),
                   style: {
