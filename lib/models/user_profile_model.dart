@@ -78,7 +78,7 @@ class Data {
     longitude = json['longitude'];
     location = json['location'];
     name = json['name'];
-    countryCode = json['country_Code'];
+    countryCode = json['country_code'];
     lastName = json['last_name'];
     email = json['email'];
     phone = json['phone'];
@@ -105,7 +105,7 @@ class Data {
     data['location'] = this.location;
     data['name'] = this.name;
     data['last_name'] = this.lastName;
-    data['country_Code'] = this.countryCode;
+    data['country_code'] = this.countryCode;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['wallet_balance'] = this.walletBalance;

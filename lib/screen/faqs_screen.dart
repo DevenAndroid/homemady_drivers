@@ -21,9 +21,9 @@ class _FaqsScreenState extends State<FaqsScreen> {
   Rx<RxStatus> statusOffaq = RxStatus
       .empty()
       .obs;
-
+  RxString type = 'driver'.obs;
   Future getFaq() async {
-    await faqRepo().then((value) {
+    await faqRepo(type: 'driver').then((value) {
       faq.value = value;
       if (value.status == true) {
         statusOffaq.value = RxStatus.success();
@@ -48,7 +48,7 @@ class _FaqsScreenState extends State<FaqsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: backAppBar(title: 'Faqs', context: context),
+      appBar: backAppBar(title: 'Faqs :', context: context),
 
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
