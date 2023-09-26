@@ -41,7 +41,7 @@ class _PrivacyPoliciesState extends State<PrivacyPolicies> {
               ],
             ),
           ) ,
-        ) : const Center(child: CircularProgressIndicator()),
+        ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
       );
     });
   }

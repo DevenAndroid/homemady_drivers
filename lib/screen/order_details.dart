@@ -1029,10 +1029,10 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                           ],
                         ),
                       ),
-                    )) : CircularProgressIndicator()
+                    )) : CircularProgressIndicator(color: Color(0xff7ED957),)
               ],
-            ): Center(child: CircularProgressIndicator(),),
-          ) : const Center(child: CircularProgressIndicator()),
+            ): Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
+          ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
       );
     });
   }

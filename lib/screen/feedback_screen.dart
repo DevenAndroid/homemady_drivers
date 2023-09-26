@@ -164,7 +164,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                                   fit: BoxFit.cover,
                                 ),
                                 placeholder: (_, __) =>
-                                const Center(child: CircularProgressIndicator()),
+                                const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
                               ),
                             ),
                             //Image.asset('assets/images/Ellipse 1563.png',height: 50,),
@@ -260,7 +260,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               ],
             ),
           ),
-        ) : const Center(child: CircularProgressIndicator()),
+        ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
       );
     });
   }

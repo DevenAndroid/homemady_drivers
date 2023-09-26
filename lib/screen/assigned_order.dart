@@ -490,7 +490,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                   : const Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 200),
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: Color(0xff7ED957),),
                   ));
             }),
           ],

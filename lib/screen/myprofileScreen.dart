@@ -270,7 +270,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 children: [
                                   Text(
                                       controller.model.value.data!.name == null ? 'Test Customer' :
-                                      '${controller.model.value.data!.name}',
+                                      '${controller.model.value.data!.name.toString().capitalizeFirst}',
                                       style: GoogleFonts.alegreyaSans(
                                           color: const Color(0xFF000000),
                                           fontSize: 20,
@@ -499,7 +499,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             ),
 
           ],
-        ) : const Center(child:  CircularProgressIndicator()) ;
+        ) : const Center(child:  CircularProgressIndicator(color: Color(0xff7ED957),)) ;
       }),
     );
   }
