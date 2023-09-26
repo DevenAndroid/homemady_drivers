@@ -328,7 +328,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 ),
               ];
             },
-            body: myOrderDetailsController.isDataLoading.value ?
+            body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null ?
             TabBarView(
               physics: const BouncingScrollPhysics(),
               controller: tabController,
@@ -385,7 +385,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       FontWeight.w500,
                                                       fontSize: 14),
                                                 ),
-                                                // if( myOrderDetailsController.model.value.data!.user != null)
+                                                if( myOrderDetailsController.model.value.data!.user != null)
                                                 Text(
                                                   myOrderDetailsController.model.value.data!.user!.name.toString(),
                                                   style: GoogleFonts.raleway(
@@ -512,7 +512,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                             style: TextStyle(
                                                                 color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
                                                           ),
-                                                          if( myOrderDetailsController.model.value.data!.user != null)
+                                                          if( myOrderDetailsController.model.value.data!.address != null)
                                                                         Text(
                                                                             myOrderDetailsController.model.value.data!.address!.location.toString(),
                                                                           style: GoogleFonts.raleway(

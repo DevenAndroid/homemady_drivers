@@ -67,6 +67,7 @@ dependencies:
   intl_phone_field:
   cloud_firestore: ^4.8.4
   firebase_core: ^2.15.0
+  flutter_native_image:
 
 
 dev_dependencies:

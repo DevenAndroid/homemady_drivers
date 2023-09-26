@@ -583,30 +583,37 @@ class _DashbordScreenState extends State<DashbordScreen> {
               onTap: () {
                 _scaffoldKey.currentState!.openDrawer();
               },
+
               child: Padding(
-                padding: const EdgeInsets.only(left: 6),
-                 child : Obx(() {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: CachedNetworkImage(
-                        imageUrl: controller1.isDataLoading.value
-                            ? ( controller1
-                            .model.value.data!.profileImage).toString()
-                            : '',
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height*.050,
-                        width: 40,
-                        errorWidget: (_, __, ___) => Image.asset(
-                          'assets/images/user_img.png',
-                          fit: BoxFit.contain,
-                          height: 30,
-                          width: 30,
-                        ),
-                        placeholder: (_, __) => const SizedBox(),
-                      ),
-                    );
-                  })
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Image.asset('assets/images/BurgerIcon.png',height: 35,),
               ),
+              // child:
+              //
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 6),
+              //    child : Obx(() {
+              //       return ClipRRect(
+              //         borderRadius: BorderRadius.circular(100),
+              //         child: CachedNetworkImage(
+              //           imageUrl: controller1.isDataLoading.value
+              //               ? ( controller1
+              //               .model.value.data!.profileImage).toString()
+              //               : '',
+              //           fit: BoxFit.cover,
+              //           height: MediaQuery.of(context).size.height*.050,
+              //           width: 40,
+              //           errorWidget: (_, __, ___) => Image.asset(
+              //             'assets/images/user_img.png',
+              //             fit: BoxFit.contain,
+              //             height: 30,
+              //             width: 30,
+              //           ),
+              //           placeholder: (_, __) => const SizedBox(),
+              //         ),
+              //       );
+              //     })
+              // ),
             ),
           ],
         ),
@@ -1075,7 +1082,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                           orderId: item
                                                                               .orderId,
                                                                           status:
-                                                                              "Decline",
+                                                                              "decline",
                                                                           context:
                                                                               context)
                                                                       .then(

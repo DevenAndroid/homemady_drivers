@@ -10,7 +10,7 @@ import '../widgets/new_helper.dart';
 
 Future<ResendOtpModel> resendOtpRepo(
     {required String email,
-      // required String fcmToken,
+      required String roleText,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
@@ -18,7 +18,7 @@ Future<ResendOtpModel> resendOtpRepo(
   //print("These are details.....${pref}");
   var map = <String, dynamic>{};
   map['email'] = email;
-  // map['device_id'] = pref.getString('deviceId');
+  map['role'] = roleText;
   // map['device_token'] = fcmToken;
 
   //log("Login Data map$map");

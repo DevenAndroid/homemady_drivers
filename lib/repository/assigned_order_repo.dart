@@ -26,7 +26,7 @@ Future<ModelCommonResponse> assignedOrder({
   };
   try {
     final response =
-    await http.post(Uri.parse(ApiUrl.assignedOrderListUrl), headers: headers,body: jsonEncode(map));
+    await http.post(Uri.parse("${ApiUrl.assignedOrderListUrl}"), headers: headers,body: jsonEncode(map));
     log("${ApiUrl.assignedOrderListUrl}?status=$status");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");

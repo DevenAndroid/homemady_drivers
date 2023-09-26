@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../repository/forgot_pass_change_repo.dart';
 import '../repository/resend_otp_repo.dart';
-import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
@@ -147,10 +146,10 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                       addHeight(30),
                       InkWell(
                         onTap: (){
-                            resendOtpRepo(email: text, context: context).then((value) {
+                            resendOtpRepo(email: text, context: context, roleText: '3').then((value) {
                               if(value.status == true){
                                 NewHelper.showToast(value.message.toString());
-                                Get.toNamed(MyRouters.otpScreen);
+                                // Get.toNamed(MyRouters.otpScreen);
                               }
                             });
                           },
@@ -168,7 +167,7 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                           onPressed: (){
                             print(text);
                             if(formKey99.currentState!.validate()){
-                              verifyResetRepo(email: text, otp: otpController.text, context: context).then((value) {
+                              verifyResetRepo(email: text, otp: otpController.text, context: context, roleText: '3').then((value) {
                                 if(value.status == true){
                                   NewHelper.showToast(value.message);
                                   Get.toNamed(MyRouters.changePasswordScreen,arguments: text);

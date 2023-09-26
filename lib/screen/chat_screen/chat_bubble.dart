@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:homemady_drivers/widgets/helper.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import '../../widgets/dimenestion.dart';
 class ChatBubble extends StatefulWidget {
   final bool isMe;
   final String message;
+  final String messageType;
   final DateTime? sentTime;
   final DateTime? highlightTime;
   final bool? messageSeen;
@@ -17,7 +19,8 @@ class ChatBubble extends StatefulWidget {
         required this.message,
         required this.sentTime,
         this.highlightTime,
-        this.messageSeen})
+        this.messageSeen,
+        required this.messageType})
       : super(key: key);
 
   @override
@@ -61,6 +64,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                         // mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
+                          widget.messageType == "SimpleText"?
                           Flexible(
                             child: Container(
                               decoration: BoxDecoration(
@@ -106,6 +110,32 @@ class _ChatBubbleState extends State<ChatBubble> {
                                   ),
                                 ],
                               ),
+                            ),
+                          ): Flexible(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [BoxShadow(spreadRadius: 1, blurRadius: 15, color: Colors.grey.shade300)],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12).copyWith(top: 8),
+                              child:GestureDetector(
+                                  onTap: () {
+                                    // showDialogue();
+                                  },
+                                  child: SizedBox(
+                                    // width: 100,
+                                    // height: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.message,
+                                        fit: BoxFit.cover,
+                                        errorWidget: (_, __, ___) => const SizedBox(),
+                                        placeholder: (_, __) => const SizedBox(),
+                                      ),
+                                    ),
+                                  )),
                             ),
                           ),
                         ],

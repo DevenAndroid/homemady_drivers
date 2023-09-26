@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../repository/resend_otp_repo.dart';
 import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_size.dart';
@@ -19,9 +19,21 @@ class OtpScreen extends StatefulWidget {
   State<OtpScreen> createState() => _OtpScreenState();
 }
 
+
+
 class _OtpScreenState extends State<OtpScreen> {
   TextEditingController otpController = TextEditingController();
+
+
   final formKey99 = GlobalKey<FormState>();
+  String text="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    text = Get.arguments[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +151,14 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       addHeight(30),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          resendOtpRepo(email: text, context: context, roleText: '3').then((value) {
+                            if(value.status == true){
+                              NewHelper.showToast(value.message.toString());
+                              // Get.toNamed(OtpScreen.otpScreen);
+                            }
+                          });
+                        },
                         child: Center(
                           child:  Text(' Resend OTP',style: GoogleFonts.poppins(
                               fontSize: 16,
@@ -153,7 +172,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         child: CommonButton(title: 'Verify OTP',
                           onPressed: ()  {
                             if(formKey99.currentState!.validate()){
-                              verifyOTPPassword(Get.arguments[0],otpController.text,context).then((value){
+                              verifyOTPPassword(Get.arguments[0],otpController.text, '3', context).then((value){
                                 if(value.status==true){
                                   NewHelper.showToast(value.message);
                                   Get.offAllNamed(MyRouters.loginScreen);

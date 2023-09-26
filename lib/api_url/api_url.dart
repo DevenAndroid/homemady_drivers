@@ -23,6 +23,7 @@ class ApiUrl {
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
   static const modeStatusUrl = "${baseUrl}driver-delivery-mode-update";
   static const userProfileUrl = "${baseUrl}user-profile";
+  static const sendImageUrl = "${baseUrl}send-image";
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
   static const assignedOrderListUrl = "${baseUrl}assigned-order";

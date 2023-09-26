@@ -51,10 +51,11 @@ Future<ModelCommonResponse> register(
 }
 
 Future<ModelVerifyOtp> verifyOTPPassword(
-    userEmail, otp, BuildContext context) async {
+    userEmail, otp, roleText, BuildContext context) async {
   var map = <String, dynamic>{};
   map["email"] = userEmail;
   map["otp"] = otp;
+  map["role"] = roleText;
   OverlayEntry loader = NewHelper.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
 

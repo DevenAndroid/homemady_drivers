@@ -103,7 +103,7 @@ class _EmailVerificationScreen2State extends State<EmailVerificationScreen2> {
                               addHeight(25),
                               CommonButton(title: 'Send',onPressed: (){
                                 if (_formKey.currentState!.validate()) {
-                                  forgotPassRepo(emailController.text, context)
+                                  forgotPassRepo(emailController.text, 3 ,context)
                                       .then((value) {
                                     if (value.status == true) {
                                       NewHelper.showToast(value.message.toString());

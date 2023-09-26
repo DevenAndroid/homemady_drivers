@@ -11,6 +11,7 @@ import '../widgets/new_helper.dart';
 Future<ResetPasswordModel> resetPasswordRepo(
     {required String email,
       required String password,
+      required String roleText,
       required String confirmPassword,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
@@ -20,6 +21,7 @@ Future<ResetPasswordModel> resetPasswordRepo(
   var map = <String, dynamic>{};
   map['email'] = email;
   map['password'] = password;
+  map['role'] = roleText;
   map['confirm_password'] = confirmPassword;
   log("Forgot password Data map$map");
   try {

@@ -1,15 +1,22 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:get/get.dart';
 import 'package:homemady_drivers/widgets/helper.dart';
+import 'package:homemady_drivers/widgets/new_helper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../controller/userProfile_controller.dart';
 import '../../firebase_service/firebase_service.dart';
 import '../../models/chat_model/chat_model.dart';
 import '../../models/order_details_cooks_copy_model.dart';
+import '../../repository/send_image_repo.dart';
 import '../../widgets/custome_textfiled.dart';
 import '../../widgets/dimenestion.dart';
 import 'chat_bubble.dart';
@@ -29,7 +36,23 @@ class _ChatScreen1State extends State<ChatScreen1> {
   final TextEditingController messageController = TextEditingController();
   RxInt refreshInt = 0.obs;
   bool fromApi = false;
-
+  File image2 = File("");
+  File? selectedImage;
+  String? base64Image;
+  List imageTypes = [
+    "jpeg",
+    "jpg",
+    "png",
+    "gif",
+    "bmp",
+    "webp",
+    "svg+xml",
+    "tiff",
+    "x-icon",
+    "vnd.microsoft.icon",
+    "vnd.adobe.photoshop",
+    "xcf",
+  ];
   getRooInfo() {
     service.getRoomInfo(roomId: chatRoomId).then((value) {
       if (value == null) return;
@@ -86,6 +109,61 @@ class _ChatScreen1State extends State<ChatScreen1> {
       lastSeenSubscription.cancel();
       Future.delayed(const Duration(seconds: 1)).then((value) {
         updateMyLastSeen();
+      });
+    }
+  }
+
+  Future<void> chooseImage(type) async {
+    var image;
+    if (type == "camera") {
+      image = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        // source: ImageSource.camera,
+        imageQuality: 15,
+      );
+    } else {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        image = File(result.files.single.path.toString());
+
+        if (imageTypes.contains(result.files.single.path.toString().split(".").last)) {
+          image2 = (await FileCompressionApi.compressImage(image))!;
+          image = image2;
+          print("333333333333333333${image!.path}");
+        }
+      }
+    }
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image!.path);
+        base64Image = base64Encode(selectedImage!.readAsBytesSync());
+        // OverlayEntry loader = Helpers.overlayLoader(context);
+        // Overlay.of(context).insert(loader);
+        sendImage(
+          fieldName1: "image",
+          file1: selectedImage!,
+        ).then((value) {
+          log("00000000000000${selectedImage}");
+          if (value.status == true) {
+            log("55555555555${value.data!.image.toString()}");
+            service
+                .sendMessage(
+                roomId: chatRoomId,
+                message: value.data!.image.toString(),
+                senderId: senderID,
+                messageType: MessageType.withImage,
+                orderDetail: orderDetails,
+                allowSet: !fromApi)
+                .then((value) {
+              messageController.clear();
+            });
+
+          } else {
+            log("55555555555${value.data!.image.toString()}");
+
+            NewHelper.showToast(value.status);
+          }
+        });
       });
     }
   }
@@ -212,6 +290,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
                                     ? lastTimeByOther.value >
                                         messagesList[index].messageSentTime!.microsecondsSinceEpoch
                                     : false,
+                                messageType: messagesList[index].messageType.toString(),
                               ),
                             );
                           });
@@ -242,13 +321,23 @@ class _ChatScreen1State extends State<ChatScreen1> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    'assets/images/add-square.png',
-                    height: 28,
+                  GestureDetector(
+                    onTap: (){
+                      chooseImage("Gallery");
+                    },
+                    child: Image.asset(
+                      'assets/images/add-square.png',
+                      height: 28,
+                    ),
                   ),
-                  Image.asset(
-                    'assets/images/camera1.png',
-                    height: 28,
+                  GestureDetector(
+                    onTap: (){
+                      chooseImage("camera");
+                    },
+                    child: Image.asset(
+                      'assets/images/camera1.png',
+                      height: 28,
+                    ),
                   ),
                   SizedBox(
                     width: 210,
@@ -290,5 +379,18 @@ class _ChatScreen1State extends State<ChatScreen1> {
         ),
       ),
     );
+  }
+}
+class FileCompressionApi {
+  //Compressing the picked image
+  static Future<File?> compressImage(File file) async {
+    try {
+      final compressedFile = await FlutterNativeImage.compressImage(file.path,
+          quality: 50, percentage: 10);
+      return compressedFile;
+    } catch (e) {
+      print(e.toString());
+      return null; //If any error occurs during compression, the process is stopped.
+    }
   }
 }
