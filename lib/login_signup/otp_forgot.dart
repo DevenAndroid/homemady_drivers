@@ -169,8 +169,10 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> {
                             if(formKey99.currentState!.validate()){
                               verifyResetRepo(email: text, otp: otpController.text, context: context, roleText: '3').then((value) {
                                 if(value.status == true){
-                                  NewHelper.showToast(value.message);
+                                  NewHelper.showToast(value.message.toString());
                                   Get.toNamed(MyRouters.changePasswordScreen,arguments: text);
+                                }else{
+                                  NewHelper.showToast(value.message.toString());
                                 }
                               });
                             }
