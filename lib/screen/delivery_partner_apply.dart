@@ -28,6 +28,13 @@ class DeliveryPartnerApplyScreen extends StatefulWidget {
 
 class _DeliveryPartnerApplyScreenState
     extends State<DeliveryPartnerApplyScreen> {
+  bool checkValidation(bool bool1, bool2) {
+    if (bool1 == true && bool2 == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   final _formKey = GlobalKey<FormState>();
   File image = File("");
   File image1 = File("");
@@ -90,13 +97,10 @@ class _DeliveryPartnerApplyScreenState
     'Bicycle',
   ];
   RxBool showValidation = false.obs;
-  bool checkValidation(bool bool1, bool2) {
-    if (bool1 == true && bool2 == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  RxBool showValidation1 = false.obs;
+  RxBool showValidation2 = false.obs;
+  RxBool showValidation3 = false.obs;
+
   var selectedDate = DateTime.now().obs;
   DateTime today = DateTime.now();
   void selectDate() async {
@@ -482,7 +486,9 @@ class _DeliveryPartnerApplyScreenState
                       decoration:  BoxDecoration(
                           color: const Color(0xFFF4F4F4),
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: !checkValidation(showValidation.value, image.path != "") ? const Color(0xFFE2E2E2): Colors.red,
+                          border: Border.all(color: !checkValidation(showValidation.value, image.path == "")
+                              ? const Color(0xFFE2E2E2):
+                          Colors.red,
                               width: 1)
                       ),
                       child: InkWell(
@@ -528,7 +534,9 @@ class _DeliveryPartnerApplyScreenState
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color:  const Color(0xFFE2E2E2),
+                                border:  Border.all(color: !checkValidation(showValidation.value, image1.path == "")
+                                    ? const Color(0xFFE2E2E2):
+                                Colors.red,
                                     width: 1)
                             ),
                             child: InkWell(
@@ -536,7 +544,6 @@ class _DeliveryPartnerApplyScreenState
                                 pickImage1();
                               },
                             child :  image1.path != "" ?
-
                             SizedBox(
                               width: double.maxFinite,
                               height: AddSize.size100,
@@ -569,7 +576,9 @@ class _DeliveryPartnerApplyScreenState
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF4F4F4),
                                 borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color:  const Color(0xFFE2E2E2),
+                                border:  Border.all(color: !checkValidation(showValidation.value, image2.path == "")
+                                    ? const Color(0xFFE2E2E2):
+                                Colors.red,
                                     width: 1)
                             ),
                             child: InkWell(
@@ -607,9 +616,9 @@ class _DeliveryPartnerApplyScreenState
                     CommonButton(title: 'Apply',
                       onPressed: () {
                         if (_formKey.currentState!.validate() && _address!.isNotEmpty &&
-                        image.path != "" &&
-                        image1.path != "" &&
-                        image2.path != "") {
+                        image.path != '' &&
+                        image1.path != '' &&
+                        image2.path != '') {
                           Map  <String, String> mapdata = {
                             'dob' : dobController.text.trim(),
                             'pps_no' :  ppsController.text.trim(),
@@ -638,6 +647,7 @@ class _DeliveryPartnerApplyScreenState
                             NewHelper.showToast(value.message.toString());
                           });
                         }
+                        showValidation.value = true;
                         // emailLogin();
                         //
                       },
