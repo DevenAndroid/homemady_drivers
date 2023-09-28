@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/resend_otp_repo.dart';
 import '../repository/signup_repo.dart';
 import '../routers/routers.dart';
@@ -172,10 +175,14 @@ class _OtpScreenState extends State<OtpScreen> {
                         child: CommonButton(title: 'Verify OTP',
                           onPressed: ()  {
                             if(formKey99.currentState!.validate()){
-                              verifyOTPPassword(Get.arguments[0],otpController.text, '3', context).then((value){
+                              verifyOTPPassword(Get.arguments[0],otpController.text, '3', context).then((value) async {
                                 if(value.status==true){
                                   NewHelper.showToast(value.message);
-                                  Get.offAllNamed(MyRouters.loginScreen);
+                                  SharedPreferences pref =
+                                      await SharedPreferences.getInstance();
+                                  pref.setString(
+                                      'user_info', jsonEncode(value));
+                                  Get.offAllNamed(MyRouters.dashbordScreen);
                                 }
                                 else{
                                   NewHelper.showToast(value.message);
