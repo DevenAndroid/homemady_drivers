@@ -125,6 +125,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         drawer: Obx(() {
+
           return Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -147,31 +148,33 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                 // Get.to(navigationPage.elementAt(_currentPage))
                                 // Get.to(MyProfile());
                               },
-                              child: Card(
-                                  elevation: 3,
-                                  shape: const CircleBorder(),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: Container(
-                                      margin: const EdgeInsets.all(4),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      decoration: const ShapeDecoration(
-                                        shape: CircleBorder(),
-                                        color: Colors.white,
-                                      ),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                        controller1.isDataLoading.value
-                                            ? (controller1.model.value.data!
-                                            .profileImage ??
-                                            "")
-                                            .toString()
-                                            : "",
-                                        height: screenSize.height * 0.12,
-                                        width: screenSize.height * 0.12,
-                                        errorWidget: (_, __, ___) => const SizedBox(),
-                                        placeholder: (_, __) => const SizedBox(),
-                                        fit: BoxFit.cover,
-                                      ))),
+                              child: Obx((){
+                                return Card(
+                                    elevation: 3,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: Container(
+                                        margin: const EdgeInsets.all(4),
+                                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                                        decoration: const ShapeDecoration(
+                                          shape: CircleBorder(),
+                                          color: Colors.white,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                          controller1.isDataLoading.value
+                                              ? (controller1.model.value.data!
+                                              .profileImage ??
+                                              "")
+                                              .toString()
+                                              : "",
+                                          height: screenSize.height * 0.12,
+                                          width: screenSize.height * 0.12,
+                                          errorWidget: (_, __, ___) => const SizedBox(),
+                                          placeholder: (_, __) => const SizedBox(),
+                                          fit: BoxFit.cover,
+                                        )));
+                              }),
                             ),
                           ),
                           // Expanded(
@@ -209,14 +212,13 @@ class _DashbordScreenState extends State<DashbordScreen> {
                           // SizedBox(
                           //   height: MediaQuery.of(context).size.height * 0.008,
                           // ),
-                          Text(controller1.model.value.data!.name.toString().capitalizeFirst.toString(),
+                          Text(controller1.isDataLoading.value ? controller1.model.value.data!.name.toString().capitalizeFirst.toString():"TestVendor",
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 color: const Color(0xFFFFFFFF),
                                 fontWeight: FontWeight.w600,
                               )),
-                          Text(
-                              controller1.model.value.data!.email.toString(),
+                          Text(controller1.isDataLoading.value ? controller1.model.value.data!.email.toString():"TestVendor@gmail.com",
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
                                 color: const Color(0xFFFFFFFF),

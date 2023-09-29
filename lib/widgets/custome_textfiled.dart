@@ -680,14 +680,18 @@ class RegistrationTextFieldChk extends StatelessWidget {
   final bool? enable;
   final VoidCallback? onTap;
   final length;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization? textCapitalization;
 
   const RegistrationTextFieldChk({
     Key? key,
     this.suffixIcon,
     this.prefixIcon,
+    this.textCapitalization,
     this.hint,
     this.keyboardType,
     this.textInputAction,
+    this.inputFormatters,
     this.controller,
     this.bgColor,
     this.validator,
@@ -707,7 +711,13 @@ class RegistrationTextFieldChk extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: onTap,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(length),
+        if(inputFormatters != null)
+        ...inputFormatters!,
+      ],
       readOnly: readOnly!,
+      textCapitalization: textCapitalization ?? TextCapitalization.none,
       controller: controller,
       obscureText: hint == hint ? obscureText! : false,
       autofillHints: autofillHints,
@@ -717,9 +727,6 @@ class RegistrationTextFieldChk extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       enabled: enable,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(length),
-      ],
       decoration: InputDecoration(
           hintText: hint,
           focusColor: Colors.green,

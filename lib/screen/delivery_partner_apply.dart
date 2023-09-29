@@ -276,8 +276,22 @@ class _DeliveryPartnerApplyScreenState
                       //    keyboardType: TextInputType.numberWithOptions(),
                       // ),
                       addHeight(13),
-                      RegistrationTextFieldChk(
+                      TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         onTap: () {},
+                        inputFormatters: [
+                         LengthLimitingTextInputFormatter(9),
+                        ],
+                       /* inputFormatters: [
+                         // TextCapitalizationFormatter(TextCapitalization.sentences),
+                        ],*/
+                      //  textCapitalization: TextCapitalization.characters,
+                        onChanged: (value) {
+                          ppsController.value =
+                              TextEditingValue(
+                                  text: value.toUpperCase(),
+                                  selection: ppsController.selection);
+                        },
                         validator: (value){
                           if (value!.length == 8 || value.length == 9) {
                             int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
@@ -289,10 +303,37 @@ class _DeliveryPartnerApplyScreenState
 
                           return 'Input must have 7 digits and 1 or 2 capital letters.';
                         },
+                        // maxLength: 9,
                         keyboardType: TextInputType.text,
                         controller: ppsController,
-                        hint: 'PPS number',
-                        length: 9,
+                        decoration: InputDecoration(
+                            hintText: 'PPS number',
+                            focusColor: Colors.green,
+                            hintStyle: GoogleFonts.poppins(
+                              color: const Color(0xFF697164),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            filled: true,
+
+                            fillColor: const Color(0xFFF9F9F9),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                            // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                                borderRadius:  BorderRadius.all(Radius.circular(6.0))),
+                            border: OutlineInputBorder(
+                                borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                                borderRadius: BorderRadius.circular(6.0)),
+                           // suffixIcon: suffix,
+                          // prefixIcon: prefix
+                        ),
+                        //: 'PPS number',
+                        //maxLength: 9,
                       ),
                       addHeight(13),
                       RegistrationTextFieldChk(
@@ -692,5 +733,13 @@ class _SlashInputFormatter extends TextInputFormatter {
     }
 
     return newValue;
+  }
+}
+
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return newValue.copyWith(text: newValue.text.toUpperCase());
   }
 }

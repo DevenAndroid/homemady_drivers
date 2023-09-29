@@ -186,7 +186,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                         await SharedPreferences.getInstance();
                                     pref.setString(
                                         'user_info', jsonEncode(value));
-                                    Get.offAllNamed(MyRouters.dashbordScreen);
+                                    Get.offAllNamed(MyRouters.deliveryPartnerApplyScreen);
                                   }
                                   else{
                                     NewHelper.showToast(value.message);

@@ -166,17 +166,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                           Icons.visibility,
                                           color: Color(0xFF53B176),
                                         )),
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText: 'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.'),
-                                      MinLengthValidator(8,
-                                          errorText:
-                                          'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.'),
-                                      PatternValidator(
-                                          r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
-                                          errorText:
-                                          'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.')
-                                    ]),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "confirm the password";
+                                      } else if (newPasswordController.text !=
+                                          confirmPasswordController.text) {
+                                        return "Confirm password should be match";
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
 

@@ -51,6 +51,24 @@ class _DeliveryPartnerUpdateScreenState
     });
 
   }
+  void main() {
+    String input = "Ab1234567"; // Example input
+
+    bool isValid = validateInput(input);
+
+    if (isValid) {
+      print("Input is valid.");
+    } else {
+      print("Input is invalid. Please make sure it has 7 digits and 1 or 2 capital letters.");
+    }
+  }
+  bool validateInput(String input) {
+    // Define the regular expression pattern
+    RegExp regex = RegExp(r'^(?=.*[A-Z].*[A-Z]?)(?=.*\d{7})[A-Z\d]{7}$');
+
+    // Use hasMatch method to check if the input matches the pattern
+    return regex.hasMatch(input);
+  }
   var items = [
     'Car',
     'Motorcycle',
@@ -174,7 +192,23 @@ class _DeliveryPartnerUpdateScreenState
                       RegistrationTextFieldChk(
                         onTap: () {},
                         validator: (value){
-                          if (value!.length == 8 || value.length == 9) {
+                          bool validateInput(String input) {
+                            // Define the regular expression pattern
+                            RegExp regex = RegExp(r'^(?=.*[A-Z].*[A-Z]?)(?=.*\d{7})[A-Z\d]{7}$');
+
+                            // Use hasMatch method to check if the input matches the pattern
+                            return regex.hasMatch(input);
+                          }
+                          String input = "Ab1234567"; // Example input
+
+                          bool isValid = validateInput(input);
+
+                          if (isValid) {
+                            print("Input is valid.");
+                          } else {
+                            print("Input is invalid. Please make sure it has 7 digits and 1 or 2 capital letters.");
+                          }
+                        /*  if (value!.length == 8 || value.length == 9) {
                             int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
 
                             if (letterCount >= 1 && letterCount <= 2) {
@@ -182,12 +216,13 @@ class _DeliveryPartnerUpdateScreenState
                             }
                           }
 
-                          return 'Input must have 7 digits and 1 or 2 capital letters.';
+                          return 'Input must have 7 digits and 1 or 2 capital letters.';*/
                         },
                         keyboardType: TextInputType.text,
                         controller: controller.ppsController,
                         hint: 'PPS number',
                         length: 9,
+
                       ),
                       addHeight(13),
                       RegistrationTextFieldChk(
