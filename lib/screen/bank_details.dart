@@ -195,7 +195,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         addHeight(15),
                         RegistrationTextFieldChk1(
                           controller: vendorBankDetailsController.bankAccountNumber,
-                          hint: 'IBAN',
+                          hint: 'Bank Account Number',
                           onTap: (){},
                         ),
                         addHeight(15),
