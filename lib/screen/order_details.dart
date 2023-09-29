@@ -67,23 +67,285 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
         .size
         .width;
     return Obx(() {
-      return Scaffold(
-          appBar: backAppBar(title: "Delivery Details", context: context),
-          body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null
-              ? NestedScrollView(
-            headerSliverBuilder: (_, __) {
-              return [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding16,
-                        vertical: AddSize.padding10),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            addHeight(20),
-                            Container(
+      return GestureDetector(
+        onTap: (){
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        child: Scaffold(
+            appBar: backAppBar(title: "Delivery Details", context: context),
+            body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null
+                ? NestedScrollView(
+              headerSliverBuilder: (_, __) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AddSize.padding16,
+                          vertical: AddSize.padding10),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              addHeight(20),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        offset: const Offset(.1, .1,
+                                        ),
+                                        blurRadius: 20.0,
+                                        spreadRadius: 1.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding15,
+                                        vertical: AddSize.padding15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const ImageIcon(
+                                                    AssetImage(
+                                                        AppAssets.orderList),
+                                                    color: AppTheme.primaryColor,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(
+                                                    width: AddSize.size15,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Order ID: # ${myOrderDetailsController
+                                                            .model.value.data!
+                                                            .orderId.toString()}',
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            fontSize:
+                                                            AddSize.font16,
+                                                            fontWeight:
+                                                            FontWeight.w500),
+                                                      ),
+                                                      Text(
+                                                        myOrderDetailsController
+                                                            .model.value.data!.placedAt.toString(),
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .blackcolor,
+                                                            fontSize:
+                                                            AddSize.font12,
+                                                            fontWeight:
+                                                            FontWeight.w400),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                        SizedBox(
+                                          height: height * .02,
+                                        ),
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                          const NeverScrollableScrollPhysics(),
+                                          itemCount: myOrderDetailsController.model.value.data!.orderItems!.length,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            return Column(
+                                              children: [
+                                                orderList(
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .productName
+                                                      .toString(),
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .price
+                                                      .toString(),
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .sizeId
+                                                      .toString(),
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .sizeQuantity
+                                                      .toString(),
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .qty
+                                                      .toString(),
+                                                  myOrderDetailsController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .status
+                                                      .toString(),
+                                                ),
+                                                SizedBox(
+                                                  height: height * .005,
+                                                ),
+                                                index != 2
+                                                    ? const Divider()
+                                                    : const SizedBox(),
+                                                SizedBox(
+                                                  height: height * .005,
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+
+                              Obx(() {
+                                return Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                4),
+                                            color:
+                                            AppTheme.primaryColor),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width * .04,
+                                              vertical: height * .005),
+                                          child: Text(
+                                              myOrderDetailsController.model.value.data!.deliveryStatus.toString(),
+                                            style: TextStyle(
+                                                fontSize:
+                                                AddSize.font14,
+                                                color: AppTheme
+                                                    .backgroundcolor,
+                                                fontWeight:
+                                                FontWeight.w500),
+                                          ),
+                                        )),
+                                );
+                              })
+                            ],
+                          ),
+                          SizedBox(
+                            height: AddSize.size14,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  offset: const Offset(.1, .1,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 1.0,
+                                ),
+                              ],
+                            ),
+                            child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.02,
+                                      vertical: height * .0001),
+                                  child: TabBar(
+                                    physics: const BouncingScrollPhysics(),
+                                    unselectedLabelColor: AppTheme.blackcolor,
+                                    labelColor: AppTheme.backgroundcolor,
+                                    tabs: const [
+                                      Tab(
+                                        child: Text(
+                                          "Customer Detail",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      Tab(
+                                        child: Text(
+                                          "Home Cook Information",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      )
+                                    ],
+                                    labelStyle: const TextStyle(
+                                        color: AppTheme.blackcolor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    unselectedLabelStyle: const TextStyle(
+                                        color: AppTheme.blackcolor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    controller: tabController,
+                                    indicatorSize: TabBarIndicatorSize.tab,
+                                    indicator: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: AppTheme.primaryColor,
+                                    ),
+                                  ),
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null ?
+              TabBarView(
+                physics: const BouncingScrollPhysics(),
+                controller: tabController,
+                children: [
+                  SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AddSize.padding16),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
@@ -97,774 +359,39 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                     ),
                                   ],
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: AddSize.padding15,
-                                      vertical: AddSize.padding15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 0,
+                                      color: AppTheme.backgroundcolor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: AddSize.padding15,
+                                            vertical: AddSize.padding15),
+                                        child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                const ImageIcon(
-                                                  AssetImage(
-                                                      AppAssets.orderList),
-                                                  color: AppTheme.primaryColor,
-                                                  size: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: AddSize.size15,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Order ID: # ${myOrderDetailsController
-                                                          .model.value.data!
-                                                          .orderId.toString()}',
-                                                      style: TextStyle(
-                                                          color: AppTheme
-                                                              .primaryColor,
-                                                          fontSize:
-                                                          AddSize.font16,
-                                                          fontWeight:
-                                                          FontWeight.w500),
-                                                    ),
-                                                    Text(
-                                                      myOrderDetailsController
-                                                          .model.value.data!.placedAt.toString(),
-                                                      style: TextStyle(
-                                                          color: AppTheme
-                                                              .blackcolor,
-                                                          fontSize:
-                                                          AddSize.font12,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                      SizedBox(
-                                        height: height * .02,
-                                      ),
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                        const NeverScrollableScrollPhysics(),
-                                        itemCount: myOrderDetailsController.model.value.data!.orderItems!.length,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Column(
-                                            children: [
-                                              orderList(
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .productName
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .price
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .sizeId
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .sizeQuantity
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .qty
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
-                                                    .status
-                                                    .toString(),
-                                              ),
-                                              SizedBox(
-                                                height: height * .005,
-                                              ),
-                                              index != 2
-                                                  ? const Divider()
-                                                  : const SizedBox(),
-                                              SizedBox(
-                                                height: height * .005,
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                )),
-
-                            Obx(() {
-                              return Positioned(
-                                  top: 10,
-                                  right: 10,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              4),
-                                          color:
-                                          AppTheme.primaryColor),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * .04,
-                                            vertical: height * .005),
-                                        child: Text(
-                                            myOrderDetailsController.model.value.data!.deliveryStatus.toString(),
-                                          style: TextStyle(
-                                              fontSize:
-                                              AddSize.font14,
-                                              color: AppTheme
-                                                  .backgroundcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                        ),
-                                      )),
-                              );
-                            })
-                          ],
-                        ),
-                        SizedBox(
-                          height: AddSize.size14,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                offset: const Offset(.1, .1,
-                                ),
-                                blurRadius: 20.0,
-                                spreadRadius: 1.0,
-                              ),
-                            ],
-                          ),
-                          child: Card(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.02,
-                                    vertical: height * .0001),
-                                child: TabBar(
-                                  physics: const BouncingScrollPhysics(),
-                                  unselectedLabelColor: AppTheme.blackcolor,
-                                  labelColor: AppTheme.backgroundcolor,
-                                  tabs: const [
-                                    Tab(
-                                      child: Text(
-                                        "Customer Detail",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    Tab(
-                                      child: Text(
-                                        "Home Cook Information",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    )
-                                  ],
-                                  labelStyle: const TextStyle(
-                                      color: AppTheme.blackcolor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                  unselectedLabelStyle: const TextStyle(
-                                      color: AppTheme.blackcolor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                  controller: tabController,
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: AppTheme.primaryColor,
-                                  ),
-                                ),
-                              )),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ];
-            },
-            body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null ?
-            TabBarView(
-              physics: const BouncingScrollPhysics(),
-              controller: tabController,
-              children: [
-                SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: AddSize.padding16),
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade300,
-                                    offset: const Offset(.1, .1,
-                                    ),
-                                    blurRadius: 20.0,
-                                    spreadRadius: 1.0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "Name",
-                                                  style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                if( myOrderDetailsController.model.value.data!.user != null)
-                                                Text(
-                                                  myOrderDetailsController.model.value.data!.user!.name.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                          GestureDetector(
-                                            onTap: (){
-                                              Get.toNamed(NotificationScreen2.notificationScreen2);
-                                            },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: Color(0xFFFF980E),
-                                                  shape: CircleBorder()),
-                                              child: Center(
-                                                  child: Image(
-                                                    image: const AssetImage(
-                                                        AppAssets.chat),
-                                                    height: AddSize.size25,
-                                                    width: AddSize.size25,
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(color: Color(0xFFEFEFEF),
-                                    height: 1,
-                                    thickness: 1,),
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "Phone no",
-                                                  style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                if( myOrderDetailsController.model.value.data!.user != null)
-                                                Text(
-                                                    myOrderDetailsController.model.value.data!.user!.phone.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _makingPhoneCall("tel:+91");
-                                            },
-                                            child: Container(
-                                                height: AddSize.size45,
-                                                width: AddSize.size45,
-                                                decoration: const ShapeDecoration(
-                                                    color: AppTheme
-                                                        .primaryColor,
-                                                    shape: CircleBorder()),
-                                                child: const Center(
-                                                    child: Icon(
-                                                      Icons.phone,
-                                                      color: Colors.white,
-                                                      // color: AppTheme.callPhoneColor,
-                                                    ))),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(color: Color(0xFFEFEFEF),
-                                    height: 1,
-                                    thickness: 1,),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                              horizontal: AddSize.padding15,
-                                              vertical: AddSize.padding15),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
-                                            double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          const Text(
-                                                            "Address",
-                                                            style: TextStyle(
-                                                                color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
-                                                          ),
-                                                          if( myOrderDetailsController.model.value.data!.address != null)
-                                                                        Text(
-                                                                            myOrderDetailsController.model.value.data!.address!.location.toString(),
-                                                                          style: GoogleFonts.raleway(
-                                                                              color: const Color(
-                                                                                  0xFF303C5E),
-                                                                              fontWeight:
-                                                                              FontWeight.w700,
-                                                                              fontSize: 16),
-                                                                        ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
-                                                  double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
-                                            },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: AppTheme.lightYellow,
-                                                  shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                    Icons.location_on,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                  )),
-                                            ),
-                                          )
-                                                  ],
-
-                                      // Card(
-                                      //   elevation: 0,
-                                      //   color: AppTheme.backgroundcolor,
-                                      //   shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.circular(
-                                      //           10)),
-                                      //   child: Padding(
-                                      //     padding: EdgeInsets.symmetric(
-                                      //         horizontal: AddSize.padding15,
-                                      //         vertical: AddSize.padding15),
-                                      //     child:
-                                      //     FittedBox(
-                                      //       child: Row(
-                                      //         mainAxisAlignment:
-                                      //         MainAxisAlignment.spaceBetween,
-                                      //         children: [
-                                      //           Column(
-                                      //             crossAxisAlignment:
-                                      //             CrossAxisAlignment.start,
-                                      //             children: [
-                                      //               const Text(
-                                      //                 "Address",
-                                      //                 style: TextStyle(
-                                      //                     color:
-                                      //                     AppTheme.lightblack,
-                                      //                     fontWeight:
-                                      //                     FontWeight.w500,
-                                      //                     fontSize: 14),
-                                      //               ),
-                                      //               if( myOrderDetailsController.model.value.data!.user != null)
-                                      //               Text(
-                                      //                   myOrderDetailsController.model.value.data!.address!.location.toString(),
-                                      //                 style: GoogleFonts.raleway(
-                                      //                     color: const Color(
-                                      //                         0xFF303C5E),
-                                      //                     fontWeight:
-                                      //                     FontWeight.w700,
-                                      //                     fontSize: 16),
-                                      //               ),
-                                      //             ],
-                                      //           ),
-                                      //           addWidth(MediaQuery.of(context).size.width*.015),
-                                      //           GestureDetector(
-                                      //             onTap: () {
-                                      //               // openMap();
-                                      //             },
-                                      //             child: Container(
-                                      //               height: AddSize.size45,
-                                      //               width: AddSize.size45,
-                                      //               decoration: const ShapeDecoration(
-                                      //                   color: AppTheme.lightYellow,
-                                      //                   shape: CircleBorder()),
-                                      //               child: const Center(
-                                      //                   child: Icon(
-                                      //                     Icons.location_on,
-                                      //                     color: AppTheme
-                                      //                         .backgroundcolor,
-                                      //                   )),
-                                      //             ),
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-
-                            addHeight(15),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade300,
-                                    offset: const Offset(.1, .1,
-                                    ),
-                                    blurRadius: 20.0,
-                                    spreadRadius: 1.0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Tip for Delivery partner:',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff1A2E33)
-                                        ),),
-                                      const Spacer(),
-                                      Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xff486769)
-                                        ),),
-                                    ],
-                                  ),
-
-                                  addHeight(10),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Subtotal:",
-                                        style: TextStyle(
-                                            color: Color(0xFF293044),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15),
-                                      ),
-                                      Text(
-                                        '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
-                                        style: const TextStyle(
-                                            color: Color(0xFF797F90),
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )),
-                myOrderDetailsController.isDataLoading.value ? SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: AddSize.padding16),
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade300,
-                                    offset: const Offset(.1, .1,
-                                    ),
-                                    blurRadius: 20.0,
-                                    spreadRadius: 1.0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "Store Name",
-                                                  style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                Text(
-                                                    myOrderDetailsController.model.value.data!.vendor!.storeName.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                          GestureDetector(
-                                            onTap: (){
-
-                                              // Get.toNamed(MyRouters.chatScreen);
-                                            },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: Color(0xFFFF980E),
-                                                  shape: CircleBorder()),
-                                              child: Center(
-                                                  child: Image(
-                                                    image: const AssetImage(
-                                                        AppAssets.chat),
-                                                    height: AddSize.size25,
-                                                    width: AddSize.size25,
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(color: Color(0xFFEFEFEF),
-                                    height: 1,
-                                    thickness: 1,),
-                                  Card(
-                                    elevation: 0,
-                                    color: AppTheme.backgroundcolor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "store phone no",
-                                                  style: TextStyle(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                Text(
-                                                  myOrderDetailsController.model.value.data!.vendor!.phone.toString(),
-                                                  style: GoogleFonts.raleway(
-                                                      color: const Color(
-                                                          0xFF303C5E),
-                                                      fontWeight:
-                                                      FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _makingPhoneCall("tel:+91");
-                                            },
-                                            child: Container(
-                                                height: AddSize.size45,
-                                                width: AddSize.size45,
-                                                decoration: const ShapeDecoration(
-                                                    color: AppTheme
-                                                        .primaryColor,
-                                                    shape: CircleBorder()),
-                                                child: const Center(
-                                                    child: Icon(
-                                                      Icons.phone,
-                                                      color: Colors.white,
-                                                      // color: AppTheme.callPhoneColor,
-                                                    ))),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(color: Color(0xFFEFEFEF),
-                                    height: 1,
-                                    thickness: 1,),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "store address",
-                                                  style: TextStyle(
-                                                      color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
-                                                ),
-                                                if( myOrderDetailsController.model.value.data!.user != null)
+                                            Row(children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Name",
+                                                    style: TextStyle(
+                                                        color:
+                                                        AppTheme.lightblack,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: 14),
+                                                  ),
+                                                  if( myOrderDetailsController.model.value.data!.user != null)
                                                   Text(
-                                                    myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                                    myOrderDetailsController.model.value.data!.user!.name.toString(),
                                                     style: GoogleFonts.raleway(
                                                         color: const Color(
                                                             0xFF303C5E),
@@ -872,167 +399,645 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         FontWeight.w700,
                                                         fontSize: 16),
                                                   ),
-                                              ],
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                                ],
+                                              ),
+                                            ]),
+                                            GestureDetector(
+                                              onTap: (){
+                                                Get.toNamed(NotificationScreen2.notificationScreen2);
                                               },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: AppTheme.lightYellow,
-                                                  shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                    Icons.location_on,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                  )),
+                                              child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: Color(0xFFFF980E),
+                                                    shape: CircleBorder()),
+                                                child: Center(
+                                                    child: Image(
+                                                      image: const AssetImage(
+                                                          AppAssets.chat),
+                                                      height: AddSize.size25,
+                                                      width: AddSize.size25,
+                                                    )),
+                                              ),
                                             ),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  // Card(
-                                  //   elevation: 0,
-                                  //   color: AppTheme.backgroundcolor,
-                                  //   shape: RoundedRectangleBorder(
-                                  //       borderRadius: BorderRadius.circular(
-                                  //           10)),
-                                  //   child: Padding(
-                                  //     padding: EdgeInsets.symmetric(
-                                  //         horizontal: AddSize.padding15,
-                                  //         vertical: AddSize.padding15),
-                                  //     child:
-                                  //     Row(
-                                  //       mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceBetween,
-                                  //       children: [
-                                  //         Row(children: [
-                                  //           Column(
-                                  //             crossAxisAlignment:
-                                  //             CrossAxisAlignment.start,
-                                  //             children: [
-                                  //               const Text(
-                                  //                 "store address",
-                                  //                 style: TextStyle(
-                                  //                     color:
-                                  //                     AppTheme.lightblack,
-                                  //                     fontWeight:
-                                  //                     FontWeight.w500,
-                                  //                     fontSize: 14),
-                                  //               ),
-                                  //               Text(
-                                  //                   myOrderDetailsController.model.value.data!.vendor!.location.toString(),
-                                  //                 style: GoogleFonts.raleway(
-                                  //                     color: const Color(
-                                  //                         0xFF303C5E),
-                                  //                     fontWeight:
-                                  //                     FontWeight.w700,
-                                  //                     fontSize: 16),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ]),
-                                  //         GestureDetector(
-                                  //           onTap: () {
-                                  //             // openMap();
-                                  //           },
-                                  //           child: Container(
-                                  //             height: AddSize.size45,
-                                  //             width: AddSize.size45,
-                                  //             decoration: const ShapeDecoration(
-                                  //                 color: AppTheme.lightYellow,
-                                  //                 shape: CircleBorder()),
-                                  //             child: const Center(
-                                  //                 child: Icon(
-                                  //                   Icons.location_on,
-                                  //                   color: AppTheme
-                                  //                       .backgroundcolor,
-                                  //                 )),
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-
-                            addHeight(15),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade300,
-                                    offset: const Offset(.1, .1,
+                                    const Divider(color: Color(0xFFEFEFEF),
+                                      height: 1,
+                                      thickness: 1,),
+                                    Card(
+                                      elevation: 0,
+                                      color: AppTheme.backgroundcolor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: AddSize.padding15,
+                                            vertical: AddSize.padding15),
+                                        child:
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Phone no",
+                                                    style: TextStyle(
+                                                        color:
+                                                        AppTheme.lightblack,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: 14),
+                                                  ),
+                                                  if( myOrderDetailsController.model.value.data!.user != null)
+                                                  Text(
+                                                      myOrderDetailsController.model.value.data!.user!.phone.toString(),
+                                                    style: GoogleFonts.raleway(
+                                                        color: const Color(
+                                                            0xFF303C5E),
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                            GestureDetector(
+                                              onTap: () {
+                                                _makingPhoneCall("tel:+91");
+                                              },
+                                              child: Container(
+                                                  height: AddSize.size45,
+                                                  width: AddSize.size45,
+                                                  decoration: const ShapeDecoration(
+                                                      color: AppTheme
+                                                          .primaryColor,
+                                                      shape: CircleBorder()),
+                                                  child: const Center(
+                                                      child: Icon(
+                                                        Icons.phone,
+                                                        color: Colors.white,
+                                                        // color: AppTheme.callPhoneColor,
+                                                      ))),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                    blurRadius: 20.0,
-                                    spreadRadius: 1.0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Tip for Delivery partner:',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xff1A2E33)
-                                        ),),
-                                      const Spacer(),
-                                      Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xff486769)
-                                        ),),
-                                    ],
-                                  ),
+                                    const Divider(color: Color(0xFFEFEFEF),
+                                      height: 1,
+                                      thickness: 1,),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                                horizontal: AddSize.padding15,
+                                                vertical: AddSize.padding15),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
+                                              double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const Text(
+                                                              "Address",
+                                                              style: TextStyle(
+                                                                  color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
+                                                            ),
+                                                            if( myOrderDetailsController.model.value.data!.address != null)
+                                                                          Text(
+                                                                              myOrderDetailsController.model.value.data!.address!.location.toString(),
+                                                                            style: GoogleFonts.raleway(
+                                                                                color: const Color(
+                                                                                    0xFF303C5E),
+                                                                                fontWeight:
+                                                                                FontWeight.w700,
+                                                                                fontSize: 16),
+                                                                          ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
+                                                    double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                              },
+                                              child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: AppTheme.lightYellow,
+                                                    shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                      Icons.location_on,
+                                                      color: AppTheme
+                                                          .backgroundcolor,
+                                                    )),
+                                              ),
+                                            )
+                                                    ],
 
-                                  addHeight(10),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Subtotal:",
-                                        style: TextStyle(
-                                            color: Color(0xFF293044),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15),
+                                        // Card(
+                                        //   elevation: 0,
+                                        //   color: AppTheme.backgroundcolor,
+                                        //   shape: RoundedRectangleBorder(
+                                        //       borderRadius: BorderRadius.circular(
+                                        //           10)),
+                                        //   child: Padding(
+                                        //     padding: EdgeInsets.symmetric(
+                                        //         horizontal: AddSize.padding15,
+                                        //         vertical: AddSize.padding15),
+                                        //     child:
+                                        //     FittedBox(
+                                        //       child: Row(
+                                        //         mainAxisAlignment:
+                                        //         MainAxisAlignment.spaceBetween,
+                                        //         children: [
+                                        //           Column(
+                                        //             crossAxisAlignment:
+                                        //             CrossAxisAlignment.start,
+                                        //             children: [
+                                        //               const Text(
+                                        //                 "Address",
+                                        //                 style: TextStyle(
+                                        //                     color:
+                                        //                     AppTheme.lightblack,
+                                        //                     fontWeight:
+                                        //                     FontWeight.w500,
+                                        //                     fontSize: 14),
+                                        //               ),
+                                        //               if( myOrderDetailsController.model.value.data!.user != null)
+                                        //               Text(
+                                        //                   myOrderDetailsController.model.value.data!.address!.location.toString(),
+                                        //                 style: GoogleFonts.raleway(
+                                        //                     color: const Color(
+                                        //                         0xFF303C5E),
+                                        //                     fontWeight:
+                                        //                     FontWeight.w700,
+                                        //                     fontSize: 16),
+                                        //               ),
+                                        //             ],
+                                        //           ),
+                                        //           addWidth(MediaQuery.of(context).size.width*.015),
+                                        //           GestureDetector(
+                                        //             onTap: () {
+                                        //               // openMap();
+                                        //             },
+                                        //             child: Container(
+                                        //               height: AddSize.size45,
+                                        //               width: AddSize.size45,
+                                        //               decoration: const ShapeDecoration(
+                                        //                   color: AppTheme.lightYellow,
+                                        //                   shape: CircleBorder()),
+                                        //               child: const Center(
+                                        //                   child: Icon(
+                                        //                     Icons.location_on,
+                                        //                     color: AppTheme
+                                        //                         .backgroundcolor,
+                                        //                   )),
+                                        //             ),
+                                        //           ),
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        ),
                                       ),
-                                      Text(
-                                       '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
-                                        style: const TextStyle(
-                                            color: Color(0xFF797F90),
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            )
-                          ],
+
+                              addHeight(15),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade300,
+                                      offset: const Offset(.1, .1,
+                                      ),
+                                      blurRadius: 20.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text('Tip for Delivery partner:',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0xff1A2E33)
+                                          ),),
+                                        const Spacer(),
+                                        Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xff486769)
+                                          ),),
+                                      ],
+                                    ),
+
+                                    addHeight(10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Subtotal:",
+                                          style: TextStyle(
+                                              color: Color(0xFF293044),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                          style: const TextStyle(
+                                              color: Color(0xFF797F90),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )) : CircularProgressIndicator(color: Color(0xff7ED957),)
-              ],
-            ): Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
-          ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
+                      )),
+                  myOrderDetailsController.isDataLoading.value ? SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AddSize.padding16),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade300,
+                                      offset: const Offset(.1, .1,
+                                      ),
+                                      blurRadius: 20.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 0,
+                                      color: AppTheme.backgroundcolor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: AddSize.padding15,
+                                            vertical: AddSize.padding15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Store Name",
+                                                    style: TextStyle(
+                                                        color:
+                                                        AppTheme.lightblack,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: 14),
+                                                  ),
+                                                  Text(
+                                                      myOrderDetailsController.model.value.data!.vendor!.storeName.toString(),
+                                                    style: GoogleFonts.raleway(
+                                                        color: const Color(
+                                                            0xFF303C5E),
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                            GestureDetector(
+                                              onTap: (){
+
+                                                // Get.toNamed(MyRouters.chatScreen);
+                                              },
+                                              child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: Color(0xFFFF980E),
+                                                    shape: CircleBorder()),
+                                                child: Center(
+                                                    child: Image(
+                                                      image: const AssetImage(
+                                                          AppAssets.chat),
+                                                      height: AddSize.size25,
+                                                      width: AddSize.size25,
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const Divider(color: Color(0xFFEFEFEF),
+                                      height: 1,
+                                      thickness: 1,),
+                                    Card(
+                                      elevation: 0,
+                                      color: AppTheme.backgroundcolor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: AddSize.padding15,
+                                            vertical: AddSize.padding15),
+                                        child:
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "store phone no",
+                                                    style: TextStyle(
+                                                        color:
+                                                        AppTheme.lightblack,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: 14),
+                                                  ),
+                                                  Text(
+                                                    myOrderDetailsController.model.value.data!.vendor!.phone.toString(),
+                                                    style: GoogleFonts.raleway(
+                                                        color: const Color(
+                                                            0xFF303C5E),
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                            GestureDetector(
+                                              onTap: () {
+                                                _makingPhoneCall("tel:+91");
+                                              },
+                                              child: Container(
+                                                  height: AddSize.size45,
+                                                  width: AddSize.size45,
+                                                  decoration: const ShapeDecoration(
+                                                      color: AppTheme
+                                                          .primaryColor,
+                                                      shape: CircleBorder()),
+                                                  child: const Center(
+                                                      child: Icon(
+                                                        Icons.phone,
+                                                        color: Colors.white,
+                                                        // color: AppTheme.callPhoneColor,
+                                                      ))),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const Divider(color: Color(0xFFEFEFEF),
+                                      height: 1,
+                                      thickness: 1,),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding15,
+                                          vertical: AddSize.padding15),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "store address",
+                                                    style: TextStyle(
+                                                        color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
+                                                  ),
+                                                  if( myOrderDetailsController.model.value.data!.user != null)
+                                                    Text(
+                                                      myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                                      style: GoogleFonts.raleway(
+                                                          color: const Color(
+                                                              0xFF303C5E),
+                                                          fontWeight:
+                                                          FontWeight.w700,
+                                                          fontSize: 16),
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                                },
+                                              child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration: const ShapeDecoration(
+                                                    color: AppTheme.lightYellow,
+                                                    shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                      Icons.location_on,
+                                                      color: AppTheme
+                                                          .backgroundcolor,
+                                                    )),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    // Card(
+                                    //   elevation: 0,
+                                    //   color: AppTheme.backgroundcolor,
+                                    //   shape: RoundedRectangleBorder(
+                                    //       borderRadius: BorderRadius.circular(
+                                    //           10)),
+                                    //   child: Padding(
+                                    //     padding: EdgeInsets.symmetric(
+                                    //         horizontal: AddSize.padding15,
+                                    //         vertical: AddSize.padding15),
+                                    //     child:
+                                    //     Row(
+                                    //       mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //       children: [
+                                    //         Row(children: [
+                                    //           Column(
+                                    //             crossAxisAlignment:
+                                    //             CrossAxisAlignment.start,
+                                    //             children: [
+                                    //               const Text(
+                                    //                 "store address",
+                                    //                 style: TextStyle(
+                                    //                     color:
+                                    //                     AppTheme.lightblack,
+                                    //                     fontWeight:
+                                    //                     FontWeight.w500,
+                                    //                     fontSize: 14),
+                                    //               ),
+                                    //               Text(
+                                    //                   myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                    //                 style: GoogleFonts.raleway(
+                                    //                     color: const Color(
+                                    //                         0xFF303C5E),
+                                    //                     fontWeight:
+                                    //                     FontWeight.w700,
+                                    //                     fontSize: 16),
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //         ]),
+                                    //         GestureDetector(
+                                    //           onTap: () {
+                                    //             // openMap();
+                                    //           },
+                                    //           child: Container(
+                                    //             height: AddSize.size45,
+                                    //             width: AddSize.size45,
+                                    //             decoration: const ShapeDecoration(
+                                    //                 color: AppTheme.lightYellow,
+                                    //                 shape: CircleBorder()),
+                                    //             child: const Center(
+                                    //                 child: Icon(
+                                    //                   Icons.location_on,
+                                    //                   color: AppTheme
+                                    //                       .backgroundcolor,
+                                    //                 )),
+                                    //           ),
+                                    //         ),
+                                    //       ],
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+
+                              addHeight(15),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade300,
+                                      offset: const Offset(.1, .1,
+                                      ),
+                                      blurRadius: 20.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text('Tip for Delivery partner:',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0xff1A2E33)
+                                          ),),
+                                        const Spacer(),
+                                        Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xff486769)
+                                          ),),
+                                      ],
+                                    ),
+
+                                    addHeight(10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Subtotal:",
+                                          style: TextStyle(
+                                              color: Color(0xFF293044),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                         '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                          style: const TextStyle(
+                                              color: Color(0xFF797F90),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )) : CircularProgressIndicator(color: Color(0xff7ED957),)
+                ],
+              ): Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
+            ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
+        ),
       );
     });
   }

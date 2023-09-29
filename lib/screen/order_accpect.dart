@@ -18,54 +18,59 @@ class OrderAccept extends StatefulWidget {
 class _OrderAcceptState extends State<OrderAccept> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: AddSize.padding16, vertical: AddSize.padding16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: AddSize.size20 * 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Image(
-                    height: AddSize.size300,
-                    width: double.maxFinite,
-                    image: const AssetImage(AppAssets.tq),
-                    fit: BoxFit.contain,
+    return  GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: AddSize.padding16, vertical: AddSize.padding16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: AddSize.size20 * 6,
                   ),
-                ),
-                SizedBox(
-                  height: AddSize.size80,
-                ),
-                 Text(
-                  "Your Order delivered successfully".tr,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 28,
-                      color:  Color(0xff262F33)),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-              ],
-            ),
-          )),
-      bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: AddSize.padding16, vertical: AddSize.size40),
-          child:
-          CommonButton(
-            title: 'Continue',
-            onPressed: () {
-              Get.toNamed(MyRouters.feedBackScreen);
-            },
-          )
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Image(
+                      height: AddSize.size300,
+                      width: double.maxFinite,
+                      image: const AssetImage(AppAssets.tq),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AddSize.size80,
+                  ),
+                   Text(
+                    "Your Order delivered successfully".tr,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 28,
+                        color:  Color(0xff262F33)),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            )),
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AddSize.padding16, vertical: AddSize.size40),
+            child:
+            CommonButton(
+              title: 'Continue',
+              onPressed: () {
+                Get.toNamed(MyRouters.feedBackScreen);
+              },
+            )
+        ),
       ),
     );
   }

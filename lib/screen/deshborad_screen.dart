@@ -1179,18 +1179,23 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       );
                                     },
                                   )
-                                : Center(
-                                  child: Text(
-                                    "No Delivery requests at the moment, try to expand the delivery area",
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                            color: AppTheme.blackcolor,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: AddSize.font14),
-                                  ),
+                                : Column(
+                                  children: [
+                                    const SizedBox(height: 20,),
+                                    Center(
+                                      child: Text(
+                                        "No Delivery requests at the moment, try to expand the delivery area",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                                color: AppTheme.blackcolor,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: AddSize.font14),
+                                      ),
+                                    ),
+                                  ],
                                 );
                           }),
                         ],

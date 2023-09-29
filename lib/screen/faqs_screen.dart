@@ -46,77 +46,82 @@ class _FaqsScreenState extends State<FaqsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: backAppBar(title: 'Faqs :', context: context),
+    return GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: backAppBar(title: 'Faqs :', context: context),
 
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Obx(() {
-          return statusOffaq.value.isSuccess ?
-            ListView.builder(
-              itemCount: faq.value.data!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: const Color(0xffDCDCDC), width: 1),
-                      ),
-                      child: Theme(
-                        data: Theme.of(context).copyWith(
-                            dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          trailing: (faq.value.data![index].senderExpansion == false)
-                              ? const Icon(
-                            Icons.add,
-                            color: Color(0xFF7ED957),
-                          )
-                              : const Icon(
-                            Icons.remove,
-                            color: Color(0xFF7ED957),
-                          ),
-                          onExpansionChanged: (value) {
-                            setState(() {
-                              faq.value.data![index].senderExpansion = value;
-                            });
-                          },
-                          title:  Text("${index + 1}. ${faq.value.data![index].question}",
-                            style: const TextStyle(
-                              color: Color(0xFF1D1D1D),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Obx(() {
+            return statusOffaq.value.isSuccess ?
+              ListView.builder(
+                itemCount: faq.value.data!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: const Color(0xffDCDCDC), width: 1),
+                        ),
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                              dividerColor: Colors.transparent),
+                          child: ExpansionTile(
+                            trailing: (faq.value.data![index].senderExpansion == false)
+                                ? const Icon(
+                              Icons.add,
+                              color: Color(0xFF7ED957),
+                            )
+                                : const Icon(
+                              Icons.remove,
+                              color: Color(0xFF7ED957),
                             ),
-                          ),
-                          children: <Widget>[
-                            ListTile(
-                              visualDensity: VisualDensity.compact,
-                              dense: true,
-                              iconColor: const Color(0xFF07B6CA),
-                                    isThreeLine: true,
-                                    subtitle: Html(
-                                      data: "Answer${faq.value.data![index].answer}",
+                            onExpansionChanged: (value) {
+                              setState(() {
+                                faq.value.data![index].senderExpansion = value;
+                              });
+                            },
+                            title:  Text("${index + 1}. ${faq.value.data![index].question}",
+                              style: const TextStyle(
+                                color: Color(0xFF1D1D1D),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                            children: <Widget>[
+                              ListTile(
+                                visualDensity: VisualDensity.compact,
+                                dense: true,
+                                iconColor: const Color(0xFF07B6CA),
+                                      isThreeLine: true,
+                                      subtitle: Html(
+                                        data: "Answer${faq.value.data![index].answer}",
+                                      ),
                                     ),
-                                  ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-          )  : const Center(
-            child: CircularProgressIndicator(color: Color(0xff7ED957),),
-          );
-        }),
+                  ],
+                );
+              },
+            )  : const Center(
+              child: CircularProgressIndicator(color: Color(0xff7ED957),),
+            );
+          }),
+        ),
       ),
     );
   }
