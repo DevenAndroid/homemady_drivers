@@ -39,166 +39,169 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          height: screenHeight,
-          child: Stack(
-              children:[
-                Column(
-                  children: [
-                    Container(
-                      width: screenWidth,
-                      height: screenHeight*.40,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/LoginBackground.png'),
-                            fit: BoxFit.fill
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          addHeight(45),
-                          Image.asset('assets/images/AppLogo.png',width: 203,),
-                          addHeight(85),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  top: 280,
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                    color: Colors.white
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'New Password',
-                                  controller: newPasswordController,
-                                  obscureText: obscureText,
-                                  suffix: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          obscureText = !obscureText;
-                                        });
-                                      },
-                                      child: obscureText
-                                          ? const Icon(
-                                        Icons.visibility_off,
-                                        color: Colors.grey,
-                                      )
-                                          : const Icon(
-                                        Icons.visibility,
-                                        color: Color(0xFF53B176),
-                                      )),
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please Enter The Password'),
-                                    MinLengthValidator(8,
-                                        errorText:
-                                        'Password must be at least 8 digits long'),
-                                    PatternValidator(
-                                        r'^(?=.*[A-Z])(?=.*\d).{8,}$',
-                                        errorText:
-                                        'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.')
-                                  ]),
-
-                                ),
-                              ),
-                              addHeight(15),
-                              Container(
-                                width: screenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(.1, .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
-                                    color: Colors.white
-                                ),
-                                child: CommonTextFieldWidget(
-                                  hint: 'Confirm New Password',
-                                  controller: confirmPasswordController,
-                                  obscureText: obscureText1,
-                                  suffix: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          obscureText1 = !obscureText1;
-                                        });
-                                      },
-                                      child: obscureText1
-                                          ? const Icon(
-                                        Icons.visibility_off,
-                                        color: Colors.grey,
-                                      )
-                                          : const Icon(
-                                        Icons.visibility,
-                                        color: Color(0xFF53B176),
-                                      )),
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please Enter The Password'),
-                                    MinLengthValidator(6,
-                                        errorText:
-                                        'Password must be at least 8 digits long'),
-                                    PatternValidator(
-                                        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
-                                        errorText:
-                                        'Password must be minimum 8 characters,with \n1 Capital letter1 special character & 1 numerical.')
-                                  ]),
-                                ),
-                              ),
-
-                              addHeight(34),
-                              CommonButton(title: 'Continue',onPressed: (){
-                                if(_formKey.currentState!.validate()){
-                                  resetPasswordRepo(email: text,password: newPasswordController.text, confirmPassword: confirmPasswordController.text, context: context, roleText: '3',).then((value) {
-                                    if(value.status == true){
-                                      NewHelper.showToast(value.message);
-                                      Get.offAllNamed(MyRouters.loginScreen);
-                                    }
-                                    else{
-                                      NewHelper.showToast(value.message);
-                                    }
-                                  });
-                                }
-                                // Get.toNamed(MyRouters.loginScreen);
-                              },),
-                              addHeight(36),
-                            ],
+    return GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: screenHeight,
+            child: Stack(
+                children:[
+                  Column(
+                    children: [
+                      Container(
+                        width: screenWidth,
+                        height: screenHeight*.40,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/LoginBackground.png'),
+                              fit: BoxFit.fill
                           ),
                         ),
-                      )
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            addHeight(45),
+                            Image.asset('assets/images/AppLogo.png',width: 203,),
+                            addHeight(85),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ]
+                  Positioned(
+                    top: 280,
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: screenWidth,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF37C666).withOpacity(0.10),
+                                          offset: const Offset(.1, .1,
+                                          ),
+                                          blurRadius: 20.0,
+                                          spreadRadius: 1.0,
+                                        ),
+                                      ],
+                                      color: Colors.white
+                                  ),
+                                  child: CommonTextFieldWidget(
+                                    hint: 'New Password',
+                                    controller: newPasswordController,
+                                    obscureText: obscureText,
+                                    suffix: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            obscureText = !obscureText;
+                                          });
+                                        },
+                                        child: obscureText
+                                            ? const Icon(
+                                          Icons.visibility_off,
+                                          color: Colors.grey,
+                                        )
+                                            : const Icon(
+                                          Icons.visibility,
+                                          color: Color(0xFF53B176),
+                                        )),
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: 'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.'),
+                                      MinLengthValidator(8,
+                                          errorText:
+                                          'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.'),
+                                      PatternValidator(
+                                          r'^(?=.*[A-Z])(?=.*\d).{8,}$',
+                                          errorText:
+                                          'Password must be minimum 8 characters, with \n1 Capital letter & 1 numerical.')
+                                    ]),
+
+                                  ),
+                                ),
+                                addHeight(15),
+                                Container(
+                                  width: screenWidth,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF37C666).withOpacity(0.10),
+                                          offset: const Offset(.1, .1,
+                                          ),
+                                          blurRadius: 20.0,
+                                          spreadRadius: 1.0,
+                                        ),
+                                      ],
+                                      color: Colors.white
+                                  ),
+                                  child: CommonTextFieldWidget(
+                                    hint: 'Confirm New Password',
+                                    controller: confirmPasswordController,
+                                    obscureText: obscureText1,
+                                    suffix: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            obscureText1 = !obscureText1;
+                                          });
+                                        },
+                                        child: obscureText1
+                                            ? const Icon(
+                                          Icons.visibility_off,
+                                          color: Colors.grey,
+                                        )
+                                            : const Icon(
+                                          Icons.visibility,
+                                          color: Color(0xFF53B176),
+                                        )),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "confirm the password";
+                                      } else if (newPasswordController.text !=
+                                          confirmPasswordController.text) {
+                                        return "Confirm password should be match";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+
+                                addHeight(34),
+                                CommonButton(title: 'Continue',onPressed: (){
+                                  if(_formKey.currentState!.validate()){
+                                    resetPasswordRepo(email: text,password: newPasswordController.text, confirmPassword: confirmPasswordController.text, context: context, roleText: '3',).then((value) {
+                                      if(value.status == true){
+                                        NewHelper.showToast(value.message);
+                                        Get.offAllNamed(MyRouters.loginScreen);
+                                      }
+                                      else{
+                                        NewHelper.showToast(value.message);
+                                      }
+                                    });
+                                  }
+                                  // Get.toNamed(MyRouters.loginScreen);
+                                },),
+                                addHeight(36),
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                  )
+                ]
+            ),
           ),
         ),
       ),
