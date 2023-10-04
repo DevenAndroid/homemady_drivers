@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,6 +82,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
     socket.onConnecting((data) {
       if (kDebugMode) {
         if (kDebugMode) print('onConnecting $data');
+
       }
     });
 
@@ -94,7 +96,19 @@ class _DashbordScreenState extends State<DashbordScreen> {
     socket.onConnect((data) {
       if (kDebugMode) {
         if (kDebugMode) print('==================  onConnect $data');
-        // onlineOffline();
+        // try{
+          socket.emit('get_data', {
+            "latitude": locationController.lat.value,
+            "longitude": locationController.lat.value
+          }
+          );
+        // }catch(error){
+        //   print("THis is exception $error");
+        // }
+     log({
+       "latitude": locationController.lat.value,
+       "longitude": locationController.long.value
+     }.toString());
       }
     });
   }
@@ -645,7 +659,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi, ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
+                            'Hi'
+                                ', ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
