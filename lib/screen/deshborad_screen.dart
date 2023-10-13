@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -97,11 +98,16 @@ class _DashbordScreenState extends State<DashbordScreen> {
       if (kDebugMode) {
         if (kDebugMode) print('==================  onConnect $data');
         // try{
+
+        repeatEmit = Timer.periodic(const Duration(minutes: 5), (timer) {
           socket.emit('get_data', {
             "latitude": locationController.lat.value,
-            "longitude": locationController.lat.value
+            "longitude": locationController.long.value
           }
           );
+
+        });
+
         // }catch(error){
         //   print("THis is exception $error");
         // }
@@ -112,6 +118,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
       }
     });
   }
+  late Timer repeatEmit;
   @override
   void initState() {
     // TODO: implement initState
@@ -633,12 +640,21 @@ class _DashbordScreenState extends State<DashbordScreen> {
             ],
           ),
           // leadingWidth: AddSize.size40 * ,
-          title: const Text(
-            'Dashboard',
-            style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 17,
-                color: Color(0xFF1A2E33)),
+          title: InkWell(
+            onTap: (){
+              print("Hello");
+              socket1!.emit('get_data', {
+              "latitude": locationController.lat.value,
+              "longitude": locationController.long.value
+              });
+            },
+            child: const Text(
+              'Dashboard',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 17,
+                  color: Color(0xFF1A2E33)),
+            ),
           ),
         ),
         body: RefreshIndicator(
