@@ -53,18 +53,19 @@ Future<ModelCommonResponse> register(
 Future<ModelVerifyOtp> verifyOTPPassword(
     userEmail, otp, roleText, BuildContext context) async {
   var map = <String, dynamic>{};
-  map["email"] = userEmail;
+  map["phone"] = userEmail;
   map["otp"] = otp;
   map["role"] = roleText;
   OverlayEntry loader = NewHelper.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
-
+log(map.toString());
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.otpApi),
       body: jsonEncode(map), headers: headers);
+  log(response.body);
   if (response.statusCode == 200 || response.statusCode == 400) {
     NewHelper.hideLoader(loader);
     return ModelVerifyOtp.fromJson(json.decode(response.body));

@@ -93,15 +93,15 @@ class _EmailVerificationScreen2State extends State<EmailVerificationScreen2> {
                                       ],
                                   ),
                                   child: CommonTextFieldWidget(
-                                    hint: 'Email',
+                                    hint: 'Phone number',
                                     controller: emailController,
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText: 'Please enter your email '),
-                                      EmailValidator(
-                                          errorText:
-                                          'Please enter a valid email')
-                                    ]),
+                                    // validator: MultiValidator([
+                                    //   RequiredValidator(
+                                    //       errorText: 'Please enter your email '),
+                                    //   EmailValidator(
+                                    //       errorText:
+                                    //       'Please enter a valid email')
+                                    // ]),
                                   ),
                                 ),
                                 addHeight(25),

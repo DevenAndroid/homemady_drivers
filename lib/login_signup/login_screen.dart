@@ -23,6 +23,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String removeFirstLetter(String input) {
+    if(input.isEmpty)return input;
+    print(input.substring(0,1));
+    if(input.substring(0,1) != "0") return input;
+    return input.substring(1, input.length);
+
+  }
   final formKey1 = GlobalKey<FormState>();
   RegExp _emailRegExp = RegExp(
       r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$');
@@ -299,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .getToken();
                               if (formKey1.currentState!.validate()) {
                                 loginRepo(
-                                    email: emailController.text,
+                                    email: removeFirstLetter(emailController.text),
                                     password: passwordController.text,
                                     context: context,
                                     fcmToken: fcmToken!,

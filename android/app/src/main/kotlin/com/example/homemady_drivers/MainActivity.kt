@@ -1,4 +1,4 @@
-package com.example.homemady_drivers
+package com.homemady.homemady_drivers
 
 import io.flutter.embedding.android.FlutterActivity
 

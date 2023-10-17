@@ -1,10 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.homemady_drivers">
+    package="com.homemady.homemady_drivers">
     <!--    AIzaSyCHBSvyAp8KyuJJddBewC3XSQPNM-aNHF8-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
-   <application
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
+    <application
         android:label="homemady_drivers"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

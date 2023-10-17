@@ -10,7 +10,7 @@ import '../models/common_model.dart';
 import '../widgets/helper.dart';
 
 
-Future<ModelCommonResponse> forgotPassRepo(email,roleText,context) async {
+Future<ModelCommonResponse> forgotPassRepo(phone,roleText,context) async {
   // var map = <String, dynamic>{};
   // map['email'] = username;
 
@@ -22,7 +22,7 @@ Future<ModelCommonResponse> forgotPassRepo(email,roleText,context) async {
     HttpHeaders.acceptHeader: 'application/json',
   };
 
-  http.Response response = await http.get(Uri.parse( "${ApiUrl.forgotPassword}$email&role=$roleText"),
+  http.Response response = await http.get(Uri.parse( "${ApiUrl.forgotPassword}$phone&role=$roleText"),
       headers: headers);
 
   if (response.statusCode == 200  || response.statusCode == 400) {

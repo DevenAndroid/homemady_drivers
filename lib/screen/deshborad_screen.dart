@@ -1,6 +1,8 @@
 
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,10 +64,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
       socket1!.dispose();
     }
     //192.168.1.28      54.204.238.132
-    io.Socket socket = io.io('https://55ac-2401-4900-1c1b-2c01-5411-32c-c6b8-21ac.ngrok.io/app', <String, dynamic>{
+    io.Socket socket = io.io('http://3.25.233.116:3001/driver', <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
-      "auth": {"access_token":user.authToken.toString()},
+      "extraHeaders": {"access_token":user.authToken.toString()},
     });
 
     socket.onError((data) {
@@ -81,6 +83,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
     socket.onConnecting((data) {
       if (kDebugMode) {
         if (kDebugMode) print('onConnecting $data');
+
       }
     });
 
@@ -94,10 +97,28 @@ class _DashbordScreenState extends State<DashbordScreen> {
     socket.onConnect((data) {
       if (kDebugMode) {
         if (kDebugMode) print('==================  onConnect $data');
-        // onlineOffline();
+        // try{
+
+        repeatEmit = Timer.periodic(const Duration(minutes: 5), (timer) {
+          socket.emit('get_data', {
+            "latitude": locationController.lat.value,
+            "longitude": locationController.long.value
+          }
+          );
+
+        });
+
+        // }catch(error){
+        //   print("THis is exception $error");
+        // }
+     log({
+       "latitude": locationController.lat.value,
+       "longitude": locationController.long.value
+     }.toString());
       }
     });
   }
+  late Timer repeatEmit;
   @override
   void initState() {
     // TODO: implement initState
@@ -619,12 +640,21 @@ class _DashbordScreenState extends State<DashbordScreen> {
             ],
           ),
           // leadingWidth: AddSize.size40 * ,
-          title: const Text(
-            'Dashboard',
-            style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 17,
-                color: Color(0xFF1A2E33)),
+          title: InkWell(
+            onTap: (){
+              print("Hello");
+              socket1!.emit('get_data', {
+              "latitude": locationController.lat.value,
+              "longitude": locationController.long.value
+              });
+            },
+            child: const Text(
+              'Dashboard',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 17,
+                  color: Color(0xFF1A2E33)),
+            ),
           ),
         ),
         body: RefreshIndicator(
@@ -645,7 +675,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi, ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
+                            'Hi'
+                                ', ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
