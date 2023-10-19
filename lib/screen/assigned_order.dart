@@ -5,12 +5,15 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homemady_drivers/firebase_service/firebase_service.dart';
 import 'package:homemady_drivers/screen/verification_screen.dart';
 
 import '../controller/assigned_Orderlist_controller.dart';
 import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import '../controller/order_details_controller.dart';
+import '../controller/userProfile_controller.dart';
+import '../models/assigned_orderList_model.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/update_order_status_repo.dart';
 import '../routers/routers.dart';
@@ -18,6 +21,8 @@ import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/dimenestion.dart';
 import '../widgets/new_helper.dart';
+import 'chat_screen/chat_screen.dart';
+import 'notificatin_2.dart';
 
 class AssignedOrderScreen extends StatefulWidget {
   const AssignedOrderScreen({Key? key}) : super(key: key);
@@ -33,6 +38,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
   String dropdownvalue = 'All Orders';
   final assignedController = Get.put(AssignedOrderController());
   final orderController = Get.put(MyOrderDetailsController());
+  final controller1 = Get.put(UserProfileController());
 
   @override
   void initState() {
@@ -315,7 +321,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                               horizontal: MediaQuery.of(context).size.width / 12),
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Obx(() {
                                                 return assignedController.model.value.data![index].orderStatus ==
@@ -419,6 +425,28 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                           fontSize: AddSize.font14),
                                                     ));
                                               }),
+
+                                              ElevatedButton(onPressed: (){
+
+                                              },
+                                                  style: ElevatedButton.styleFrom(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: AddSize.padding22),
+                                                    minimumSize:
+                                                    Size(AddSize.size100, AddSize.size20 * 1.8),
+                                                    primary: AppTheme.primaryColor,
+                                                    elevation: 0,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(6)),
+                                                  ),
+                                                  child: Text(
+                                                    "Chat".toUpperCase(),
+                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                                                        color: AppTheme.backgroundcolor,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: AddSize.font14),
+                                                  ))
+
                                             ],
                                           ),
                                         ),
