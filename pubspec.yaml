@@ -60,13 +60,13 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_html:
   flutter_switch:
-  firebase_messaging: ^14.6.5
-  google_sign_in: ^6.0.0
-  firebase_auth: ^4.2.6
+  firebase_messaging: ^14.6.8
+  google_sign_in: ^6.1.5
+  firebase_auth: ^4.10.0
   flutter_math_fork:
   intl_phone_field:
-  cloud_firestore: ^4.8.4
-  firebase_core: ^2.15.0
+  cloud_firestore: ^4.9.2
+  firebase_core: ^2.16.0
   flutter_native_image:
 
 
