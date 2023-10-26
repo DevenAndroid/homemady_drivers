@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -205,6 +207,43 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              if(Platform.isIOS)
+                                GestureDetector(
+                                  onTap: (){
+                                    loginWithApple();
+                                  },
+                                  child: Container(
+                                    width: 152,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF37C666).withOpacity(0.10),
+                                          offset: const Offset(.1, .1,
+                                          ),
+                                          blurRadius: 20.0,
+                                          spreadRadius: 1.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/images/apple.png',height: 25,),
+                                        addWidth(10),
+                                        const Text('Apple',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              color:  Color(0xFF4C5369)
+                                          ),)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
                               Container(
                                 width: 152,
                                 height: 50,
@@ -400,4 +439,33 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
   }
+  loginWithApple() async {
+    log("Hello from apple ");
+    final appleProvider =
+    AppleAuthProvider().addScope("email").addScope("fullName");
+    await FirebaseAuth.instance
+        .signInWithProvider(appleProvider)
+        .then((value) async {
+
+      log("Tokenisss -------${value.credential!.accessToken}");
+      socialLogin( provider: "apple", token: value.credential!.accessToken!, context: context, )
+          .then((value1) async {
+        if (value1.status == true) {
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setString('user_info', jsonEncode(value1));
+          // pref.get(value1.authToken!);
+          // log("Tokenisss from auth is -------${value1.authToken}");
+          NewHelper.showToast(value1.message);
+          Get.offAllNamed(MyRouters.dashbordScreen);
+          // tokenData().then((value1) async {
+          //   SharedPreferences pref = await SharedPreferences.getInstance();
+          //   pref.setString('token', jsonEncode(value1));
+          // });
+        } else {
+          NewHelper.showToast(value1.message);
+        }
+      });
+    });
+  }
+
 }

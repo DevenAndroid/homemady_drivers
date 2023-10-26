@@ -427,6 +427,10 @@ class NotificationScreen2State extends State<NotificationScreen2> {
                 width: width * .10,
                 decoration: const ShapeDecoration(color: AppTheme.primaryColor, shape: CircleBorder()),
                 child: Center(
+
+
+
+
                     child: Text(
                       "B".tr,
                       style: Theme.of(context)
