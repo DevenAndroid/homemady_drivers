@@ -53,8 +53,8 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
   final List<String> dropDownTimeList = ["Pending", "Completed", "Decline"];
   var items = [
     'All Orders',
-    'Accept',
-    'Decline',
+    'Accepted',
+    'Declined',
   ];
 
   @override

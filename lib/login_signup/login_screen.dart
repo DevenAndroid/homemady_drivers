@@ -276,6 +276,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ],
                                 ),
                               ),
+
+                              if(Platform.isAndroid)
                               GestureDetector(
                                 onTap: (){
                                   signInWithGoogle();
@@ -440,7 +442,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
   loginWithApple() async {
-    log("Hello from apple ");
+
     final appleProvider =
     AppleAuthProvider().addScope("email").addScope("fullName");
     await FirebaseAuth.instance
