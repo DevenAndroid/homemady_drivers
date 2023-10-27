@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -427,7 +430,28 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                               }),
 
                                               ElevatedButton(onPressed: (){
-
+                                                OrderDetail gg = assignedController.model.value.orderDetail!;
+                                                log(jsonEncode(assignedController.model.value.orderDetail));
+                                                gg.user = User.fromJson(controller1.model.value.data!.toJson());
+                                                gg.vendorID = gg.vendor!.id.toString();
+                                                String roomId = FirebaseService().createChatRoom(
+                                                    user1: gg.user!.id!
+                                                        .toString()
+                                                        .convertToNum
+                                                        .toInt(),
+                                                    user2: gg.vendor!.id!
+                                                        .toString()
+                                                        .convertToNum
+                                                        .toInt());
+                                                Get.to(const ChatScreen1(), arguments: [
+                                                  roomId,
+                                                  assignedController.model.value.orderDetail!.user!.id!
+                                                      .toString()
+                                                      .convertToNum
+                                                      .toInt()
+                                                      .toString(),
+                                                  gg
+                                                ]);
                                               },
                                                   style: ElevatedButton.styleFrom(
                                                     padding: EdgeInsets.symmetric(
