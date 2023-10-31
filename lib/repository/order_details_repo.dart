@@ -6,10 +6,11 @@ import 'dart:convert';
 
 import '../api_url/api_url.dart';
 import '../models/order_Details_model.dart';
+import '../models/order_details_cooks_copy_model.dart';
 import '../models/verify_otp_model.dart';
 
 
-Future<orderDetailsModel> myOrderDetailsRepo({required id}) async {
+Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,7 +27,7 @@ Future<orderDetailsModel> myOrderDetailsRepo({required id}) async {
   log("MyOrder Details...${response.body}");
   if (response.statusCode == 200) {
     log("MyOrder Details...${response.body}");
-    return orderDetailsModel.fromJson(jsonDecode(response.body));
+    return MyOrdersDetailsModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);
   }

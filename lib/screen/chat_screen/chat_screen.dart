@@ -221,7 +221,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
                           errorBuilder: (_, __, ___) => const SizedBox.shrink(),
                         )
                       : Image.asset(
-                          'assets/images/chatimg2.png',
+                          'assets/images/Chat.png',
                           height: 30,
                           width: 30,
                         ),

@@ -1,19 +1,16 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homemady_drivers/firebase_service/firebase_service.dart';
 import 'package:homemady_drivers/screen/verification_screen.dart';
 
 import '../controller/assigned_Orderlist_controller.dart';
-import '../controller/assigned_order_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
-import '../models/assigned_orderList_model.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/update_order_status_repo.dart';
 import '../routers/routers.dart';
@@ -21,8 +18,6 @@ import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/dimenestion.dart';
 import '../widgets/new_helper.dart';
-import 'chat_screen/chat_screen.dart';
-import 'notificatin_2.dart';
 
 class AssignedOrderScreen extends StatefulWidget {
   const AssignedOrderScreen({Key? key}) : super(key: key);
@@ -43,18 +38,19 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
   @override
   void initState() {
     super.initState();
+    orderController.getMyOrderDetails();
     // SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {
     // });
-    print("ggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-    assignedController.getOrderData1();
+    print("gg");
+     assignedController.getOrderData1();
   }
 
   String? selectedTime;
   final List<String> dropDownTimeList = ["Pending", "Completed", "Decline"];
   var items = [
     'All Orders',
-    'Accept',
-    'Decline',
+    'Accepted',
+    'Declined',
   ];
 
   @override
@@ -426,26 +422,49 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                     ));
                                               }),
 
-                                              ElevatedButton(onPressed: (){
-
-                                              },
-                                                  style: ElevatedButton.styleFrom(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: AddSize.padding22),
-                                                    minimumSize:
-                                                    Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                    primary: AppTheme.primaryColor,
-                                                    elevation: 0,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(6)),
-                                                  ),
-                                                  child: Text(
-                                                    "Chat".toUpperCase(),
-                                                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                                                        color: AppTheme.backgroundcolor,
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: AddSize.font14),
-                                                  ))
+                                              // ElevatedButton(onPressed: (){
+                                              //   print("Helloo");
+                                              //   OrderDetail gg = orderController.model.value.orderDetail!;
+                                              //   log("Order data${jsonEncode(orderController.model.value.orderDetail)}");
+                                              //   gg.user = User.fromJson(controller1.model.value.data!.toJson());
+                                              //   gg.vendorID = gg.vendor!.id.toString();
+                                              //   String roomId = FirebaseService().createChatRoom(
+                                              //       user1: gg.user!.id!
+                                              //           .toString()
+                                              //           .convertToNum
+                                              //           .toInt(),
+                                              //       user2: gg.vendor!.id!
+                                              //           .toString()
+                                              //           .convertToNum
+                                              //           .toInt());
+                                              //   Get.to(const ChatScreen1(), arguments: [
+                                              //     roomId,
+                                              //     orderController.model.value.orderDetail!.user!.id!
+                                              //         .toString()
+                                              //         .convertToNum
+                                              //         .toInt()
+                                              //         .toString(),
+                                              //     gg
+                                              //   ]);
+                                              //
+                                              // },
+                                              //     style: ElevatedButton.styleFrom(
+                                              //       padding: EdgeInsets.symmetric(
+                                              //           horizontal: AddSize.padding22),
+                                              //       minimumSize:
+                                              //       Size(AddSize.size100, AddSize.size20 * 1.8),
+                                              //       primary: AppTheme.primaryColor,
+                                              //       elevation: 0,
+                                              //       shape: RoundedRectangleBorder(
+                                              //           borderRadius: BorderRadius.circular(6)),
+                                              //     ),
+                                              //     child: Text(
+                                              //       "Chat".toUpperCase(),
+                                              //       style: Theme.of(context).textTheme.headline5!.copyWith(
+                                              //           color: AppTheme.backgroundcolor,
+                                              //           fontWeight: FontWeight.w500,
+                                              //           fontSize: AddSize.font14),
+                                              //     ))
 
                                             ],
                                           ),

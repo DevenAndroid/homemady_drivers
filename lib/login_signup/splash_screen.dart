@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_profile_model.dart';
@@ -41,10 +44,22 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> _getClientInformation() async {
+    ClientInformation? info;
+    try {
+      info = await ClientInformation.fetch();
+    } on PlatformException {
+      log('Failed to get client information');
+    }
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('deviceId', info!.deviceId.toString());
+  }
+
 
   @override
   void initState() {
     super.initState();
+    _getClientInformation();
     Future.delayed(const Duration(seconds: 3)).then((value) {
       checkUser();
     });

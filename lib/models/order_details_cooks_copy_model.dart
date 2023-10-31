@@ -834,6 +834,7 @@ class OrderDetail {
   dynamic orderId;
   dynamic itemTotal;
   dynamic serviceCharge;
+  dynamic tipAmount;
   dynamic deliveryCharges;
   dynamic couponDiscount;
   dynamic grandTotal;
@@ -855,6 +856,7 @@ class OrderDetail {
         this.deliveryCharges,
         this.couponDiscount,
         this.grandTotal,
+        this.tipAmount,
         this.specialRequets,
         this.instructionForDelivery,
         this.user,
@@ -872,6 +874,7 @@ class OrderDetail {
     serviceCharge = json['service_charge'];
     deliveryCharges = json['delivery_charges'];
     couponDiscount = json['coupon_discount'];
+    tipAmount = json['tip_amount'];
     grandTotal = json['grand_total'];
     specialRequets = json['special_requets'];
     instructionForDelivery = json['instruction_for_delivery'];
@@ -900,6 +903,7 @@ class OrderDetail {
     data['service_charge'] = this.serviceCharge;
     data['delivery_charges'] = this.deliveryCharges;
     data['coupon_discount'] = this.couponDiscount;
+    data['tip_amount'] = this.tipAmount;
     data['grand_total'] = this.grandTotal;
     data['special_requets'] = this.specialRequets;
     data['instruction_for_delivery'] = this.instructionForDelivery;

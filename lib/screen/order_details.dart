@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,10 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/location_controller.dart';
 import '../controller/order_details_controller.dart';
+import '../controller/userProfile_controller.dart';
+import '../firebase_service/firebase_service.dart';
+import '../models/order_details_cooks_copy_model.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
+import 'chat_screen/chat_screen.dart';
 import 'notificatin_2.dart';
 
 class DriverDeliveryOrderDetails extends StatefulWidget {
@@ -26,6 +33,7 @@ class DriverDeliveryOrderDetails extends StatefulWidget {
 class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
     with SingleTickerProviderStateMixin {
   final locationController = Get.put(LocationController());
+  final controller1 = Get.put(UserProfileController());
   bool value = false;
   RxBool isSelect = false.obs;
   TabController? tabController;
@@ -73,7 +81,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
         },
         child: Scaffold(
             appBar: backAppBar(title: "Delivery Details", context: context),
-            body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null
+            body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.orderDetail != null
                 ? NestedScrollView(
               headerSliverBuilder: (_, __) {
                 return [
@@ -130,7 +138,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     children: [
                                                       Text(
                                                         'Order ID: # ${myOrderDetailsController
-                                                            .model.value.data!
+                                                            .model.value.orderDetail!
                                                             .orderId.toString()}',
                                                         style: TextStyle(
                                                             color: AppTheme
@@ -142,7 +150,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       ),
                                                       Text(
                                                         myOrderDetailsController
-                                                            .model.value.data!.placedAt.toString(),
+                                                            .model.value.orderDetail!.placedAt.toString(),
                                                         style: TextStyle(
                                                             color: AppTheme
                                                                 .blackcolor,
@@ -163,7 +171,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                           shrinkWrap: true,
                                           physics:
                                           const NeverScrollableScrollPhysics(),
-                                          itemCount: myOrderDetailsController.model.value.data!.orderItems!.length,
+                                          itemCount: myOrderDetailsController.model.value.orderDetail!.orderItems!.length,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder:
                                               (BuildContext context, int index) {
@@ -173,42 +181,42 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .productName
                                                       .toString(),
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .price
                                                       .toString(),
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .sizeId
                                                       .toString(),
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .sizeQuantity
                                                       .toString(),
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .qty
                                                       .toString(),
                                                   myOrderDetailsController
                                                       .model
                                                       .value
-                                                      .data!
+                                                      .orderDetail!
                                                       .orderItems![index]
                                                       .status
                                                       .toString(),
@@ -246,7 +254,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               horizontal: width * .04,
                                               vertical: height * .005),
                                           child: Text(
-                                              myOrderDetailsController.model.value.data!.deliveryStatus.toString(),
+                                              myOrderDetailsController.model.value.orderDetail!.deliveryStatus.toString(),
                                             style: TextStyle(
                                                 fontSize:
                                                 AddSize.font14,
@@ -332,7 +340,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                   ),
                 ];
               },
-              body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.data != null ?
+              body: myOrderDetailsController.isDataLoading.value && myOrderDetailsController.model.value.orderDetail != null ?
               TabBarView(
                 physics: const BouncingScrollPhysics(),
                 controller: tabController,
@@ -389,9 +397,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         FontWeight.w500,
                                                         fontSize: 14),
                                                   ),
-                                                  if( myOrderDetailsController.model.value.data!.user != null)
+                                                  if( myOrderDetailsController.model.value.orderDetail!.user != null)
                                                   Text(
-                                                    myOrderDetailsController.model.value.data!.user!.name.toString(),
+                                                    myOrderDetailsController.model.value.orderDetail!.user!.name.toString(),
                                                     style: GoogleFonts.raleway(
                                                         color: const Color(
                                                             0xFF303C5E),
@@ -457,9 +465,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         FontWeight.w500,
                                                         fontSize: 14),
                                                   ),
-                                                  if( myOrderDetailsController.model.value.data!.user != null)
+                                                  if( myOrderDetailsController.model.value.orderDetail!.user != null)
                                                   Text(
-                                                      myOrderDetailsController.model.value.data!.user!.phone.toString(),
+                                                      myOrderDetailsController.model.value.orderDetail!.user!.phone.toString(),
                                                     style: GoogleFonts.raleway(
                                                         color: const Color(
                                                             0xFF303C5E),
@@ -501,8 +509,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                 vertical: AddSize.padding15),
                                       child: GestureDetector(
                                         onTap: (){
-                                          openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
-                                              double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                          openMap(double.parse(myOrderDetailsController.model.value.orderDetail!.address!.latitude.toString()),
+                                              double.parse(myOrderDetailsController.model.value.orderDetail!.address!.longitude.toString()));
                                         },
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -516,9 +524,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                               style: TextStyle(
                                                                   color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
                                                             ),
-                                                            if( myOrderDetailsController.model.value.data!.address != null)
+                                                            if( myOrderDetailsController.model.value.orderDetail!.address != null)
                                                                           Text(
-                                                                              myOrderDetailsController.model.value.data!.address!.location.toString(),
+                                                                              myOrderDetailsController.model.value.orderDetail!.address!.location.toString(),
                                                                             style: GoogleFonts.raleway(
                                                                                 color: const Color(
                                                                                     0xFF303C5E),
@@ -531,8 +539,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                       ),
                                             GestureDetector(
                                               onTap: () {
-                                                openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),
-                                                    double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                                openMap(double.parse(myOrderDetailsController.model.value.orderDetail!.address!.latitude.toString()),
+                                                    double.parse(myOrderDetailsController.model.value.orderDetail!.address!.longitude.toString()));
                                               },
                                               child: Container(
                                                 height: AddSize.size45,
@@ -651,7 +659,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               color: const Color(0xff1A2E33)
                                           ),),
                                         const Spacer(),
-                                        Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                         Text( '€ ${myOrderDetailsController.model.value.orderDetail!.tipAmount!.toString()}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -673,7 +681,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               fontSize: 15),
                                         ),
                                         Text(
-                                          '€ ${myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                          '€ ${myOrderDetailsController.model.value.orderDetail!.grandTotal.toString()}',
                                           style: const TextStyle(
                                               color: Color(0xFF797F90),
                                               fontWeight: FontWeight.w400,
@@ -684,7 +692,53 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
 
                                   ],
                                 ),
-                              )
+                              ),
+                              addHeight(8),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children:[
+                                    InkWell(
+                                      onTap: (){
+                                        OrderDetail gg = myOrderDetailsController.model.value.orderDetail!;
+                                        log("Order data${jsonEncode(myOrderDetailsController.model.value.orderDetail)}");
+                                        gg.user = User.fromJson(controller1.model.value.data!.toJson());
+                                        gg.vendorID = gg.vendor!.id.toString();
+                                        String roomId = FirebaseService().createChatRoom(
+                                            user1: gg.user!.id!
+                                                .toString()
+                                                .convertToNum
+                                                .toInt(),
+                                            user2: gg.vendor!.id!
+                                                .toString()
+                                                .convertToNum
+                                                .toInt());
+                                        Get.to(const ChatScreen1(), arguments: [
+                                          roomId,
+                                          myOrderDetailsController.model.value.orderDetail!.user!.id!
+                                              .toString()
+                                              .convertToNum
+                                              .toInt()
+                                              .toString(),
+                                          gg
+                                        ]);
+
+                                      },
+                                      child: const Text(
+                                        "Chat with customer",
+                                        style: TextStyle(
+                                            color: Color(0xFF293044),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                  ]
+
+
+                                ),
+                              ),
+
                             ],
                           ),
                         ),
@@ -742,7 +796,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         fontSize: 14),
                                                   ),
                                                   Text(
-                                                      myOrderDetailsController.model.value.data!.vendor!.storeName.toString(),
+                                                      myOrderDetailsController.model.value.orderDetail!.vendor!.storeName.toString(),
                                                     style: GoogleFonts.raleway(
                                                         color: const Color(
                                                             0xFF303C5E),
@@ -810,7 +864,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         fontSize: 14),
                                                   ),
                                                   Text(
-                                                    myOrderDetailsController.model.value.data!.vendor!.phone.toString(),
+                                                    myOrderDetailsController.model.value.orderDetail!.vendor!.phone.toString(),
                                                     style: GoogleFonts.raleway(
                                                         color: const Color(
                                                             0xFF303C5E),
@@ -852,7 +906,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                           vertical: AddSize.padding15),
                                       child: GestureDetector(
                                         onTap: (){
-                                          openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                          openMap(double.parse( myOrderDetailsController.model.value.orderDetail!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.orderDetail!.vendor!.longitude.toString(),));
                                         },
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -866,9 +920,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     style: TextStyle(
                                                         color: AppTheme.lightblack, fontWeight: FontWeight.w500, fontSize: 14),
                                                   ),
-                                                  if( myOrderDetailsController.model.value.data!.user != null)
+                                                  if( myOrderDetailsController.model.value.orderDetail!.user != null)
                                                     Text(
-                                                      myOrderDetailsController.model.value.data!.vendor!.location.toString(),
+                                                      myOrderDetailsController.model.value.orderDetail!.vendor!.location.toString(),
                                                       style: GoogleFonts.raleway(
                                                           color: const Color(
                                                               0xFF303C5E),
@@ -881,7 +935,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                openMap(double.parse( myOrderDetailsController.model.value.data!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.data!.vendor!.longitude.toString(),));
+                                                openMap(double.parse( myOrderDetailsController.model.value.orderDetail!.vendor!.latitude.toString(),),double.parse( myOrderDetailsController.model.value.orderDetail!.vendor!.longitude.toString(),));
                                                 },
                                               child: Container(
                                                 height: AddSize.size45,
@@ -901,6 +955,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         ),
                                       ),
                                     ),
+
+
                                     // Card(
                                     //   elevation: 0,
                                     //   color: AppTheme.backgroundcolor,
@@ -997,7 +1053,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               color: const Color(0xff1A2E33)
                                           ),),
                                         const Spacer(),
-                                        Text( '€ ${myOrderDetailsController.model.value.data!.tipAmount.toString()}',
+                                         Text( '€ ${myOrderDetailsController.model.value.orderDetail!.tipAmount.toString()}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -1019,7 +1075,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               fontSize: 15),
                                         ),
                                         Text(
-                                         '€${ myOrderDetailsController.model.value.data!.grandTotal.toString()}',
+                                         '€${ myOrderDetailsController.model.value.orderDetail!.grandTotal.toString()}',
                                           style: const TextStyle(
                                               color: Color(0xFF797F90),
                                               fontWeight: FontWeight.w400,
@@ -1027,13 +1083,106 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         ),
                                       ],
                                     ),
+
+
                                   ],
                                 ),
-                              )
+                              ),
+
+                              addHeight(8),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children:[
+                                      InkWell(
+                                        onTap: (){
+                                          OrderDetail gg = myOrderDetailsController.model.value.orderDetail!;
+                                          log("Order data${jsonEncode(myOrderDetailsController.model.value.orderDetail)}");
+                                          gg.user = User.fromJson(controller1.model.value.data!.toJson());
+                                          gg.vendorID = gg.vendor!.id.toString();
+                                          String roomId = FirebaseService().createChatRoom(
+                                              user1: gg.user!.id!
+                                                  .toString()
+                                                  .convertToNum
+                                                  .toInt(),
+                                              user2: gg.vendor!.id!
+                                                  .toString()
+                                                  .convertToNum
+                                                  .toInt());
+                                          Get.to(const ChatScreen1(), arguments: [
+                                            roomId,
+                                            myOrderDetailsController.model.value.orderDetail!.user!.id!
+                                                .toString()
+                                                .convertToNum
+                                                .toInt()
+                                                .toString(),
+                                            gg
+                                          ]);
+
+                                        },
+                                        child: const Text(
+                                          "Chat with customer",
+                                          style: TextStyle(
+                                              color: Color(0xFF293044),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      // ElevatedButton(onPressed: (){
+                                      //   print("Helloo");
+                                      //   OrderDetail gg = myOrderDetailsController.model.value.orderDetail!;
+                                      //   log("Order data${jsonEncode(myOrderDetailsController.model.value.orderDetail)}");
+                                      //   gg.user = User.fromJson(controller1.model.value.data!.toJson());
+                                      //   gg.vendorID = gg.vendor!.id.toString();
+                                      //   String roomId = FirebaseService().createChatRoom(
+                                      //       user1: gg.user!.id!
+                                      //           .toString()
+                                      //           .convertToNum
+                                      //           .toInt(),
+                                      //       user2: gg.vendor!.id!
+                                      //           .toString()
+                                      //           .convertToNum
+                                      //           .toInt());
+                                      //   Get.to(const ChatScreen1(), arguments: [
+                                      //     roomId,
+                                      //     myOrderDetailsController.model.value.orderDetail!.user!.id!
+                                      //         .toString()
+                                      //         .convertToNum
+                                      //         .toInt()
+                                      //         .toString(),
+                                      //     gg
+                                      //   ]);
+                                      //
+                                      // },
+                                      //     style: ElevatedButton.styleFrom(
+                                      //       padding: EdgeInsets.symmetric(
+                                      //           horizontal: AddSize.padding22),
+                                      //       minimumSize:
+                                      //       Size(AddSize.size100, AddSize.size20 * 1.8),
+                                      //       primary: AppTheme.primaryColor,
+                                      //       elevation: 0,
+                                      //       shape: RoundedRectangleBorder(
+                                      //           borderRadius: BorderRadius.circular(6)),
+                                      //     ),
+                                      //     child: Text(
+                                      //       "Chat".toUpperCase(),
+                                      //       style: Theme.of(context).textTheme.headline5!.copyWith(
+                                      //           color: AppTheme.backgroundcolor,
+                                      //           fontWeight: FontWeight.w500,
+                                      //           fontSize: AddSize.font14),
+                                      //     ))
+                                    ]
+
+
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      )) : CircularProgressIndicator(color: Color(0xff7ED957),)
+                      )) : CircularProgressIndicator(color: Color(0xff7ED957),),
+
+
                 ],
               ): Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
             ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),

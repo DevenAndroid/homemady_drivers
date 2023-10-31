@@ -64,7 +64,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
       socket1!.dispose();
     }
     //192.168.1.28      54.204.238.132
-    io.Socket socket = io.io('http://3.25.233.116:3001/driver', <String, dynamic>{
+    io.Socket socket = io.io('http://79.125.89.222:3001/driver', <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
       "extraHeaders": {"access_token":user.authToken.toString()},
