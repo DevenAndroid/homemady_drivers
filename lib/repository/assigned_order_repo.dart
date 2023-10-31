@@ -17,6 +17,8 @@ Future<ModelCommonResponse> assignedOrder({
   map['order_id'] = orderId;
   map['status'] = status;
   SharedPreferences pref = await SharedPreferences.getInstance();
+
+  log(map.toString());
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
