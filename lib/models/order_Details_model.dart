@@ -2,6 +2,8 @@ class orderDetailsModel {
   bool? status;
   String? message;
   Data? data;
+  OrderDetail? orderDetail;
+  String vendorID ="";
 
   orderDetailsModel({this.status, this.message, this.data});
 
@@ -23,6 +25,7 @@ class orderDetailsModel {
 }
 
 class Data {
+  String vendorId = "";
   dynamic orderId;
   dynamic itemTotal;
   dynamic tax;
@@ -209,6 +212,197 @@ class User {
     data['as_driver_verified'] = this.asDriverVerified;
     data['as_vendor_verified'] = this.asVendorVerified;
     data['is_profile_complete'] = this.isProfileComplete;
+    return data;
+  }
+}
+class OrderDetail {
+
+  String vendorID ="";
+  dynamic orderId;
+  dynamic itemTotal;
+  dynamic tax;
+  dynamic deliveryCharges;
+  dynamic packingFee;
+  dynamic tipAmount;
+  dynamic serviceCharge;
+  dynamic grandTotal;
+  dynamic deliveryType;
+  dynamic minOrderCharge;
+  dynamic specialRequets;
+  dynamic deliveryTime;
+  dynamic instructionForDelivery;
+  User? user;
+  Vendor? vendor;
+  Driver? driver;
+  dynamic address;
+  dynamic orderType;
+  dynamic deliveryStatus;
+  dynamic feedback;
+  List<OrderItems>? orderItems;
+  dynamic placedAt;
+
+  OrderDetail(
+      {this.orderId,
+        this.itemTotal,
+        this.tax,
+        this.deliveryCharges,
+        this.tipAmount,
+        this.packingFee,
+
+        this.grandTotal,
+        this.deliveryType,
+        this.minOrderCharge,
+        this.user,
+        this.vendor,
+        this.specialRequets,
+        this.serviceCharge,
+        this.driver,
+        this.address,
+        this.deliveryTime,
+        this.instructionForDelivery,
+        this.orderType,
+        this.deliveryStatus,
+        this.feedback,
+        this.orderItems,
+        this.placedAt});
+
+  OrderDetail.fromJson(Map<dynamic, dynamic> json) {
+    orderId = json['order_id'];
+    itemTotal = json['item_total'];
+    tax = json['tax'];
+    deliveryCharges = json['delivery_charges'];
+    tipAmount = json['tip_amount'];
+    deliveryType = json['delivery_type'];
+    minOrderCharge = json['min_order_charge'];
+    deliveryTime = json['delivery_time'];
+    packingFee = json['packing_fee'];
+    minOrderCharge = json['min_order_charge'];
+    serviceCharge = json['service_charge'];
+    specialRequets = json['special_requets'];
+    instructionForDelivery = json['instruction_for_delivery'];
+    grandTotal = json['grand_total'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    vendor =
+    json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    user = json['driver'] != null ? new User.fromJson(json['driver']) : null;
+    address =
+    json['address'] != null ? new Address.fromJson(json['address']) : null;
+    orderType = json['order_type'];
+    deliveryStatus = json['delivery_status'];
+    if (json['order_items'] != null) {
+      orderItems = <OrderItems>[];
+      json['order_items'].forEach((v) {
+        orderItems!.add(new OrderItems.fromJson(v));
+      });
+    }
+    feedback = json['feedback'];
+    placedAt = json['placed_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['order_id'] = this.orderId;
+    data['item_total'] = this.itemTotal;
+    data['tax'] = this.tax;
+    data['service_charge'] = this.serviceCharge;
+    data['delivery_charges'] = this.deliveryCharges;
+    data['min_order_charge'] = this.minOrderCharge;
+    data['tip_amount'] = this.tipAmount;
+    data['delivery_time'] = this.deliveryTime;
+    data['special_requets'] = this.specialRequets;
+    data['packing_fee'] = this.packingFee;
+    data['delivery_type'] = this.deliveryType;
+    data['min_order_charge'] = this.minOrderCharge;
+
+    data['grand_total'] = this.grandTotal;
+    data['instruction_for_delivery'] = this.instructionForDelivery;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    if (this.vendor != null) {
+      data['vendor'] = this.vendor!.toJson();
+    }
+    if (this.driver != null) {
+      data['driver'] = this.driver!.toJson();
+    }
+    if (this.address != null) {
+      data['address'] = this.address!.toJson();
+    }
+    data['order_type'] = this.orderType;
+    data['delivery_status'] = this.deliveryStatus;
+    data['feedback'] = this.feedback;
+    if (this.orderItems != null) {
+      data['order_items'] = this.orderItems!.map((v) => v.toJson()).toList();
+    }
+    data['placed_at'] = this.placedAt;
+    return data;
+  }
+}
+class Driver {
+  dynamic driverId;
+  dynamic dob;
+  dynamic name;
+  dynamic phone;
+  dynamic ppsNo;
+  dynamic vehicleType;
+  dynamic address;
+  dynamic vehicleName;
+  dynamic vehicleModel;
+  dynamic vehicleMake;
+  dynamic vehicleColor;
+  dynamic ppsCardImage;
+  dynamic licenceFrontImage;
+  dynamic licenceBackImage;
+
+  Driver(
+      {this.driverId,
+        this.dob,
+        this.name,
+        this.phone,
+        this.ppsNo,
+        this.vehicleType,
+        this.address,
+        this.vehicleName,
+        this.vehicleModel,
+        this.vehicleMake,
+        this.vehicleColor,
+        this.ppsCardImage,
+        this.licenceFrontImage,
+        this.licenceBackImage});
+
+  Driver.fromJson(Map<String, dynamic> json) {
+    driverId = json['driverId'];
+    dob = json['dob'];
+    name = json['name'];
+    phone = json['phone'];
+    ppsNo = json['pps_no'];
+    vehicleType = json['vehicle_type'];
+    address = json['address'];
+    vehicleName = json['vehicle_name'];
+    vehicleModel = json['vehicle_model'];
+    vehicleMake = json['vehicle_make'];
+    vehicleColor = json['vehicle_color'];
+    ppsCardImage = json['pps_card_image'];
+    licenceFrontImage = json['licence_front_image'];
+    licenceBackImage = json['licence_back_image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['driverId'] = this.driverId;
+    data['dob'] = this.dob;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['pps_no'] = this.ppsNo;
+    data['vehicle_type'] = this.vehicleType;
+    data['address'] = this.address;
+    data['vehicle_name'] = this.vehicleName;
+    data['vehicle_model'] = this.vehicleModel;
+    data['vehicle_make'] = this.vehicleMake;
+    data['vehicle_color'] = this.vehicleColor;
+    data['pps_card_image'] = this.ppsCardImage;
+    data['licence_front_image'] = this.licenceFrontImage;
+    data['licence_back_image'] = this.licenceBackImage;
     return data;
   }
 }
