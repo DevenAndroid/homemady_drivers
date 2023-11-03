@@ -46,7 +46,7 @@ class MyRouters {
   static var assignedOrderScreen = "/assignedOrderScreen";
   static var bankDetailsScreen = "/bankDetailsScreen";
   static var driverWithdrawMoney = "/driverWithdrawMoney";
-  static var driverDeliveryOrderDetails = "/driverDeliveryOrderDetails";
+  // static var driverDeliveryOrderDetails = "/driverDeliveryOrderDetails";
   static var orderDeclineScreen = "/orderDeclineScreen";
   static var orderAccept = "/orderAccept";
   static var feedBackScreen = "/feedBackScreen";
@@ -80,7 +80,7 @@ class MyRouters {
     GetPage(name: '/assignedOrderScreen', page: () => const AssignedOrderScreen()),
     GetPage(name: '/bankDetailsScreen', page: () => const BankDetailsScreen()),
     GetPage(name: '/driverWithdrawMoney', page: () => const WithdrawMoney()),
-    GetPage(name: '/driverDeliveryOrderDetails', page: () => const DriverDeliveryOrderDetails()),
+    // GetPage(name: '/driverDeliveryOrderDetails', page: () => const DriverDeliveryOrderDetails()),
     GetPage(name: '/orderDeclineScreen', page: () => const OrderDeclineScreen()),
     GetPage(name: '/orderAccept', page: () => const OrderAccept()),
     GetPage(name: '/feedBackScreen', page: () => const FeedBackScreen()),

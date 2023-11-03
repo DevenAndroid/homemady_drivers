@@ -22,8 +22,8 @@ import 'chat_screen/chat_screen.dart';
 import 'notificatin_2.dart';
 
 class DriverDeliveryOrderDetails extends StatefulWidget {
-  const DriverDeliveryOrderDetails({Key? key}) : super(key: key);
-  static var driverDeliveryOrderDetails = "/driverDeliveryOrderDetails";
+  const DriverDeliveryOrderDetails({Key? key, this.routing}) : super(key: key);
+  final bool? routing;
 
   @override
   _DriverDeliveryOrderDetailsState createState() =>
@@ -43,7 +43,32 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
-    myOrderDetailsController.getMyOrderDetails();
+    myOrderDetailsController.getMyOrderDetails().then((value) {
+      if(widget.routing == true) {
+        OrderDetail gg = myOrderDetailsController.model.value.orderDetail!;
+        log("Order data${jsonEncode(myOrderDetailsController.model.value.orderDetail)}");
+        gg.user = User.fromJson(controller1.model.value.data!.toJson());
+        gg.vendorID = gg.vendor!.id.toString();
+        String roomId = FirebaseService().createChatRoom(
+            user1: gg.user!.id!
+                .toString()
+                .convertToNum
+                .toInt(),
+            user2: gg.vendor!.id!
+                .toString()
+                .convertToNum
+                .toInt());
+        Get.to(const ChatScreen1(), arguments: [
+          roomId,
+          myOrderDetailsController.model.value.orderDetail!.user!.id!
+              .toString()
+              .convertToNum
+              .toInt()
+              .toString(),
+          gg
+        ]);
+      }
+    });
   }
 
   Future<void> openMap(double latitude, double longitude) async {

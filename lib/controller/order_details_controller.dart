@@ -8,9 +8,9 @@ class MyOrderDetailsController extends GetxController {
   Rx<MyOrdersDetailsModel> model = MyOrdersDetailsModel().obs;
   RxString id = "".obs;
 
-  getMyOrderDetails() {
+  Future getMyOrderDetails() async {
     isDataLoading.value = false;
-    myOrderDetailsRepo(id: id).then((value) {
+    await myOrderDetailsRepo(id: id).then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

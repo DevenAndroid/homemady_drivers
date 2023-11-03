@@ -55,7 +55,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         onTap: (){
                           myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].orderId.toString();
                           print("Order id is ${myOrderDetailsController.id.value}");
-                          Get.toNamed(DriverDeliveryOrderDetails.driverDeliveryOrderDetails);
+                          Get.to(()=> const DriverDeliveryOrderDetails());
                         },
                         child: Padding(
                           padding:
