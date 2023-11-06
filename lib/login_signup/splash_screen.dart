@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_profile_model.dart';
-import '../models/verify_otp_model.dart';
 import '../repository/user_profile_repo.dart';
 import '../routers/routers.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -91,12 +89,13 @@ class _SplashScreenState extends State<SplashScreen> {
   // }
 
 
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
         .of(context)
         .size;
     return Scaffold(
-        body: Container(
+        body: SizedBox(
           height: size.height,
           width: size.width,
           child: Image.asset('assets/images/Splash2.png',

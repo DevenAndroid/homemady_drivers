@@ -27,11 +27,12 @@ Future<ModelCommonResponse1> driverUpdateOrder(
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
+  log(headers.toString());
   http.Response response = await http.post(Uri.parse(ApiUrl.driverOrderStatusUpdateUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200 ||response.statusCode == 400) {
     NewHelper.hideLoader(loader);
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     return ModelCommonResponse1.fromJson(json.decode(response.body));
   } else {
     NewHelper.createSnackBar(context, response.body.toString());

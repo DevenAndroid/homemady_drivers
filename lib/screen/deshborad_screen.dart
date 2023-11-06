@@ -1074,7 +1074,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                             .getData();
                                                                         assignedController
                                                                             .getOrderData1();
-                                                                        Get.offAllNamed(
+                                                                        Get.toNamed(
                                                                             MyRouters
                                                                                 .assignedOrderScreen);
                                                                       }

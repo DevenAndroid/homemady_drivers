@@ -1,18 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homemady_drivers/screen/verification_screen.dart';
-
 import '../controller/assigned_Orderlist_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/update_order_status_repo.dart';
-import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/dimenestion.dart';
@@ -83,7 +79,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
               return Row(
                 children: [
                   const Text(
-                    ' Delivey Mode  ',
+                    ' Delivery Mode  ',
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF303C5E)),
                   ),
                   FlutterSwitch(
@@ -327,8 +323,10 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                       "Picked Up"
                                                                   ? ElevatedButton(
                                                                       onPressed: () {
-                                                                        print(
+                                                                        if (kDebugMode) {
+                                                                          print(
                                                                             "Assignes order id ${assignedController.model.value.data![index].orderId}");
+                                                                        }
                                                                         driverUpdateOrder(
                                                                                 orderId: assignedController
                                                                                     .model.value.data![index].orderId
@@ -338,27 +336,15 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                             .then((value) {
                                                                           NewHelper.showToast(value.message.toString());
                                                                           if (value.status == true) {
-                                                                            NewHelper.showToast(
-                                                                                "${value.message}" + "${value.data}");
                                                                             assignedController.getOrderData1();
-                                                                            Get.toNamed(
-                                                                                VerifyOtpDeliveryScreen
-                                                                                    .verifyOtpDeliveryScreen,
-                                                                                arguments: [
-                                                                                  assignedController
-                                                                                      .model.value.data![index].orderId
-                                                                                ]);
-                                                                          } else {
-                                                                            NewHelper.showToast(value.message.toString());
                                                                           }
                                                                         });
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                         padding: EdgeInsets.symmetric(
-                                                                            horizontal: AddSize.padding22),
+                                                                            horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                                         minimumSize:
                                                                             Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                                        primary: AppTheme.primaryColor,
                                                                         elevation: 0,
                                                                         shape: RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.circular(6)),
@@ -367,7 +353,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                         "Deliver".toUpperCase(),
                                                                         style: Theme.of(context)
                                                                             .textTheme
-                                                                            .headline5!
+                                                                            .headlineSmall!
                                                                             .copyWith(
                                                                                 color: AppTheme.backgroundcolor,
                                                                                 fontWeight: FontWeight.w500,
@@ -380,10 +366,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                           onPressed: () {},
                                                                           style: ElevatedButton.styleFrom(
                                                                             padding: EdgeInsets.symmetric(
-                                                                                horizontal: AddSize.padding22),
+                                                                                horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                                             minimumSize:
                                                                                 Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                                            primary: AppTheme.primaryColor,
                                                                             elevation: 0,
                                                                             shape: RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.circular(6)),
@@ -392,7 +377,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                             "Delivered".toUpperCase(),
                                                                             style: Theme.of(context)
                                                                                 .textTheme
-                                                                                .headline5!
+                                                                                .headlineSmall!
                                                                                 .copyWith(
                                                                                     color: AppTheme.backgroundcolor,
                                                                                     fontWeight: FontWeight.w500,
@@ -415,10 +400,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                           },
                                                                           style: ElevatedButton.styleFrom(
                                                                             padding: EdgeInsets.symmetric(
-                                                                                horizontal: AddSize.padding22),
+                                                                                horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                                             minimumSize:
                                                                                 Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                                            primary: AppTheme.primaryColor,
                                                                             elevation: 0,
                                                                             shape: RoundedRectangleBorder(
                                                                                 borderRadius: BorderRadius.circular(6)),
@@ -427,7 +411,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                             "Pickup".toUpperCase(),
                                                                             style: Theme.of(context)
                                                                                 .textTheme
-                                                                                .headline5!
+                                                                                .headlineSmall!
                                                                                 .copyWith(
                                                                                     color: AppTheme.backgroundcolor,
                                                                                     fontWeight: FontWeight.w500,
@@ -440,10 +424,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                       onPressed: () {},
                                                                       style: ElevatedButton.styleFrom(
                                                                         padding: EdgeInsets.symmetric(
-                                                                            horizontal: AddSize.padding22),
+                                                                            horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                                         minimumSize:
                                                                             Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                                        primary: AppTheme.primaryColor,
                                                                         elevation: 0,
                                                                         shape: RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.circular(6)),
@@ -452,7 +435,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                         "Declined".toUpperCase(),
                                                                         style: Theme.of(context)
                                                                             .textTheme
-                                                                            .headline5!
+                                                                            .headlineSmall!
                                                                             .copyWith(
                                                                                 color: AppTheme.backgroundcolor,
                                                                                 fontWeight: FontWeight.w500,
@@ -462,10 +445,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                       onPressed: () {},
                                                                       style: ElevatedButton.styleFrom(
                                                                         padding: EdgeInsets.symmetric(
-                                                                            horizontal: AddSize.padding22),
+                                                                            horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                                         minimumSize:
                                                                             Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                                        primary: AppTheme.primaryColor,
                                                                         elevation: 0,
                                                                         shape: RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.circular(6)),
@@ -474,7 +456,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                         "Delivered".toUpperCase(),
                                                                         style: Theme.of(context)
                                                                             .textTheme
-                                                                            .headline5!
+                                                                            .headlineSmall!
                                                                             .copyWith(
                                                                                 color: AppTheme.backgroundcolor,
                                                                                 fontWeight: FontWeight.w500,
@@ -489,10 +471,9 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                             },
                                                             style: ElevatedButton.styleFrom(
                                                               padding: EdgeInsets.symmetric(
-                                                                  horizontal: AddSize.padding22),
+                                                                  horizontal: AddSize.padding22), backgroundColor: AppTheme.primaryColor,
                                                               minimumSize:
                                                               Size(AddSize.size100, AddSize.size20 * 1.8),
-                                                              primary: AppTheme.primaryColor,
                                                               elevation: 0,
                                                               shape: RoundedRectangleBorder(
                                                                   borderRadius: BorderRadius.circular(6)),
@@ -501,7 +482,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                               "chat".toUpperCase(),
                                                               style: Theme.of(context)
                                                                   .textTheme
-                                                                  .headline5!
+                                                                  .headlineSmall!
                                                                   .copyWith(
                                                                   color: AppTheme.backgroundcolor,
                                                                   fontWeight: FontWeight.w500,
@@ -564,7 +545,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                               ),
                               Text("No Orders",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                       height: 1.5,
                                       fontWeight: FontWeight.w700,
                                       fontSize: AddSize.font20,
@@ -574,7 +555,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                               ),
                               Text("Bong, it appears that you don't have any orders yet",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                       height: 1.5,
                                       fontWeight: FontWeight.w500,
                                       fontSize: AddSize.font16,
