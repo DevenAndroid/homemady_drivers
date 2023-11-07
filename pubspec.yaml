@@ -70,6 +70,7 @@ dependencies:
   cloud_firestore: ^4.9.2
   firebase_core: ^2.16.0
   flutter_native_image:
+  flutter_local_notifications: ^16.1.0
 
 
 dev_dependencies:

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,14 +19,18 @@ import 'package:flutter_switch/flutter_switch.dart';
 import '../controller/driver_information_controller.dart';
 import '../controller/get_feedback_controller.dart';
 import '../controller/location_controller.dart';
+import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
 import '../models/verify_otp_model.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/set_delivery_range_repo.dart';
+import '../services/notification_service.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+
+import 'order_details.dart';
 io.Socket? socket1;
 
 class DashbordScreen extends StatefulWidget {
@@ -36,6 +41,7 @@ class DashbordScreen extends StatefulWidget {
 }
 
 class _DashbordScreenState extends State<DashbordScreen> {
+
   bool state = true;
   int currentDrawer = 0;
   int value1 = 1;
@@ -52,8 +58,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
   final RxBool _store = false.obs;
 
-
-  // sokit connect
   connectToServer() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -107,21 +111,63 @@ class _DashbordScreenState extends State<DashbordScreen> {
      }.toString());
     });
   }
+  late StreamSubscription<RemoteMessage> streamSubscription;
+  late StreamSubscription<RemoteMessage> streamSubscriptionOnOpen;
+
+  onMessage(RemoteMessage event) {
+    log("Notification received..........   onMessage        ${event.toMap()}");
+    NotificationService()
+        .showNotificationWithRemoteMessage(remoteMessage: event);
+  }
+
+  onMessageOpenApp(RemoteMessage event) {
+    log("Notification received..........   onMessageOpenApp        ${event.toMap()}");
+    Map<dynamic, dynamic> map = event.data;
+    if(map["order_id"] != null){
+      final orderController = Get.put(MyOrderDetailsController());
+      orderController.id.value = map["order_id"].toString();
+      Get.to(()=> const DriverDeliveryOrderDetails());
+    }
+  }
+
+  onBackground(RemoteMessage? event) {
+    if (event == null) return;
+    Map<dynamic, dynamic> map = event.data;
+    if(map["order_id"] != null){
+      final orderController = Get.put(MyOrderDetailsController());
+      orderController.id.value = map["order_id"].toString();
+      Get.to(()=> const DriverDeliveryOrderDetails());
+    }
+    log("Notification received..........   getInitialMessage        ${event.toMap()}");
+  }
+
+  notificationHandler() {
+    streamSubscription = FirebaseMessaging.onMessage.listen(onMessage);
+    streamSubscriptionOnOpen =
+        FirebaseMessaging.onMessageOpenedApp.listen(onMessageOpenApp);
+    FirebaseMessaging.instance.getInitialMessage().then(onBackground);
+  }
+
   late Timer repeatEmit;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    notificationHandler();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-     // locationController.checkGps(context);
       connectToServer();
       controller.getData();
       controller1.getData();
       controllerFeedback.getData();
       controllerDriverId.getData();
     });
-
     _store;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    streamSubscription.cancel();
+    streamSubscriptionOnOpen.cancel();
   }
 
   @override
