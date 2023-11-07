@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_textfiled.dart';
@@ -175,7 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return GestureDetector(

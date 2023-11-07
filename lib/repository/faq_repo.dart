@@ -13,9 +13,9 @@ Future<faqScreen> faqRepo({required type}) async {
       Uri.parse('${ApiUrl.faq}?type=$type'),
 
     );
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      // print(jsonDecode(response.body));
       return faqScreen.fromJson(jsonDecode(response.body));
 
     } else {

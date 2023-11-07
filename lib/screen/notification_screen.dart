@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,7 +53,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       return GestureDetector(
                         onTap: (){
                           myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].orderId.toString();
-                          print("Order id is ${myOrderDetailsController.id.value}");
+                          // print("Order id is ${myOrderDetailsController.id.value}");
                           Get.to(()=> const DriverDeliveryOrderDetails());
                         },
                         child: Padding(
@@ -67,7 +66,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Color(0xFF04666E).withOpacity(0.10),
+                                    color: const Color(0xFF04666E).withOpacity(0.10),
                                   offset: const Offset(
                                     .1,
                                     .1,
@@ -126,7 +125,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 10,top: 2),
                                         child: Text(
-                                          '${controller.model.value.data!.notificationData![index].title.toString()}',
+                                          controller.model.value.data!.notificationData![index].title.toString(),
                                           style: GoogleFonts.poppins(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
@@ -164,7 +163,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   ),
                                   Text("No Notifications Yet",
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                           height: 1.5,
                                           fontWeight: FontWeight.w700,
                                           fontSize: AddSize.font20,
@@ -174,7 +173,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   ),
                                   Text("Bong, it seems that you do not have any notifications at the moment",
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                           height: 1.5,
                                           fontWeight: FontWeight.w500,
                                           fontSize: AddSize.font16,

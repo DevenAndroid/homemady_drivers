@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'app_theme.dart';
 
 class Helpers {
@@ -19,8 +18,7 @@ class Helpers {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
+    if (now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       return Future.value(false);
     }
@@ -51,7 +49,7 @@ class Helpers {
         child: Material(
           color: AppTheme.primaryColor.withOpacity(0.02),
 //color:  Color(0xFF7ED957),
-          child: CupertinoActivityIndicator(
+          child: const CupertinoActivityIndicator(
             radius: 30,
           ),
         ),

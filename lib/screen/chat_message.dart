@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:homemady_drivers/widgets/custome_size.dart';
 
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
@@ -51,7 +49,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                   children: [
                     Image.asset('assets/images/Chat.png'),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration:  BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -63,7 +61,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                             ),
                           ],
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

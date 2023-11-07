@@ -20,15 +20,15 @@ Future<SocialLoginModel> socialLogin(
   map['token'] = token;
 
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
 
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
   };
-  //print('REQUEST ::${jsonEncode(map)}');
+  //// print('REQUEST ::${jsonEncode(map)}');
   // log(pref.getString('deviceId')!);
-  print(map);
+  // print(map);
   http.Response response = await http.post(Uri.parse(ApiUrl.socialUrl),
       body: jsonEncode(map), headers: headers);
   log(map.toString());

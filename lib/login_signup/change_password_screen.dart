@@ -31,7 +31,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(Get.arguments);
+    // print(Get.arguments);
     text = Get.arguments;
   }
   String text = '';

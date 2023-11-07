@@ -15,7 +15,7 @@ class AssignedOrderController extends GetxController {
   }
 
   // getOrderData() async {
-  //   print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  //   // print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
   // //   if(gg == true)return;
   // //   gg = true;
   // //   isDataLoading.value = false;
@@ -29,7 +29,7 @@ class AssignedOrderController extends GetxController {
   // }
 
   getOrderData1() async {
-   // print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+   // // print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     if(gg == true)return;
     gg = true;
     // isDataLoading.value = false;

@@ -29,12 +29,12 @@ class FirebaseService{
     required DateTime lastSeen
   }) async {
     int length = 0;
-    print(lastSeen);
+    // print(lastSeen);
     await fireStore.collection(messageCollection).doc(roomId)
         .collection("messages")
         .where("last_message_time",isLessThan: lastSeen)
         .limit(12).get().then((value) {
-      print(value.docs.length);
+      // print(value.docs.length);
       length = value.docs.length;
       // return value;
     });
@@ -65,7 +65,7 @@ class FirebaseService{
   Future<int> getUnreadMessages({required String roomId,required DateTime lastTime}) async {
     QuerySnapshot<Map<String, dynamic>> docSnap =
     await fireStore.collection(messageCollection).doc(roomId).collection("messages").where("time",isGreaterThan: lastTime).get();
-    if (kDebugMode) print(docSnap.docs.map((e) => e.data().toString()).toList());
+      // print(docSnap.docs.map((e) => e.data().toString()).toList());
     return docSnap.docs.length;
   }
 

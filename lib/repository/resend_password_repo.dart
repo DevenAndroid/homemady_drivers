@@ -15,9 +15,9 @@ Future<ResetPasswordModel> resetPasswordRepo(
       required String confirmPassword,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
-  //print("These are details.....${pref}");
+  //// print("These are details.....${pref}");
   var map = <String, dynamic>{};
   map['phone'] = email;
   map['password'] = password;
@@ -32,7 +32,7 @@ Future<ResetPasswordModel> resetPasswordRepo(
     http.Response response = await http.post(Uri.parse(ApiUrl.resetPasswordUrl),
         body: jsonEncode(map), headers: headers);
     if (response.statusCode == 200||response.statusCode == 400) {
-      print("<<<<<<<SEt new password repository=======>${response.body}");
+      // print("<<<<<<<SEt new password repository=======>${response.body}");
       NewHelper.hideLoader(loader);
       return ResetPasswordModel.fromJson(json.decode(response.body));
     } else {

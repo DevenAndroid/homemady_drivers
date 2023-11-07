@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repository/update_user_location_repoo.dart';
 
@@ -85,16 +84,16 @@ class LocationController extends GetxController {
         desiredAccuracy: LocationAccuracy.high);
     long.value = position.longitude.toString();
     lat.value = position.latitude.toString();
-    print("Address$position");
+    // print("Address$position");
     await placemarkFromCoordinates(
         double.parse(lat.value), double.parse(long.value))
         .then((value) async {
       locality.value = "${value.first.subLocality!}, ${value.first.subAdministrativeArea!}, ${value.first.postalCode!}, ${value.first.administrativeArea!},";
       country.value = 'Country : ${value.last.country}';
-      print(locality.value);
-      print(country.value);
-      print(long.value);
-      print(lat.value);
+      // print(locality.value);
+      // print(country.value);
+      // print(long.value);
+      // print(lat.value);
       await updateLocation(
          latitude: lat.toString(),
          longitude: long.toString(),

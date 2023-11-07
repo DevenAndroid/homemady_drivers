@@ -7,7 +7,6 @@ import 'package:homemady_drivers/models/common_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
-import '../models/assigned_orderList_model.dart';
 import '../models/verify_otp_model.dart';
 import '../widgets/new_helper.dart';
 
@@ -17,7 +16,7 @@ Future<ModelCommonResponse> setDeliveryLocationRepo(
   map['delivery_range'] = deliveryRange;
   log(map.toString());
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -28,7 +27,7 @@ Future<ModelCommonResponse> setDeliveryLocationRepo(
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.setDeliveryLocation),
       body: jsonEncode(map), headers: headers);
-  print(response.body);
+  // print(response.body);
   if (response.statusCode == 200 ||response.statusCode == 400) {
     NewHelper.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));

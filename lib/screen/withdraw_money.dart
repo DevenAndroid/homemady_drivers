@@ -42,7 +42,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
           return
             withdrawalListController.isDataLoading.value ?
             SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: AddSize.padding16,
@@ -140,7 +140,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           textAlign: TextAlign.center,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline5!
+                                              .headlineSmall!
                                               .copyWith(
                                               color: AppTheme.blackcolor,
                                               fontWeight: FontWeight.w600,
@@ -148,7 +148,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           controller: addMoneyController,
                                           cursorColor: const Color(0xFF7ED957),
                                           // validator: validateMoney,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             hintText: '€0',
                                           )),
                                       SizedBox(
@@ -169,7 +169,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              print(addMoneyController.text);
+                                              // print(addMoneyController.text);
                                               withdrawalRequestRepo(
                                                   addMoneyController.text,
                                                   context)
@@ -188,8 +188,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           },
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(double.maxFinite,
-                                                  AddSize.size50),
-                                              primary: const Color(0xFF7ED957),
+                                                  AddSize.size50), backgroundColor: const Color(0xFF7ED957),
                                               elevation: 0,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
@@ -261,9 +260,9 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                     )
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 ListView.builder(
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: withdrawalListController
                                       .model.value.data!.withdrawalList!.length,
@@ -319,7 +318,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline5!
+                                                  .headlineSmall!
                                                   .copyWith(
                                                   height: 1.5,
                                                   fontWeight:
@@ -350,7 +349,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline5!
+                                                  .headlineSmall!
                                                   .copyWith(
                                                   height: 1.5,
                                                   fontWeight:
@@ -375,7 +374,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline5!
+                                                  .headlineSmall!
                                                   .copyWith(
                                                   height: 1.5,
                                                   fontWeight:
@@ -426,7 +425,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("+€${title}",
+      label: Text("+€$title",
           style: const TextStyle(
               color: Color(0xFF262F33),
               fontSize: 14,

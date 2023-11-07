@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -27,15 +26,15 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String removeFirstLetter(String input) {
     if(input.isEmpty)return input;
-    print(input.substring(0,1));
+    // print(input.substring(0,1));
     if(input.substring(0,1) != "0") return input;
     return input.substring(1, input.length);
 
   }
   final formKey1 = GlobalKey<FormState>();
-  RegExp _emailRegExp = RegExp(
+  final RegExp _emailRegExp = RegExp(
       r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$');
-  RegExp _phoneRegExp = RegExp(r'^\+?[0-9]{7,}$');
+  final RegExp _phoneRegExp = RegExp(r'^\+?[0-9]{7,}$');
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
@@ -360,7 +359,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         'user_info', jsonEncode(value));
                                     NewHelper.showToast(value.message);
                                     if (value.data!.asDriverVerified == true) {
-                                      print('Loging.................................');
+                                      // print('Loging.................................');
                                       Get.offAllNamed(MyRouters.dashbordScreen);
                                     } else {
                                       Get.offAllNamed(
@@ -422,7 +421,7 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
       accessToken: googleAuth.accessToken,
     );
-    print("Token---------${googleAuth.accessToken}");
+    // print("Token---------${googleAuth.accessToken}");
     final value = await FirebaseAuth.instance.signInWithCredential(credential);
     log(value.credential!.accessToken!);
     //log(value.additionalUserInfo.a);

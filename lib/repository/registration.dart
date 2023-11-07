@@ -20,7 +20,7 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
 }) async {
 
   OverlayEntry loader = NewHelper.overlayLoader(context);
- Overlay.of(context)!.insert(loader);
+ Overlay.of(context).insert(loader);
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrl.driverRegistrationApi));
     SharedPreferences pref = await SharedPreferences.getInstance();

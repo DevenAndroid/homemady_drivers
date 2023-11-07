@@ -13,7 +13,6 @@ import 'package:homemady_drivers/widgets/dimenestion.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../repository/registration.dart';
-import '../widgets/app_theme.dart';
 import '../widgets/new_helper.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -55,7 +54,7 @@ class _DeliveryPartnerApplyScreenState
         this.image = imageTemporary;
       });
     } on PlatformException catch (e) {
-      print('Field to pick img : $e');
+      // print('Field to pick img : $e');
     }
   }
   Future pickImage1() async {
@@ -64,10 +63,10 @@ class _DeliveryPartnerApplyScreenState
       if (image == null) return;
       final imageTemporary = File(image.path);
       setState(() {
-        this.image1 = imageTemporary;
+        image1 = imageTemporary;
       });
     } on PlatformException catch (e) {
-      print('Field to pick img : $e');
+      // print('Field to pick img : $e');
     }
   }
   Future pickImage2() async {
@@ -76,10 +75,10 @@ class _DeliveryPartnerApplyScreenState
       if (image == null) return;
       final imageTemporary = File(image.path);
       setState(() {
-        this.image2 = imageTemporary;
+        image2 = imageTemporary;
       });
     } on PlatformException catch (e) {
-      print('Field to pick img : $e');
+      // print('Field to pick img : $e');
     }
   }
   String? _address = "";
@@ -176,7 +175,7 @@ class _DeliveryPartnerApplyScreenState
   //   //   maxTime: DateTime.now(),
   //   //   onChanged: (date) {
   //   //     // Do something when the date is changed but not yet confirmed
-  //   //     print('onChanged: $date');
+  //   //     // print('onChanged: $date');
   //   //   },
   //   //   onConfirm: (date) {
   //   //     setState(() {
@@ -398,7 +397,7 @@ class _DeliveryPartnerApplyScreenState
                               apiHeaders: await const GoogleApiHeaders()
                                   .getHeaders(),
                             );
-                            print(plist);
+                            // print(plist);
                             String placeid = place.placeId ?? "0";
                             final detail =
                             await plist.getDetailsByPlaceId(placeid);
@@ -408,7 +407,7 @@ class _DeliveryPartnerApplyScreenState
                             setState(() {
                               _address = (place.description ?? "Location")
                                   .toString();
-                              print("Address iss...$_address");
+                              // print("Address iss...$_address");
                             });
                           }},
                         child: Column(
@@ -427,7 +426,7 @@ class _DeliveryPartnerApplyScreenState
                                     color: Colors.grey.shade50),
                                 // width: MediaQuery.of(context).size.width - 40,
                                 child: ListTile(
-                                  leading: const Icon(Icons.location_on,color: const Color(0xFF6CD241),),
+                                  leading: const Icon(Icons.location_on,color: Color(0xFF6CD241),),
                                   title: Text(
                                     _address ?? "Location".toString(),
                                     style: TextStyle(
@@ -449,7 +448,7 @@ class _DeliveryPartnerApplyScreenState
 
                               ),
                             )
-                                : SizedBox()
+                                : const SizedBox()
                           ],
                         )
                         ),
@@ -674,7 +673,7 @@ class _DeliveryPartnerApplyScreenState
                               'vehicle_color' : colorController.text.trim(),
                               'address' : _address.toString(),
                             };
-                            print(mapdata);
+                            // print(mapdata);
                             vendorRegistrationRepo(
                               fieldName1: 'pps_card_image',
                               fieldName2: "licence_front_image",

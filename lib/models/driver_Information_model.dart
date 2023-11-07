@@ -8,13 +8,13 @@ class DriverInformationModel {
   DriverInformationModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -66,19 +66,19 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['driverId'] = this.driverId;
-    data['dob'] = this.dob;
-    data['pps_no'] = this.ppsNo;
-    data['vehicle_type'] = this.vehicleType;
-    data['address'] = this.address;
-    data['vehicle_name'] = this.vehicleName;
-    data['vehicle_model'] = this.vehicleModel;
-    data['vehicle_make'] = this.vehicleMake;
-    data['vehicle_color'] = this.vehicleColor;
-    data['pps_card_image'] = this.ppsCardImage;
-    data['licence_front_image'] = this.licenceFrontImage;
-    data['licence_back_image'] = this.licenceBackImage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['driverId'] = driverId;
+    data['dob'] = dob;
+    data['pps_no'] = ppsNo;
+    data['vehicle_type'] = vehicleType;
+    data['address'] = address;
+    data['vehicle_name'] = vehicleName;
+    data['vehicle_model'] = vehicleModel;
+    data['vehicle_make'] = vehicleMake;
+    data['vehicle_color'] = vehicleColor;
+    data['pps_card_image'] = ppsCardImage;
+    data['licence_front_image'] = licenceFrontImage;
+    data['licence_back_image'] = licenceBackImage;
     return data;
   }
 }

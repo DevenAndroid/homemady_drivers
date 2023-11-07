@@ -47,11 +47,11 @@ class ApiUrl {
 
 Future getAuthHeader() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  print(pref.getString("cookie")!.toString().replaceAll('\"', ''));
+  // print(pref.getString("cookie")!.toString().replaceAll('"', ''));
   return {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     if(pref.getString("cookie") != null)
-      HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
+      HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('"', '')}',
   };
 }

@@ -14,9 +14,9 @@ Future<ResetPasswordOtpModel> verifyResetRepo(
       required String roleText,
       required BuildContext context}) async {
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
-  //print("These are details.....${pref}");
+  //// print("These are details.....${pref}");
   var map = <String, dynamic>{};
   map['phone'] = email;
   map['otp'] = otp;
@@ -33,7 +33,7 @@ Future<ResetPasswordOtpModel> verifyResetRepo(
         body: jsonEncode(map), headers: headers);
 
     if (response.statusCode == 200||response.statusCode == 400) {
-      print("<<<<<<<reset verify from repository=======>${response.body}");
+      // print("<<<<<<<reset verify from repository=======>${response.body}");
       NewHelper.hideLoader(loader);
       return ResetPasswordOtpModel.fromJson(json.decode(response.body));
     } else {

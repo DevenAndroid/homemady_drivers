@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -657,7 +654,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
 
                               addHeight(15),
                               Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1051,7 +1048,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
 
                               addHeight(15),
                               Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1155,7 +1152,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         ),
                                       ),
                                       // ElevatedButton(onPressed: (){
-                                      //   print("Helloo");
+                                      //   // print("Helloo");
                                       //   OrderDetail gg = myOrderDetailsController.model.value.orderDetail!;
                                       //   log("Order data${jsonEncode(myOrderDetailsController.model.value.orderDetail)}");
                                       //   gg.user = User.fromJson(controller1.model.value.data!.toJson());
@@ -1205,11 +1202,11 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                             ],
                           ),
                         ),
-                      )) : CircularProgressIndicator(color: Color(0xff7ED957),),
+                      )) : const CircularProgressIndicator(color: Color(0xff7ED957),),
 
 
                 ],
-              ): Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
+              ): const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),),),
             ) : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),)),
         ),
       );
@@ -1306,8 +1303,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                           // Get.toNamed(MyRouter.editProfileScreen);
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(AddSize.size50, AddSize.size30),
-                          primary: AppTheme.primaryColor,
+                          minimumSize: Size(AddSize.size50, AddSize.size30), backgroundColor: AppTheme.primaryColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6)),
@@ -1317,7 +1313,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                           style: Theme
                               .of(context)
                               .textTheme
-                              .headline5!
+                              .headlineSmall!
                               .copyWith(
                               color: AppTheme.backgroundcolor,
                               fontWeight: FontWeight.w500,
@@ -1366,7 +1362,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 ),
               ),
               Text(
-                "€${price}",
+                "€$price",
                 style: TextStyle(
                     fontSize: AddSize.font16,
                     color: AppTheme.primaryColor,
@@ -1428,7 +1424,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                         color: AppTheme.backgroundcolor,
                         fontWeight: FontWeight.w500),
                   ),
-                )):SizedBox()
+                )):const SizedBox()
           ],
         ),
       ],

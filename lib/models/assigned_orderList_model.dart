@@ -1,4 +1,3 @@
-import 'order_Details_model.dart';
 
 class assgnedOrderList {
   bool? status;
@@ -15,15 +14,15 @@ class assgnedOrderList {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -57,20 +56,20 @@ class Data {
     orderStatus = json['order_status'];
     accpetanceStatus = json['accpetance_status'];
     location = json['location'] != null
-        ? new Location.fromJson(json['location'])
+        ? Location.fromJson(json['location'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['order_id'] = this.orderId;
-    data['payment_method'] = this.paymentMethod;
-    data['order_total'] = this.orderTotal;
-    data['accpetance_status'] = this.accpetanceStatus;
-    data['order_status'] = this.orderStatus;
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date;
+    data['order_id'] = orderId;
+    data['payment_method'] = paymentMethod;
+    data['order_total'] = orderTotal;
+    data['accpetance_status'] = accpetanceStatus;
+    data['order_status'] = orderStatus;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
     return data;
   }
@@ -538,18 +537,18 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['location'] = this.location;
-    data['flat_no'] = this.flatNo;
-    data['landmark'] = this.landmark;
-    data['address_type'] = this.addressType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['location'] = location;
+    data['flat_no'] = flatNo;
+    data['landmark'] = landmark;
+    data['address_type'] = addressType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }

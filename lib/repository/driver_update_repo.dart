@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
-import '../models/common_model.dart';
 import '../models/driver_update_model.dart';
 import '../models/verify_otp_model.dart';
 import '../widgets/new_helper.dart';
@@ -22,7 +21,7 @@ Future<DriverUpdateModel> DriverUpdate({
 }) async {
 
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   var request =
   http.MultipartRequest('POST', Uri.parse(ApiUrl.driverUpdate));
   SharedPreferences pref = await SharedPreferences.getInstance();

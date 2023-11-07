@@ -5,8 +5,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,34 +69,30 @@ class _DashbordScreenState extends State<DashbordScreen> {
     });
 
     socket.onError((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onError $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('==================  onError $data');
+      // }
     });
     socket.onDisconnect((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onDisconnect $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('==================  onDisconnect $data');
+      // }
     });
     socket.onConnecting((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('onConnecting $data');
-
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('onConnecting $data');
+      //
+      // }
     });
 
     socket.onConnectTimeout((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('onConnectTimeout $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('onConnectTimeout $data');
+      // }
     });
     socket.connect();
     socket1 = socket;
     socket.onConnect((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onConnect $data');
-        // try{
-
         repeatEmit = Timer.periodic(const Duration(minutes: 5), (timer) {
           socket.emit('get_data', {
             "latitude": locationController.lat.value,
@@ -107,15 +101,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
           );
 
         });
-
-        // }catch(error){
-        //   print("THis is exception $error");
-        // }
      log({
        "latitude": locationController.lat.value,
        "longitude": locationController.long.value
      }.toString());
-      }
     });
   }
   late Timer repeatEmit;
@@ -461,7 +450,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   onTap: () {
                     setState(() {
                       controllerFeedback.driverId.value = controllerDriverId.model.value.data!.driverId.toString();
-                      print(controllerFeedback.driverId.value);
                       Get.toNamed(MyRouters.feedBackScreen);
                     });
                   },
@@ -579,7 +567,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       deliveryModeUpdateRepo().then((value) {
                         if (value.status == true) {
                           controller.getData();
-                          print(val);
                           controller.model.value.data!.deliveryMode = val;
                           if (controller.model.value.data!.deliveryMode == true) {
                             NewHelper.showToast("Delivery mode on");
@@ -642,7 +629,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
           // leadingWidth: AddSize.size40 * ,
           title: InkWell(
             onTap: (){
-              print("Hello");
               socket1!.emit('get_data', {
               "latitude": locationController.lat.value,
               "longitude": locationController.long.value
@@ -956,7 +942,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                               setState(() {
                                                 controller1.valueRange = value;
                                                 value1 = value.toInt();
-                                                print("Delivery Rang iss ${value1}");
                                               });
                                               setDeliveryLocationRepo(
                                                 deliveryRange: value1,
@@ -1221,7 +1206,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5!
+                                            .headlineSmall!
                                             .copyWith(
                                                 color: AppTheme.blackcolor,
                                                 fontWeight: FontWeight.w400,

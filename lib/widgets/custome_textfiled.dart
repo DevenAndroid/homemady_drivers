@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dimenestion.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
-  RxBool? obSecure;
+  final RxBool? obSecure;
   final bool readOnly;
   final VoidCallback? onTap;
   final VoidCallback? onEditingCompleted;
@@ -27,9 +24,9 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefix;
 
-  List<TextInputFormatter>? inputFormatters1 = [];
+  final List<TextInputFormatter>? inputFormatters1;
 
-  CustomTextField({
+  const CustomTextField({super.key,
     this.controller,
     this.validator,
     this.keyboardType = TextInputType.text,
@@ -121,7 +118,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 class CustomTextField1 extends StatefulWidget {
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
-  RxBool? obSecure;
+  final RxBool? obSecure;
   final bool readOnly;
   final VoidCallback? onTap;
   final VoidCallback? onEditingCompleted;
@@ -138,9 +135,9 @@ class CustomTextField1 extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefix;
 
-  List<TextInputFormatter>? inputFormatters1 = [];
+  final List<TextInputFormatter>? inputFormatters1;
 
-  CustomTextField1({
+  const CustomTextField1({super.key,
     this.controller,
     this.validator,
     this.keyboardType = TextInputType.text,
@@ -239,7 +236,7 @@ class _CustomTextField1State extends State<CustomTextField1> {
 class CustomTextField2 extends StatefulWidget {
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
-  RxBool? obSecure;
+  final RxBool? obSecure;
   final bool readOnly;
   final VoidCallback? onTap;
   final VoidCallback? onEditingCompleted;
@@ -256,9 +253,9 @@ class CustomTextField2 extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefix;
 
-  List<TextInputFormatter>? inputFormatters1 = [];
+  final List<TextInputFormatter>? inputFormatters1;
 
-  CustomTextField2({
+  const CustomTextField2({super.key,
     this.controller,
     this.validator,
     this.keyboardType = TextInputType.text,
@@ -472,7 +469,7 @@ AppBar backAppBar(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon ??
-                  Icon(Icons.arrow_back_rounded,color: Colors.black,)
+                  const Icon(Icons.arrow_back_rounded,color: Colors.black,)
             ],
           )),
     ),
@@ -497,7 +494,7 @@ class CommonTextFieldWidget extends StatelessWidget {
   final dynamic maxLines;
   final bool? obscureText;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const CommonTextFieldWidget({
     Key? key,
@@ -588,7 +585,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
   final dynamic maxLines;
   final bool? obscureText;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const CommonTextFieldWidget1({
     Key? key,
@@ -653,7 +650,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
               borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+              const BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(15.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
@@ -679,7 +676,7 @@ class RegistrationTextFieldChk extends StatelessWidget {
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
 
@@ -774,7 +771,7 @@ class RegistrationTextFieldChk1 extends StatelessWidget {
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const RegistrationTextFieldChk1({
     Key? key,
@@ -862,7 +859,7 @@ class RegistrationTextField extends StatelessWidget {
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const RegistrationTextField({
     Key? key,
@@ -907,14 +904,14 @@ class RegistrationTextField extends StatelessWidget {
           hintText: hint,
           focusColor: Colors.green,
           hintStyle: GoogleFonts.poppins(
-            color: const Color(0x000000).withOpacity(0.57),
+            color: const Color(0x00000000).withOpacity(0.57),
             fontSize: 14,
             fontWeight: FontWeight.w300,
           ),
           filled: true,
 
-          fillColor: Color(0xFFFFFFFF),
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          fillColor: const Color(0xFFFFFFFF),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -952,7 +949,7 @@ class RegistrationTextField1 extends StatelessWidget {
   final bool? enable;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
-  final length;
+  final int? length;
   final String? lableText;
   final dynamic errorMaxLines;
 
@@ -1057,7 +1054,7 @@ class RegistrationTextField2 extends StatelessWidget {
   final bool? enable;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
-  final length;
+  final int? length;
 
   const RegistrationTextField2({
     Key? key,
@@ -1150,7 +1147,7 @@ class RegistrationTextField3 extends StatelessWidget {
   final bool? enable;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
-  final length;
+  final int? length;
 
   const RegistrationTextField3({
     Key? key,
@@ -1243,7 +1240,7 @@ class CommonTextFieldWidgetSearch extends StatelessWidget {
   final dynamic maxLines;
   final bool? obscureText;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const CommonTextFieldWidgetSearch({
     Key? key,
@@ -1308,7 +1305,7 @@ class CommonTextFieldWidgetSearch extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(50.0))),
           border: OutlineInputBorder(
               borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+              const BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(50.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
@@ -1334,7 +1331,7 @@ class CommonTextFieldWidgetSearch1 extends StatelessWidget {
   final dynamic maxLines;
   final bool? obscureText;
   final VoidCallback? onTap;
-  final length;
+  final int? length;
 
   const CommonTextFieldWidgetSearch1({
     Key? key,
@@ -1386,7 +1383,7 @@ class CommonTextFieldWidgetSearch1 extends StatelessWidget {
             fontWeight: FontWeight.w300,
           ),
           filled: true,
-          fillColor: Color(0xFFF8F8F8),
+          fillColor: const Color(0xFFF8F8F8),
           contentPadding:
           const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
@@ -1399,7 +1396,7 @@ class CommonTextFieldWidgetSearch1 extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(50.0))),
           border: OutlineInputBorder(
               borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+              const BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(50.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),

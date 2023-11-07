@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../repository/forgot_repo.dart';
 import '../routers/routers.dart';

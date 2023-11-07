@@ -47,7 +47,7 @@ class _DeliveredSuccessfullyScreenState
                 Text(
                   "Order delivered successfully",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 28,
                       color: AppTheme.blackcolor),
@@ -65,8 +65,7 @@ class _DeliveredSuccessfullyScreenState
                   Get.offAndToNamed(MyRouters.dashbordScreen);
                 },
                 style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.maxFinite, 60),
-                    primary: AppTheme.primaryColor,
+                    minimumSize: const Size(double.maxFinite, 60), backgroundColor: AppTheme.primaryColor,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AddSize.size10)),
@@ -74,7 +73,7 @@ class _DeliveredSuccessfullyScreenState
                         fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
                 child: Text(
                   "Continue".toUpperCase(),
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: AppTheme.backgroundcolor,
                       fontWeight: FontWeight.w500,
                       fontSize: AddSize.font16),

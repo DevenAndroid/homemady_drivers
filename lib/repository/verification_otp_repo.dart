@@ -17,7 +17,7 @@ Future<ModelCommonResponse> deliveryOtpVerify(
   map['otp'] = otp;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -28,7 +28,7 @@ Future<ModelCommonResponse> deliveryOtpVerify(
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.deliveryVerifyOtpUrl),
       body: jsonEncode(map), headers: headers);
-  print(response.body);
+  // print(response.body);
   if (response.statusCode == 200 || response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
@@ -45,7 +45,7 @@ Future<ModelCommonResponse> resendDeliveryOtpVerify(
   map['order_id'] = orderId;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -56,7 +56,7 @@ Future<ModelCommonResponse> resendDeliveryOtpVerify(
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.resendDeliveryOtpUrl),
       body: jsonEncode(map), headers: headers);
-  print(response.body);
+  // print(response.body);
   if (response.statusCode == 200 || response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));

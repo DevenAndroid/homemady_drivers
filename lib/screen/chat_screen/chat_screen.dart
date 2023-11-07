@@ -95,10 +95,10 @@ class _ChatScreen1State extends State<ChatScreen1> {
   DateTime? lastTimeByOtherTime;
   listenToChanges() {
     lastSeenSubscription = service.getRoomInfoStream(roomId: chatRoomId).listen((event) {
-      log("events....    " + event.data().toString());
-      lastTimeByOther.value = event.data()!["last_time_${otherUserId}"];
-      log("events.........    " + lastTimeByOther.value.toString() + "   gggg");
-      log("events.........    " + otherUserId + "   gggg");
+      log("events....    ${event.data()}");
+      lastTimeByOther.value = event.data()!["last_time_$otherUserId"];
+      log("events.........    ${lastTimeByOther.value}   gggg");
+      log("events.........    $otherUserId   gggg");
     });
   }
 
@@ -129,7 +129,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
         if (imageTypes.contains(result.files.single.path.toString().split(".").last)) {
           image2 = (await FileCompressionApi.compressImage(image))!;
           image = image2;
-          print("333333333333333333${image!.path}");
+          // print("333333333333333333${image.path}");
         }
       }
     }
@@ -143,7 +143,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
           fieldName1: "image",
           file1: selectedImage!,
         ).then((value) {
-          log("00000000000000${selectedImage}");
+          log("00000000000000$selectedImage");
           if (value.status == true) {
             log("55555555555${value.data!.image.toString()}");
             service
@@ -172,7 +172,8 @@ class _ChatScreen1State extends State<ChatScreen1> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return Theme(
-      data: ThemeData(useMaterial3: true, backgroundColor: Colors.transparent, dividerColor: Colors.transparent),
+      data: ThemeData(useMaterial3: true, dividerColor: Colors.transparent,
+      backgroundColor: Colors.transparent),
       child: GestureDetector(
         onTap: (){
           FocusManager.instance.primaryFocus!.unfocus();
@@ -203,7 +204,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
                   onTap: () {
                     Get.back();
                   },
-                  child: Icon(Icons.arrow_back)),
+                  child: const Icon(Icons.arrow_back)),
             ),
             title: Obx(() {
               if (refreshInt.value > 0) {}
@@ -265,16 +266,16 @@ class _ChatScreen1State extends State<ChatScreen1> {
                         messagesList = snapshot.data!.docs.map((e) => MessageModel.fromMap(e.data())).toList();
                         String givenValue = "";
                         messagesList.reversed.toList().forEach((element) {
-                          // print(element.messageSentTime!.isCurrentData);
+                          // // print(element.messageSentTime!.isCurrentData);
                           if (element.messageSentTime == null) return;
                           if (element.messageSentTime!.toSimpleDate.toString() != givenValue) {
                             element.highlightDate = element.messageSentTime!.toSimpleDate.toString();
                             givenValue = element.messageSentTime!.toSimpleDate.toString();
-                            // print(givenValue);
+                            // // print(givenValue);
                           }
                         });
 
-                        // print(messagesList[0].textMessage);
+                        // // print(messagesList[0].textMessage);
                         return ListView.builder(
                           // physics: BouncingScrollPhysics(),
                           reverse: true,
@@ -307,7 +308,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
                     }),
               ),
               Container(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -321,7 +322,7 @@ class _ChatScreen1State extends State<ChatScreen1> {
                       ),
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -394,7 +395,7 @@ class FileCompressionApi {
           quality: 50, percentage: 10);
       return compressedFile;
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null; //If any error occurs during compression, the process is stopped.
     }
   }
