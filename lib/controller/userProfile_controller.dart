@@ -26,9 +26,9 @@ class UserProfileController extends GetxController{
   String get myProfileID => model.value.data!.id.toString();
   // FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
-  getData(){
+  Future<UserProfileModel> getData() async {
     isDataLoading.value = false;
-    userProfileData().then((value1) {
+    return await userProfileData().then((value1) {
       isDataLoading.value = true;
       model.value = value1;
       if(isDataLoading.value && model.value.data != null){
@@ -49,7 +49,7 @@ class UserProfileController extends GetxController{
         // print('country code comming from api:${model.value.data!.countryCode}');
         countryCode.value = model.value.data!.countryCode.toString();
       }
-
+      return value1;
     });
 
     //loginRepo().

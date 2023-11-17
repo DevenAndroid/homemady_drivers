@@ -30,6 +30,7 @@ import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
+import 'chat_screen/chatting_list_screen.dart';
 import 'order_details.dart';
 io.Socket? socket1;
 
@@ -125,8 +126,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
     Map<dynamic, dynamic> map = event.data;
     if(map["order_id"] != null){
       final orderController = Get.put(MyOrderDetailsController());
-      orderController.id.value = map["order_id"].toString();
-      Get.to(()=> const DriverDeliveryOrderDetails());
+      // orderController.id.value = map["order_id"].toString();
+      Get.to(()=> DriverDeliveryOrderDetails(orderId: map["order_id"].toString(),));
     }
   }
 
@@ -135,8 +136,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
     Map<dynamic, dynamic> map = event.data;
     if(map["order_id"] != null){
       final orderController = Get.put(MyOrderDetailsController());
-      orderController.id.value = map["order_id"].toString();
-      Get.to(()=> const DriverDeliveryOrderDetails());
+      // orderController.id.value = map["order_id"].toString();
+      Get.to(()=> DriverDeliveryOrderDetails(orderId: map["order_id"].toString(),));
     }
     log("Notification received..........   getInitialMessage        ${event.toMap()}");
   }
@@ -442,11 +443,11 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         color: const Color(0xFF4F535E),
                         fontWeight: FontWeight.w400,
                       )),
-                  onTap: () {
-                    setState(() {
+                  onTap: () async {
                       currentDrawer = 5;
-                      Get.toNamed(MyRouters.notificationScreen2);
-                    });
+                      String? myUserId = await getMyUserId();
+                      if(myUserId == null)return;
+                      Get.to(()=> ChattingListScreen(myUserId: myUserId!,));
                   },
                 ),
                 const Divider(

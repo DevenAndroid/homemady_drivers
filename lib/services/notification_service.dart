@@ -34,8 +34,7 @@ class NotificationService {
           Map<dynamic, dynamic> map = jsonDecode(response.payload.toString());
           if(map["order_id"] != null){
             final orderController = Get.put(MyOrderDetailsController());
-            orderController.id.value = map["order_id"].toString();
-            Get.to(()=> const DriverDeliveryOrderDetails());
+            Get.to(()=> DriverDeliveryOrderDetails(orderId: map["order_id"].toString(),));
           }
         }
       },

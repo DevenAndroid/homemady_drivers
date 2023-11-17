@@ -1137,11 +1137,13 @@ class Vendor {
 
 class Driver {
   dynamic driverId;
+  dynamic id;
   dynamic dob;
   dynamic name;
   dynamic phone;
   dynamic ppsNo;
   dynamic vehicleType;
+  dynamic profile_image;
   dynamic address;
   dynamic vehicleName;
   dynamic vehicleModel;
@@ -1155,6 +1157,8 @@ class Driver {
       {this.driverId,
         this.dob,
         this.name,
+        this.profile_image,
+        this.id,
         this.phone,
         this.ppsNo,
         this.vehicleType,
@@ -1170,6 +1174,8 @@ class Driver {
   Driver.fromJson(Map<String, dynamic> json) {
     driverId = json['driverId'];
     dob = json['dob'];
+    id = json['id'];
+    profile_image = json['profile_image'];
     name = json['name'];
     phone = json['phone'];
     ppsNo = json['pps_no'];

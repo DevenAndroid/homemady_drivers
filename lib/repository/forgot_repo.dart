@@ -21,7 +21,9 @@ Future<ModelCommonResponse> forgotPassRepo(phone,roleText,context) async {
     HttpHeaders.acceptHeader: 'application/json',
   };
 
-  http.Response response = await http.get(Uri.parse( "${ApiUrl.forgotPassword}$phone&role=$roleText"),
+  String url = "${ApiUrl.forgotPassword}$phone&role=$roleText";
+  print(url);
+  http.Response response = await http.get(Uri.parse(url),
       headers: headers);
 
   if (response.statusCode == 200  || response.statusCode == 400) {

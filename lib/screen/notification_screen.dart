@@ -52,9 +52,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: (){
-                          myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].orderId.toString();
+                          // myOrderDetailsController.id.value= controller.model.value.data!.notificationData![index].orderId.toString();
                           // print("Order id is ${myOrderDetailsController.id.value}");
-                          Get.to(()=> const DriverDeliveryOrderDetails());
+                          Get.to(()=> DriverDeliveryOrderDetails(orderId: controller.model.value.data!.notificationData![index].orderId.toString(),));
                         },
                         child: Padding(
                           padding:

@@ -19,7 +19,6 @@ import '../screen/faqs_screen.dart';
 import '../screen/feedback_screen.dart';
 import '../screen/help_center_screen.dart';
 import '../screen/myprofileScreen.dart';
-import '../screen/notificatin_2.dart';
 import '../screen/notification_screen.dart';
 import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
@@ -59,7 +58,6 @@ class MyRouters {
   static var myProfileScreen= "/myProfileScreen";
   static var deliveryPartnerUpdateScreen= "/deliveryPartnerUpdateScreen";
   static var notificationScreen = "/notificationScreen";
-  static var notificationScreen2 = "/notificationScreen2";
 
 
 
@@ -92,7 +90,6 @@ class MyRouters {
     GetPage(name: '/faqsScreen', page: () => const FaqsScreen()),
     GetPage(name: '/myProfileScreen', page: () => const MyProfileScreen()),
     GetPage(name: '/notificationScreen', page: () => const NotificationScreen()),
-    GetPage(name: '/notificationScreen2', page: () => const NotificationScreen2()),
     GetPage(name: '/deliveredSuccessfullyScreen', page: () => const DeliveredSuccessfullyScreen()),
     GetPage(name: VerifyOtpDeliveryScreen.verifyOtpDeliveryScreen, page: () => const VerifyOtpDeliveryScreen()),
 
