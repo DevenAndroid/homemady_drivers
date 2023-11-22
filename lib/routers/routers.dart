@@ -72,7 +72,7 @@ class MyRouters {
     GetPage(name: '/thankYouVendorScreen', page: () => const ThankYouVendorScreen()),
     GetPage(name: '/deliveryPartnerApplyScreen', page: () => const DeliveryPartnerApplyScreen()),
     GetPage(name: '/deliveryPartnerUpdateScreen', page: () => const DeliveryPartnerUpdateScreen()),
-    GetPage(name: '/dashbordScreen', page: () => const DashbordScreen()),
+    GetPage(name: dashbordScreen, page: () => const DashbordScreen()),
     GetPage(name: '/assignedOrderScreen', page: () => const AssignedOrderScreen()),
     GetPage(name: '/bankDetailsScreen', page: () => const BankDetailsScreen()),
     GetPage(name: '/driverWithdrawMoney', page: () => const WithdrawMoney()),

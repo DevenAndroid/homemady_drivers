@@ -120,9 +120,11 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
   onMessage(RemoteMessage event) {
     log("Notification received..........   onMessage        ${event.toMap()}");
+    showNotificationDialog(event);
+    Future.delayed(const Duration(seconds: 2)).then((value) {
     NotificationService()
         .showNotificationWithRemoteMessage(remoteMessage: event);
-    showNotificationDialog(event);
+    });
   }
 
 
@@ -276,6 +278,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.instance.getToken().then((value) {
+      print("token...       $value");
+    });
     final screenSize = MediaQuery.of(context).size;
     var width=MediaQuery.of(context).size.width;
     return GestureDetector(

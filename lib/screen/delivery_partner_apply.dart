@@ -12,6 +12,8 @@ import 'package:homemady_drivers/widgets/custome_textfiled.dart';
 import 'package:homemady_drivers/widgets/dimenestion.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../login_signup/login_screen.dart';
 import '../repository/registration.dart';
 import '../widgets/new_helper.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -196,7 +198,6 @@ class _DeliveryPartnerApplyScreenState
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: (){
         FocusManager.instance.primaryFocus!.unfocus();
@@ -210,6 +211,14 @@ class _DeliveryPartnerApplyScreenState
                 fontWeight: FontWeight.w600,
                 fontSize: 17,
                 color: Color(0xFF1A2E33)),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.adaptive.arrow_back_rounded),
+            onPressed: () async {
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              await pref.clear();
+              Get.offAll(()=> const LoginScreen());
+            },
           ),
         ),
         body: Obx(() {
