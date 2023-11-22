@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'dart:io';
 
+import '../firebase_service/firebase_service.dart';
 import '../models/user_profile_model.dart';
 import '../repository/user_profile_repo.dart';
 
@@ -32,6 +33,7 @@ class UserProfileController extends GetxController{
       isDataLoading.value = true;
       model.value = value1;
       if(isDataLoading.value && model.value.data != null){
+        FirebaseService.updateUserFcmToken(value1.data!.id.toString());
         nameController.text = model.value.data!.name.toString();
         emailController.text = model.value.data!.email.toString();
         mobileController.text = model.value.data!.phone.toString();

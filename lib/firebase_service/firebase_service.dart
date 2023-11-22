@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'package:client_information/client_information.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import '../models/order_details_cooks_copy_model.dart';
+import '../services/push_notification.dart';
 enum MessageType{
   simpleMessage,
   withImage,
@@ -22,6 +25,36 @@ class FirebaseService{
     required String roomId,
   }){
     return fireStore.collection(messageCollection).doc(roomId).snapshots();
+  }
+
+  Future<List<String>> availableFCMTokens(String userId) async {
+    final item = await FirebaseFirestore.instance.collection("users_info").doc(userId).get();
+    if(!item.exists)return [];
+    if(item.data() == null)return [];
+    return item.data()!.entries.map((e) => e.value.toString()).toList();
+  }
+
+  static updateUserFcmToken(String userId) async {
+    final item = await FirebaseFirestore.instance.collection("users_info").doc(userId).get();
+    String? fcm = await FirebaseMessaging.instance.getToken();
+    ClientInformation info = await ClientInformation.fetch();
+    log("Device Info....     ${info.toJson()}");
+    if (fcm == null) return;
+    if (item.exists) {
+      await item.reference.update({info.deviceId: fcm});
+    } else {
+      await item.reference.set({info.deviceId: fcm});
+    }
+  }
+
+  static removeFcmToken(String userId) async {
+    final item = await FirebaseFirestore.instance.collection("users_info").doc(userId).get();
+    String? fcm = await FirebaseMessaging.instance.getToken();
+    ClientInformation info = await ClientInformation.fetch();
+    if (fcm == null) return;
+    if (item.exists) {
+      await item.reference.update({info.deviceId: null});
+    }
   }
 
   Future<int> getUnseenCount({
@@ -86,10 +119,10 @@ class FirebaseService{
     required String message,
     required String senderId,
     required String receiverId,
+    required List<String> fcmTokens,
     required MessageType messageType,
     Map<String, dynamic>? usersInfo,
   }) async {
-
     DateTime currentTime = DateTime.now();
 
     Map<String, dynamic> map = {};
@@ -100,6 +133,12 @@ class FirebaseService{
 
     await fireStore.collection(messageCollection).doc(roomId)
         .collection("messages").add(map).then((value) async {
+
+      sendNotification(
+          token: fcmTokens,
+          msgBody: messageType == MessageType.simpleMessage ? message : "Sent Image",
+          msgTitle: "New Message from order $orderID"
+      );
       final item = await fireStore.collection(messageCollection).doc(roomId).get();
       if(item.exists){
         Map<String, dynamic> map1 = {};

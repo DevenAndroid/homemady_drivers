@@ -22,6 +22,7 @@ import '../controller/get_feedback_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
+import '../firebase_service/firebase_service.dart';
 import '../models/verify_otp_model.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
@@ -682,7 +683,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     SharedPreferences pref =
                         await SharedPreferences.getInstance();
                     pref.clear();
-                    Get.toNamed(MyRouters.loginScreen);
+                    if(controller1.model.value.data != null){
+                    FirebaseService.removeFcmToken(controller1.model.value.data!.id.toString());
+                    }
+                    Get.offAllNamed(MyRouters.loginScreen);
                   },
                 ),
               ],

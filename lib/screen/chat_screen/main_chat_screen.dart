@@ -11,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:homemady_drivers/widgets/helper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/verify_otp_model.dart';
 import '../../api_url/api_url.dart';
@@ -35,8 +34,8 @@ class MainChatScreen extends StatefulWidget {
     required this.receiverImage,
     this.customer,
     this.vendor,
-    this.driver, this.initialMessage,
-
+    this.driver,
+    // this.initialMessage,
   }) : super(key: key);
   final String roomId;
   final String orderId;
@@ -47,7 +46,7 @@ class MainChatScreen extends StatefulWidget {
   final Map? customer;
   final Map? vendor;
   final Map? driver;
-  final String? initialMessage;
+  // final String? initialMessage;
 
   @override
   State<MainChatScreen> createState() => _MainChatScreenState();
@@ -115,22 +114,19 @@ class _MainChatScreenState extends State<MainChatScreen> {
           log("00000000000000$selectedImage");
           if (value.status == true) {
             log("55555555555${value.data!.image.toString()}");
-            service
-                .sendMessage(
+            service.sendMessage(
                 roomId: widget.roomId,
+                fcmTokens: fcmTokens,
                 orderID: widget.orderId,
                 message: value.data!.image.toString(),
                 senderId: widget.senderId,
                 messageType: MessageType.withImage,
                 usersInfo: {
-                  if(widget.customer != null)
-                    "customer": widget.customer,
-                  if(widget.vendor != null)
-                    "vendor": widget.vendor,
-                  if(widget.driver != null)
-                    "driver": widget.driver,
-                }, receiverId: widget.receiverId
-            );
+                  if (widget.customer != null) "customer": widget.customer,
+                  if (widget.vendor != null) "vendor": widget.vendor,
+                  if (widget.driver != null) "driver": widget.driver,
+                },
+                receiverId: widget.receiverId);
             // service
             //     .sendMessage(
             //     roomId: chatRoomId,
@@ -152,28 +148,14 @@ class _MainChatScreenState extends State<MainChatScreen> {
     }
   }
 
+  List<String> fcmTokens = [];
+
   @override
   void initState() {
     super.initState();
-    if(widget.initialMessage != null){
-      service
-          .sendMessage(
-          orderID: widget.orderId,
-          roomId: widget.roomId,
-          message: widget.initialMessage.toString(),
-          receiverId: widget.receiverId,
-          senderId: widget.senderId,
-          messageType: MessageType.simpleMessage,
-          usersInfo: {
-            if(widget.customer != null)
-              "customer": widget.customer,
-            if(widget.vendor != null)
-              "vendor": widget.vendor,
-            if(widget.driver != null)
-              "driver": widget.driver,
-          }
-      );
-    }
+    FirebaseService().availableFCMTokens(widget.receiverId.toString()).then((value) {
+      fcmTokens = value;
+    });
   }
 
   @override
@@ -333,23 +315,19 @@ class _MainChatScreenState extends State<MainChatScreen> {
                             if (messageController.text.trim().isEmpty) return;
                             String kk = messageController.text.trim();
                             messageController.clear();
-                            service
-                                .sendMessage(
+                            service.sendMessage(
                                 orderID: widget.orderId,
-                                    roomId: widget.roomId,
-                                    message: kk,
+                                roomId: widget.roomId,
+                                fcmTokens: fcmTokens,
+                                message: kk,
                                 receiverId: widget.receiverId,
-                                    senderId: widget.senderId,
-                                    messageType: MessageType.simpleMessage,
-                                    usersInfo: {
-                                      if(widget.customer != null)
-                                      "customer": widget.customer,
-                                      if(widget.vendor != null)
-                                      "vendor": widget.vendor,
-                                      if(widget.driver != null)
-                                      "driver": widget.driver,
-                                    }
-                            );
+                                senderId: widget.senderId,
+                                messageType: MessageType.simpleMessage,
+                                usersInfo: {
+                                  if (widget.customer != null) "customer": widget.customer,
+                                  if (widget.vendor != null) "vendor": widget.vendor,
+                                  if (widget.driver != null) "driver": widget.driver,
+                                });
                           },
                           icon: Image.asset(
                             'assets/images/PaperPlaneRight.png',
@@ -379,16 +357,9 @@ class FileCompressionApi {
   }
 }
 
-
-
-Future<ChatImageModal> sendImage(
-    {
-      required fieldName1,
-      required File file1}) async {
+Future<ChatImageModal> sendImage({required fieldName1, required File file1}) async {
   try {
-    var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(ApiUrl.sendImageUrl));
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrl.sendImageUrl));
     SharedPreferences pref = await SharedPreferences.getInstance();
     ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
     final headers = {
@@ -414,7 +385,6 @@ Future<ChatImageModal> sendImage(
     log("apiResponse........    ${request.fields.toString()}");
 
     if (response.statusCode == 200 || response.statusCode == 400) {
-
       return ChatImageModal.fromJson(jsonDecode(apiResponse));
     } else {
       return ChatImageModal.fromJson(jsonDecode(apiResponse));
