@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return OverlaySupport.global(
+
       child: GetMaterialApp(
         title: 'HomeMady Driver',
         theme: ThemeData(
