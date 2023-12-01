@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -806,7 +807,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-
               await controller.getData();
               controller1.getData();
           },
@@ -1096,7 +1096,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                             min: 1.0,
                                             max: 15,
                                             autofocus: true,
-                                            value:  double.parse(controller1.valueRange.toString()) == 0.0 ? 1.0 : double.parse(controller1.valueRange.toString()),
+                                            value:  double.parse(controller1.valueRange.toString()) < 1.0 ? 1.0 : math.min(double.parse(controller1.valueRange.toString()),15),
                                             divisions: 14,
                                             label: '${controller1.valueRange.round()} Km',
                                             onChangeEnd: (value) {

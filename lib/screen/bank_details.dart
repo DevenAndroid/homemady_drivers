@@ -192,7 +192,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         RegistrationTextFieldChk1(
                           controller: vendorBankDetailsController.bankAccountNumber,
                           hint: 'Bank Account Number',
-                          length: 10,
+                          length: 34,
                           onTap: (){},
                           keyboardType: TextInputType.number,
                         ),
