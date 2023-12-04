@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/assigned_orderList_model.dart';
 import '../repository/assigned_orderList_repo.dart';
+import '../screen/order_details.dart';
 import '../widgets/custome_size.dart';
 
 class AssignedOrderController extends GetxController {
@@ -59,94 +60,99 @@ extension ManageNotification on Widget {
                         ).copyWith(bottom: 20),
                         child: Hero(
                           tag: "notification_tag",
-                          child: Material(
-                            color: Colors.transparent,
-                            elevation: 5,
-                            surfaceTintColor: Colors.transparent,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              width: MediaQuery.of(context).size.width,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  addWidth(8),
-                                  Container(
-                                    height: 54,
-                                    width: 3,
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                                      color: Colors.green,
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.to(()=> DriverDeliveryOrderDetails(orderId: controller.model.value.data!.first.orderId.toString()));
+                              },
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 5,
+                              surfaceTintColor: Colors.transparent,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    addWidth(8),
+                                    Container(
+                                      height: 54,
+                                      width: 3,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                                        color: Colors.green,
+                                      ),
+                                      // child: VerticalDivider(
+                                      //   color: Color(0xffFF6100),
+                                      //   thickness: 2.5,
+                                      // ),
                                     ),
-                                    // child: VerticalDivider(
-                                    //   color: Color(0xffFF6100),
-                                    //   thickness: 2.5,
-                                    // ),
-                                  ),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  const SizedBox(
-                                    height: 32,
-                                    width: 32,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Text(
-                                        'B',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                    const SizedBox(
+                                      height: 32,
+                                      width: 32,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.green,
+                                        child: Text(
+                                          'B',
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10, right: 6),
-                                          child: Text(
-                                            controller.model.value.data!.first.date.toString(),
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 11.5,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.green,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            controller.model.value.data!.first.orderStatus.toString(),
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10, right: 10),
-                                          child: Text(
-                                            "You Order #${controller.model.value.data!.first.orderId.toString()}",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey.shade600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    const SizedBox(
+                                      width: 5,
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10, right: 6),
+                                            child: Text(
+                                              controller.model.value.data!.first.date.toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 11.5,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              controller.model.value.data!.first.orderStatus.toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10, right: 10),
+                                            child: Text(
+                                              "You Order #${controller.model.value.data!.first.orderId.toString()}",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
