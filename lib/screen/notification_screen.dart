@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homemady_drivers/controller/assigned_Orderlist_controller.dart';
 import '../controller/notification_controller.dart';
 import '../controller/order_details_controller.dart';
 import '../widgets/app_theme.dart';
@@ -183,8 +184,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
             ],
           ):const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor,));
-        }),
-
+        }).manageNotification(),
       ),
     );
   }

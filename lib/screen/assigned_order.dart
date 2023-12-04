@@ -28,7 +28,6 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
   final controller = Get.put(DeshBoradController());
   String dropdownvalue = 'All Orders';
   final assignedController = Get.put(AssignedOrderController());
-  final orderController = Get.put(MyOrderDetailsController());
   final controller1 = Get.put(UserProfileController());
 
   @override
@@ -562,7 +561,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
               ),
             ],
           ),
-        ),
+        ).manageNotification(),
       ),
     );
   }
