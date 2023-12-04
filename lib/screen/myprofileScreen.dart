@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homemady_drivers/controller/assigned_Orderlist_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../controller/userProfile_controller.dart';
@@ -500,7 +501,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
             ],
           ) : const Center(child:  CircularProgressIndicator(color: Color(0xff7ED957),)) ;
-        }),
+        }).manageNotification(context: context),
       ),
     );
   }

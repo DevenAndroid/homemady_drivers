@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:homemady_drivers/controller/assigned_Orderlist_controller.dart';
 import '../controller/withdrawel_controller.dart';
 import '../repository/withdraw_request_repo.dart';
 import '../widgets/app_theme.dart';
@@ -37,8 +38,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
       },
       child: Scaffold(
         appBar: backAppBar(title: "Withdrawal money".tr, context: context),
-        body:
-        Obx((){
+        body: Obx((){
           return
             withdrawalListController.isDataLoading.value ?
             SingleChildScrollView(
@@ -410,8 +410,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                 )):
             const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor,)) ;
         }),
-
-      ),
+      ).manageNotification(context: context),
     );
   }
 

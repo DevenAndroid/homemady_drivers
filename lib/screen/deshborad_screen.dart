@@ -1255,7 +1255,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     color: Color(0xff7ED957),
                   ));
           }),
-        ).manageNotification(),
+        ).manageNotification(
+          context: context
+        ),
       ),
     );
   }
