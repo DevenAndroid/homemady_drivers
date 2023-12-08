@@ -777,6 +777,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
           ),
         ),
         body: RefreshIndicator(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
           onRefresh: () async {
             await controller.getData();
             controller1.getData();
