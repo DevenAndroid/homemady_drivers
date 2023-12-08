@@ -19,22 +19,19 @@ class AssignedOrderController extends GetxController {
     getOrderData1();
   }
 
-  getOrderData1() async {
-    if(gg == true)return;
+  Future getOrderData1() async {
+    if (gg == true) return;
     gg = true;
-    assignedOrderListRepo(filterKeyword: status.value).then((value) {
+    await assignedOrderListRepo(filterKeyword: status.value).then((value) {
       gg = false;
       isDataLoading.value = true;
       refreshInt.value = DateTime.now().millisecondsSinceEpoch;
       model.value = value;
-    }).catchError((e){
+    }).catchError((e) {
       gg = false;
     });
   }
 }
-
-
-
 
 extension ManageNotification on Widget {
   Widget manageNotification({bool? safeArea, required BuildContext context}) {
@@ -44,7 +41,9 @@ extension ManageNotification on Widget {
       return Stack(
         children: [
           this,
-          if (controller.model.value.data != null && controller.model.value.data != null && controller.model.value.data!.isNotEmpty)
+          if (controller.model.value.data != null &&
+              controller.model.value.data != null &&
+              controller.model.value.data!.isNotEmpty)
             if (controller.model.value.data!.first.orderStatus != 'Cancelled' &&
                 controller.model.value.data!.first.orderStatus != 'Completed')
               Positioned(
@@ -61,9 +60,10 @@ extension ManageNotification on Widget {
                         child: Hero(
                           tag: "notification_tag",
                           child: GestureDetector(
-                            onTap: (){
-                              Get.to(()=> DriverDeliveryOrderDetails(orderId: controller.model.value.data!.first.orderId.toString()));
-                              },
+                            onTap: () {
+                              Get.to(() => DriverDeliveryOrderDetails(
+                                  orderId: controller.model.value.data!.first.orderId.toString()));
+                            },
                             child: Material(
                               color: Colors.transparent,
                               elevation: 5,
@@ -101,8 +101,8 @@ extension ManageNotification on Widget {
                                         backgroundColor: Colors.green,
                                         child: Text(
                                           'B',
-                                          style: TextStyle(
-                                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                                          style:
+                                              TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                                         ),
                                       ),
                                     ),

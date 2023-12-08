@@ -501,7 +501,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
             ],
           ) : const Center(child:  CircularProgressIndicator(color: Color(0xff7ED957),)) ;
-        }).manageNotification(context: context),
+        }),
       ),
     );
   }

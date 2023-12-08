@@ -175,16 +175,6 @@ class _DeliveryPartnerUpdateScreenState
                               borderRadius: BorderRadius.circular(6.0)),
                         ),
                       ),
-                      // RegistrationTextFieldChk(
-                      //   validator: MultiValidator([
-                      //     RequiredValidator(
-                      //         errorText: 'Please enter your dob'),
-                      //   ]),
-                      //
-                      //   controller: dobController,
-                      //   hint: 'Dath of birth',
-                      //    keyboardType: TextInputType.numberWithOptions(),
-                      // ),
                       addHeight(13),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -258,9 +248,9 @@ class _DeliveryPartnerUpdateScreenState
                               ),
                               validator: MultiValidator([
                                 RequiredValidator(
-                                    errorText: 'Please select your vechile type'),
+                                    errorText: 'Please select your vehicle type'),
 
-                              ]),
+                              ]).call,
                               isExpanded: true,
                               style: const TextStyle(
                                 color: Color(0xFF697164),
