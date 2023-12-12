@@ -423,13 +423,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     // print("Token---------${googleAuth.accessToken}");
     final value = await FirebaseAuth.instance.signInWithCredential(credential);
-    log(value.credential!.accessToken!);
+    log(value.credential!.accessToken!.toString());
     //log(value.additionalUserInfo.a);
-    var fromToken = await FirebaseMessaging.instance.getToken();
 
-    socialLogin(provider: "google",
+    socialLogin(
+        provider: "google",
         token: value.credential!.accessToken!,
-        context: context).then((value) async {
+        context: context
+    ).then((value) async {
       if (value.status == true) {
         SharedPreferences pref =
         await SharedPreferences.getInstance();
@@ -448,8 +449,8 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
   }
-  loginWithApple() async {
 
+  loginWithApple() async {
     final appleProvider =
     AppleAuthProvider().addScope("email").addScope("fullName");
     await FirebaseAuth.instance
@@ -463,7 +464,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SharedPreferences pref =
           await SharedPreferences.getInstance();
           pref.setString(
-              'user_info', jsonEncode(value));
+              'user_info', jsonEncode(value1));
           NewHelper.showToast(value1.message);
           if (value1.data!.asDriverVerified == true) {
             // print('Loging.................................');
