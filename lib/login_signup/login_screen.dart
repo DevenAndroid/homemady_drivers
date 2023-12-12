@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])",
                                 //     errorText:
                                 //     'Password must be minimum 6 characters,with \n1 Capital letter1 special character & 1 numerical.')
-                              ]),
+                              ]).call,
                             ),
                           ),
                           SizedBox(
@@ -431,11 +431,19 @@ class _LoginScreenState extends State<LoginScreen> {
         token: value.credential!.accessToken!,
         context: context).then((value) async {
       if (value.status == true) {
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('user_info', jsonEncode(value));
+        SharedPreferences pref =
+        await SharedPreferences.getInstance();
+        pref.setString(
+            'user_info', jsonEncode(value));
         NewHelper.showToast(value.message);
-        Get.offAllNamed(MyRouters.dashbordScreen);
-      } else {
+        if (value.data!.asDriverVerified == true) {
+          // print('Loging.................................');
+          Get.offAllNamed(MyRouters.dashbordScreen);
+        } else {
+          Get.offAllNamed(
+              MyRouters.deliveryPartnerApplyScreen);
+        }
+      } else if (value.status == false) {
         NewHelper.showToast(value.message);
       }
     });
@@ -452,7 +460,6 @@ class _LoginScreenState extends State<LoginScreen> {
       socialLogin( provider: "apple", token: value.credential!.accessToken!, context: context, )
           .then((value1) async {
         if (value1.status == true) {
-
           SharedPreferences pref =
           await SharedPreferences.getInstance();
           pref.setString(
@@ -465,17 +472,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Get.offAllNamed(
                 MyRouters.deliveryPartnerApplyScreen);
           }
-          // SharedPreferences pref = await SharedPreferences.getInstance();
-          // pref.setString('user_info', jsonEncode(value1));
-          // // pref.get(value1.authToken!);
-          // // log("Tokenisss from auth is -------${value1.authToken}");
-          // NewHelper.showToast(value1.message);
-          // Get.offAllNamed(MyRouters.dashbordScreen);
-          // // tokenData().then((value1) async {
-          // //   SharedPreferences pref = await SharedPreferences.getInstance();
-          // //   pref.setString('token', jsonEncode(value1));
-          // // });
-        } else {
+        } else if (value1.status == false) {
           NewHelper.showToast(value1.message);
         }
       });

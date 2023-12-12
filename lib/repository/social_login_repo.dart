@@ -21,6 +21,7 @@ Future<SocialLoginModel> socialLogin(
   var fcmToken = await FirebaseMessaging
       .instance
       .getToken();
+  map['role'] = "3";
   map['device_token'] = fcmToken;
 
   final headers = {
