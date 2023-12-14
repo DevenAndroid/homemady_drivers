@@ -36,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
-  TextEditingController countryCodeController = TextEditingController(text: "353");
+  TextEditingController countryCodeController = TextEditingController(text: "+353");
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
