@@ -194,7 +194,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                           hint: 'Bank Account Number',
                           length: 34,
                           onTap: (){},
-                          keyboardType: TextInputType.number,
+                          // keyboardType: TextInputType.number,
                         ),
                         addHeight(15),
                         RegistrationTextFieldChk1(
