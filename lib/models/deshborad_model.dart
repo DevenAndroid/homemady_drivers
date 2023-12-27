@@ -69,6 +69,7 @@ class Data {
 class List1 {
   String? date;
   dynamic orderId;
+  dynamic deliveryTime;
   String? paymentMethod;
   dynamic orderTotal;
   Location? location;
@@ -77,6 +78,7 @@ class List1 {
   List1(
       {this.date,
         this.orderId,
+        this.deliveryTime,
         this.paymentMethod,
         this.orderTotal,
         this.location,
@@ -86,6 +88,7 @@ class List1 {
     date = json['date'];
     orderId = json['order_id'];
     paymentMethod = json['payment_method'];
+    deliveryTime = json['delivery_time'];
     orderTotal = json['order_total'];
     location = json['location'] != null
         ? Location.fromJson(json['location'])
@@ -99,6 +102,7 @@ class List1 {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['date'] = date;
     data['order_id'] = orderId;
+    data['delivery_time'] = deliveryTime;
     data['payment_method'] = paymentMethod;
     data['order_total'] = orderTotal;
     if (location != null) {

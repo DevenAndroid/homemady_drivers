@@ -1123,6 +1123,14 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                   fontSize: 15,
                                                                   color: const Color(0xFF303C5E)),
                                                             ),
+                                                            addHeight(4),
+                                                            Text(
+                                                              item.deliveryTime.toString(),
+                                                              style: GoogleFonts.raleway(
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 15,
+                                                                  color: const Color(0xFF303C5E)),
+                                                            ),
                                                             addHeight(25),
                                                             Row(
                                                               children: [
