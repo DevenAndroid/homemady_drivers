@@ -23,7 +23,8 @@ Future<DriverInformationModel> driverInformationRepo() async {
   //log(respose.);
   http.Response response =
   await http.get(Uri.parse(ApiUrl.driverInformationUrl), headers: headers);
-  log("<<<<<<<DriverInformation from repository=======>${response.body}");
+  log("<<<<<<<DriverInformation from repository=======>    ${response.body}");
+  log("<<<<<<<DriverInformation from repository Url=======>     ${ApiUrl.driverInformationUrl}");
   if (response.statusCode == 200) {
     log("<<<<<<<DriverInformation from repository=======>${response.body}");
     return DriverInformationModel.fromJson(json.decode(response.body));

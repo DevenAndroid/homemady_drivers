@@ -19,9 +19,9 @@ Future<VendorBankListModel> vendorBankListRepo() async {
   try {
     final response =
     await http.get(Uri.parse(ApiUrl.vendorBankListUrl), headers: headers);
-    print("Vendor Bank List Repository...${response.body}");
+    // print("Vendor Bank List Repository...${response.body}");
     if (response.statusCode == 200) {
-      print("Vendor Bank List Repository...${response.body}");
+      // print("Vendor Bank List Repository...${response.body}");
       return VendorBankListModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

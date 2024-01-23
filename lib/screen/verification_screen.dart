@@ -71,7 +71,7 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                   Text(
                     "Please ask customer to OTP and verify the delivery",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         height: 1.5,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.blackcolor,
@@ -80,7 +80,7 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                   SizedBox(height: AddSize.size50),
                   Text(
                     "Enter Your Pin",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         height: 1.5,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.blackcolor,
@@ -152,9 +152,8 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10), backgroundColor: AppTheme.primaryColor,
                           minimumSize: const Size(double.maxFinite, 50),
-                          primary: AppTheme.primaryColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -162,7 +161,7 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       child: Text(
                         "confirm delivery".toUpperCase(),
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                             color: AppTheme.backgroundcolor,
                             fontWeight: FontWeight.w500,
                             fontSize: AddSize.font16),
@@ -188,7 +187,7 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                       textAlign: TextAlign.right,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'dart:io';
 
+import '../firebase_service/firebase_service.dart';
 import '../models/user_profile_model.dart';
 import '../repository/user_profile_repo.dart';
 
@@ -27,30 +27,31 @@ class UserProfileController extends GetxController{
   String get myProfileID => model.value.data!.id.toString();
   // FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
-  getData(){
+  Future<UserProfileModel> getData() async {
     isDataLoading.value = false;
-    userProfileData().then((value1) {
+    return await userProfileData().then((value1) {
       isDataLoading.value = true;
       model.value = value1;
       if(isDataLoading.value && model.value.data != null){
+        FirebaseService.updateUserFcmToken(value1.data!.id.toString());
         nameController.text = model.value.data!.name.toString();
         emailController.text = model.value.data!.email.toString();
         mobileController.text = model.value.data!.phone.toString();
         valueRange = model.value.data!.deliveryRange;
         for (var element in countries1) {
-          // print("found info....      ${model.value.data!.countryCode.toString().replaceAll("+", "").trim()}     ${element.dialCode}");
+          // // print("found info....      ${model.value.data!.countryCode.toString().replaceAll("+", "").trim()}     ${element.dialCode}");
           if(model.value.data!.countryCode.toString().replaceAll("+", "").trim() == element.dialCode){
             if(kDebugMode){
-              print("found info....      ${model.value.data!.countryCode.toString().replaceAll("+", "").trim()}""     ${element.dialCode}");
+              // print("found info....      ${model.value.data!.countryCode.toString().replaceAll("+", "").trim()}""     ${element.dialCode}");
             }
             initialCode.value = element.code;
             break;
           }
         }
-        print('country code comming from api:${model.value.data!.countryCode}');
+        // print('country code comming from api:${model.value.data!.countryCode}');
         countryCode.value = model.value.data!.countryCode.toString();
       }
-
+      return value1;
     });
 
     //loginRepo().

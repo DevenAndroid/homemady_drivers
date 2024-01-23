@@ -19,12 +19,9 @@ import '../screen/faqs_screen.dart';
 import '../screen/feedback_screen.dart';
 import '../screen/help_center_screen.dart';
 import '../screen/myprofileScreen.dart';
-import '../screen/notificatin_2.dart';
-import '../screen/notification_screen.dart';
 import '../screen/notification_screen.dart';
 import '../screen/order_accpect.dart';
 import '../screen/order_decline.dart';
-import '../screen/order_details.dart';
 import '../screen/privacy_policies.dart';
 import '../screen/successfull_screen.dart';
 import '../screen/thank_you.dart';
@@ -46,7 +43,7 @@ class MyRouters {
   static var assignedOrderScreen = "/assignedOrderScreen";
   static var bankDetailsScreen = "/bankDetailsScreen";
   static var driverWithdrawMoney = "/driverWithdrawMoney";
-  static var driverDeliveryOrderDetails = "/driverDeliveryOrderDetails";
+  // static var driverDeliveryOrderDetails = "/driverDeliveryOrderDetails";
   static var orderDeclineScreen = "/orderDeclineScreen";
   static var orderAccept = "/orderAccept";
   static var feedBackScreen = "/feedBackScreen";
@@ -61,7 +58,6 @@ class MyRouters {
   static var myProfileScreen= "/myProfileScreen";
   static var deliveryPartnerUpdateScreen= "/deliveryPartnerUpdateScreen";
   static var notificationScreen = "/notificationScreen";
-  static var notificationScreen2 = "/notificationScreen2";
 
 
 
@@ -76,11 +72,11 @@ class MyRouters {
     GetPage(name: '/thankYouVendorScreen', page: () => const ThankYouVendorScreen()),
     GetPage(name: '/deliveryPartnerApplyScreen', page: () => const DeliveryPartnerApplyScreen()),
     GetPage(name: '/deliveryPartnerUpdateScreen', page: () => const DeliveryPartnerUpdateScreen()),
-    GetPage(name: '/dashbordScreen', page: () => const DashbordScreen()),
+    GetPage(name: dashbordScreen, page: () => const DashbordScreen()),
     GetPage(name: '/assignedOrderScreen', page: () => const AssignedOrderScreen()),
     GetPage(name: '/bankDetailsScreen', page: () => const BankDetailsScreen()),
     GetPage(name: '/driverWithdrawMoney', page: () => const WithdrawMoney()),
-    GetPage(name: '/driverDeliveryOrderDetails', page: () => const DriverDeliveryOrderDetails()),
+    // GetPage(name: '/driverDeliveryOrderDetails', page: () => const DriverDeliveryOrderDetails()),
     GetPage(name: '/orderDeclineScreen', page: () => const OrderDeclineScreen()),
     GetPage(name: '/orderAccept', page: () => const OrderAccept()),
     GetPage(name: '/feedBackScreen', page: () => const FeedBackScreen()),
@@ -94,7 +90,6 @@ class MyRouters {
     GetPage(name: '/faqsScreen', page: () => const FaqsScreen()),
     GetPage(name: '/myProfileScreen', page: () => const MyProfileScreen()),
     GetPage(name: '/notificationScreen', page: () => const NotificationScreen()),
-    GetPage(name: '/notificationScreen2', page: () => const NotificationScreen2()),
     GetPage(name: '/deliveredSuccessfullyScreen', page: () => const DeliveredSuccessfullyScreen()),
     GetPage(name: VerifyOtpDeliveryScreen.verifyOtpDeliveryScreen, page: () => const VerifyOtpDeliveryScreen()),
 

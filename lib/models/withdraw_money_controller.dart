@@ -8,13 +8,13 @@ class WithdrawalListModel {
   WithdrawalListModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -33,17 +33,17 @@ class Data {
     if (json['withdrawalList'] != null) {
       withdrawalList = <WithdrawalList>[];
       json['withdrawalList'].forEach((v) {
-        withdrawalList!.add(new WithdrawalList.fromJson(v));
+        withdrawalList!.add(WithdrawalList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['earnedBalance'] = this.earnedBalance;
-    if (this.withdrawalList != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['earnedBalance'] = earnedBalance;
+    if (withdrawalList != null) {
       data['withdrawalList'] =
-          this.withdrawalList!.map((v) => v.toJson()).toList();
+          withdrawalList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -65,11 +65,11 @@ class WithdrawalList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['amount'] = this.amount;
-    data['date'] = this.date;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['amount'] = amount;
+    data['date'] = date;
+    data['status'] = status;
     return data;
   }
 }

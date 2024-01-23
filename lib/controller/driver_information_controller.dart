@@ -23,9 +23,9 @@ class DriverInformationController extends GetxController {
     getData();
   }
 
-  getData() async {
+  Future<DriverInformationModel> getData() async {
     isDataLoading.value = false;
-    driverInformationRepo().then((value) {
+    return await driverInformationRepo().then((value) {
       isDataLoading.value = true;
       model.value = value;
       if (isDataLoading.value &&
@@ -43,6 +43,7 @@ class DriverInformationController extends GetxController {
         address = model.value.data!.address.toString();
         dropdownvalue = model.value.data!.vehicleType.toString();
       }
+      return value;
     });
   }
 }

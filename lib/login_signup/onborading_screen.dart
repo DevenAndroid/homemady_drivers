@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../routers/routers.dart';
-import '../widgets/custome_size.dart';
 import '../widgets/dimenestion.dart';
 import '../widgets/onborading_list.dart';
 import 'login_screen.dart';
@@ -87,7 +86,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                     setState(() {
                                       currentIndex = index;
                                     });
-                                    print("object");
+                                    // print("object");
                                   }),
                             ],
                           ),

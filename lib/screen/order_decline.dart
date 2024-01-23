@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../routers/routers.dart';
 import '../widgets/app_assets.dart';
@@ -58,14 +57,14 @@ class _OrderDeclineScreenState extends State<OrderDeclineScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 13,
-                        color: Color(0xFF596774)),
-                  ),
+                  // const Text(
+                  //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //       fontWeight: FontWeight.w300,
+                  //       fontSize: 13,
+                  //       color: Color(0xFF596774)),
+                  // ),
                   SizedBox(
                     height: AddSize.size10,
                   ),

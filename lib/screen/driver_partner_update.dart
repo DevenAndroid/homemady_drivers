@@ -7,15 +7,12 @@ import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/custome_textfiled.dart';
 import 'package:homemady_drivers/widgets/dimenestion.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../controller/driver_information_controller.dart';
 import '../repository/driver_update_repo.dart';
-import '../repository/registration.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/new_helper.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -57,9 +54,9 @@ class _DeliveryPartnerUpdateScreenState
     bool isValid = validateInput(input);
 
     if (isValid) {
-      print("Input is valid.");
+      // print("Input is valid.");
     } else {
-      print("Input is invalid. Please make sure it has 7 digits and 1 or 2 capital letters.");
+      // print("Input is invalid. Please make sure it has 7 digits and 1 or 2 capital letters.");
     }
   }
   bool validateInput(String input) {
@@ -178,16 +175,6 @@ class _DeliveryPartnerUpdateScreenState
                               borderRadius: BorderRadius.circular(6.0)),
                         ),
                       ),
-                      // RegistrationTextFieldChk(
-                      //   validator: MultiValidator([
-                      //     RequiredValidator(
-                      //         errorText: 'Please enter your dob'),
-                      //   ]),
-                      //
-                      //   controller: dobController,
-                      //   hint: 'Dath of birth',
-                      //    keyboardType: TextInputType.numberWithOptions(),
-                      // ),
                       addHeight(13),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -261,9 +248,9 @@ class _DeliveryPartnerUpdateScreenState
                               ),
                               validator: MultiValidator([
                                 RequiredValidator(
-                                    errorText: 'Please select your vechile type'),
+                                    errorText: 'Please select your vehicle type'),
 
-                              ]),
+                              ]).call,
                               isExpanded: true,
                               style: const TextStyle(
                                 color: Color(0xFF697164),
@@ -312,7 +299,7 @@ class _DeliveryPartnerUpdateScreenState
                                 apiHeaders: await const GoogleApiHeaders()
                                     .getHeaders(),
                               );
-                              print(plist);
+                              // print(plist);
                               String placeid = place.placeId ?? "0";
                               final detail =
                               await plist.getDetailsByPlaceId(placeid);
@@ -323,7 +310,7 @@ class _DeliveryPartnerUpdateScreenState
                                 controller.address =
                                     (place.description ?? "Location")
                                         .toString();
-                                print("Address iss...${controller.address}");
+                                // print("Address iss...${controller.address}");
                               });
                             }
                           },
@@ -344,7 +331,7 @@ class _DeliveryPartnerUpdateScreenState
                                   // width: MediaQuery.of(context).size.width - 40,
                                   child: ListTile(
                                     leading: const Icon(Icons.location_on,
-                                      color: const Color(0xFF6CD241),),
+                                      color: Color(0xFF6CD241),),
                                     title: Text(
                                       controller.address ?? "Location".toString(),
                                       style: TextStyle(
@@ -366,7 +353,7 @@ class _DeliveryPartnerUpdateScreenState
 
                                 ),
                               )
-                                  : SizedBox()
+                                  : const SizedBox()
                             ],
                           )
                       ),
@@ -860,7 +847,7 @@ class _DeliveryPartnerUpdateScreenState
                       CommonButton(title: 'Update',
                         onPressed: () {
                           if (_formKey.currentState!.validate() &&
-                              controller.address!.isNotEmpty) {
+                              controller.address.isNotEmpty) {
                             Map <String, String> mapdata = {
                               'dob': controller.dobController.text.trim(),
                               'pps_no': controller.ppsController.text.trim(),
@@ -875,7 +862,7 @@ class _DeliveryPartnerUpdateScreenState
                                   .trim(),
                               'address': controller.address.toString(),
                             };
-                            print(mapdata);
+                            // print(mapdata);
                             DriverUpdate(
                               fieldName1: 'pps_card_image',
                               fieldName2: "licence_front_image",

@@ -1,18 +1,16 @@
-
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/assigned_Orderlist_controller.dart';
 import '../controller/deshborad_controoler.dart';
@@ -20,14 +18,21 @@ import 'package:flutter_switch/flutter_switch.dart';
 import '../controller/driver_information_controller.dart';
 import '../controller/get_feedback_controller.dart';
 import '../controller/location_controller.dart';
+import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
+import '../firebase_service/firebase_service.dart';
 import '../models/verify_otp_model.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
 import '../repository/set_delivery_range_repo.dart';
+import '../services/notification_service.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+
+import 'chat_screen/chatting_list_screen.dart';
+import 'order_details.dart';
+
 io.Socket? socket1;
 
 class DashbordScreen extends StatefulWidget {
@@ -41,7 +46,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   bool state = true;
   int currentDrawer = 0;
   int value1 = 1;
-  bool? value2 =false;
+  bool? value2 = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = Get.put(DeshBoradController());
   final controller1 = Get.put(UserProfileController());
@@ -50,12 +55,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
   final controllerDriverId = Get.put(DriverInformationController());
   final locationController = Get.put(LocationController());
 
-  List days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  List days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   final RxBool _store = false.obs;
 
-
-  // sokit connect
   connectToServer() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -67,86 +70,220 @@ class _DashbordScreenState extends State<DashbordScreen> {
     io.Socket socket = io.io('http://79.125.89.222:3001/driver', <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
-      "extraHeaders": {"access_token":user.authToken.toString()},
+      "extraHeaders": {"access_token": user.authToken.toString()},
     });
 
     socket.onError((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onError $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('==================  onError $data');
+      // }
     });
     socket.onDisconnect((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onDisconnect $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('==================  onDisconnect $data');
+      // }
     });
     socket.onConnecting((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('onConnecting $data');
-
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('onConnecting $data');
+      //
+      // }
     });
 
     socket.onConnectTimeout((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('onConnectTimeout $data');
-      }
+      // if (kDebugMode) {
+      //   if (kDebugMode) // print('onConnectTimeout $data');
+      // }
     });
     socket.connect();
     socket1 = socket;
     socket.onConnect((data) {
-      if (kDebugMode) {
-        if (kDebugMode) print('==================  onConnect $data');
-        // try{
-
-        repeatEmit = Timer.periodic(const Duration(minutes: 5), (timer) {
-          socket.emit('get_data', {
-            "latitude": locationController.lat.value,
-            "longitude": locationController.long.value
-          }
-          );
-
-        });
-
-        // }catch(error){
-        //   print("THis is exception $error");
-        // }
-     log({
-       "latitude": locationController.lat.value,
-       "longitude": locationController.long.value
-     }.toString());
-      }
+      repeatEmit = Timer.periodic(const Duration(minutes: 5), (timer) {
+        socket.emit('get_data', {"latitude": locationController.lat.value, "longitude": locationController.long.value});
+      });
+      log({"latitude": locationController.lat.value, "longitude": locationController.long.value}.toString());
     });
   }
+
+  late StreamSubscription<RemoteMessage> streamSubscription;
+  late StreamSubscription<RemoteMessage> streamSubscriptionOnOpen;
+
+  onMessage(RemoteMessage event) {
+    log("Notification received..........   onMessage        ${event.toMap()}");
+    showNotificationDialog(event);
+    assignedController.getOrderData1();
+    Future.delayed(const Duration(seconds: 2)).then((value) {
+      NotificationService().showNotificationWithRemoteMessage(remoteMessage: event);
+    });
+  }
+
+  showNotificationDialog(RemoteMessage remoteMessage) {
+    FirebaseMessaging.instance.getToken().then((value) {
+      log("FCM Token...      ${value}");
+    });
+    showSimpleNotification(
+        GestureDetector(
+          onTap: () {},
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0xFF04666E).withOpacity(0.14),
+                    spreadRadius: 1.0,
+                    blurRadius: 20.0,
+                    offset: const Offset(3.0, 3.0))
+              ],
+            ),
+            margin: const EdgeInsets.all(5),
+            width: Get.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                addWidth(8),
+                Container(
+                  height: 60,
+                  width: 3,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    color: Color(0xff7ED957),
+                  ),
+                  // child: VerticalDivider(
+                  //   color: Color(0xffFF6100),
+                  //   thickness: 2.5,
+                  // ),
+                ),
+                const SizedBox(
+                  width: 13,
+                ),
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircleAvatar(
+                    backgroundColor: const Color(0xff7ED957),
+                    child: Text(
+                      remoteMessage.notification!.title == null
+                          ? 'B'
+                          : remoteMessage.notification!.title.toString().substring(0, 1),
+                      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 6,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 6),
+                        child: Text(
+                          remoteMessage.notification!.title ?? "",
+                          style: GoogleFonts.poppins(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff7ED957),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 2),
+                        child: Text(
+                          remoteMessage.notification!.body ?? "",
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        slideDismiss: true,
+        duration: const Duration(seconds: 15),
+        background: Colors.transparent,
+        elevation: 50,
+        contentPadding: EdgeInsets.zero);
+  }
+
+  onMessageOpenApp(RemoteMessage event) {
+    assignedController.getOrderData1();
+    log("Notification received..........   onMessageOpenApp        ${event.toMap()}");
+    Map<dynamic, dynamic> map = event.data;
+    if (map["order_id"] != null) {
+      final orderController = Get.put(MyOrderDetailsController());
+      // orderController.id.value = map["order_id"].toString();
+      Get.to(() => DriverDeliveryOrderDetails(
+            orderId: map["order_id"].toString(),
+          ));
+    }
+  }
+
+  onBackground(RemoteMessage? event) {
+    if (event == null) return;
+    Map<dynamic, dynamic> map = event.data;
+    if (map["order_id"] != null) {
+      // orderController.id.value = map["order_id"].toString();
+      Get.to(() => DriverDeliveryOrderDetails(
+            orderId: map["order_id"].toString(),
+          ));
+    }
+    log("Notification received..........   getInitialMessage        ${event.toMap()}");
+  }
+
+  notificationHandler() {
+    streamSubscription = FirebaseMessaging.onMessage.listen(onMessage);
+    streamSubscriptionOnOpen = FirebaseMessaging.onMessageOpenedApp.listen(onMessageOpenApp);
+    FirebaseMessaging.instance.getInitialMessage().then(onBackground);
+  }
+
   late Timer repeatEmit;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    notificationHandler();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-     // locationController.checkGps(context);
       connectToServer();
       controller.getData();
       controller1.getData();
       controllerFeedback.getData();
       controllerDriverId.getData();
     });
-
     _store;
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    streamSubscription.cancel();
+    streamSubscriptionOnOpen.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.instance.getToken().then((value) {
+      print("token...       $value");
+    });
     final screenSize = MediaQuery.of(context).size;
-    var width=MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Scaffold(
         key: _scaffoldKey,
         drawer: Obx(() {
-
           return Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -169,7 +306,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                 // Get.to(navigationPage.elementAt(_currentPage))
                                 // Get.to(MyProfile());
                               },
-                              child: Obx((){
+                              child: Obx(() {
                                 return Card(
                                     elevation: 3,
                                     shape: const CircleBorder(),
@@ -182,12 +319,8 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                           color: Colors.white,
                                         ),
                                         child: CachedNetworkImage(
-                                          imageUrl:
-                                          controller1.isDataLoading.value
-                                              ? (controller1.model.value.data!
-                                              .profileImage ??
-                                              "")
-                                              .toString()
+                                          imageUrl: controller1.isDataLoading.value
+                                              ? (controller1.model.value.data!.profileImage ?? "").toString()
                                               : "",
                                           height: screenSize.height * 0.12,
                                           width: screenSize.height * 0.12,
@@ -233,13 +366,19 @@ class _DashbordScreenState extends State<DashbordScreen> {
                           // SizedBox(
                           //   height: MediaQuery.of(context).size.height * 0.008,
                           // ),
-                          Text(controller1.isDataLoading.value ? controller1.model.value.data!.name.toString().capitalizeFirst.toString():"TestVendor",
+                          Text(
+                              controller1.isDataLoading.value
+                                  ? controller1.model.value.data!.name.toString().capitalizeFirst.toString()
+                                  : "TestVendor",
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 color: const Color(0xFFFFFFFF),
                                 fontWeight: FontWeight.w600,
                               )),
-                          Text(controller1.isDataLoading.value ? controller1.model.value.data!.email.toString():"TestVendor@gmail.com",
+                          Text(
+                              controller1.isDataLoading.value
+                                  ? controller1.model.value.data!.email.toString()
+                                  : "TestVendor@gmail.com",
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
                                 color: const Color(0xFFFFFFFF),
@@ -249,8 +388,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       )),
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/dashboard_icon.png',
                     height: 18,
@@ -274,8 +412,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/personImg.png',
                     height: 18,
@@ -300,8 +437,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/time_track.png',
                     height: 18,
@@ -322,8 +458,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                  const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/notification-img.png',
                     height: 18,
@@ -344,8 +479,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/bx_wallet.png',
                     height: 18,
@@ -369,8 +503,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/earn.png',
                     height: 17,
@@ -388,15 +521,13 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     });
                   },
                 ),
-
                 const Divider(
                   height: 5,
                   color: Color(0xffEFEFEF),
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/message.png',
                     height: 17,
@@ -407,11 +538,13 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         color: const Color(0xFF4F535E),
                         fontWeight: FontWeight.w400,
                       )),
-                  onTap: () {
-                    setState(() {
-                      currentDrawer = 5;
-                      Get.toNamed(MyRouters.notificationScreen2);
-                    });
+                  onTap: () async {
+                    currentDrawer = 5;
+                    String? myUserId = await getMyUserId();
+                    if (myUserId == null) return;
+                    Get.to(() => ChattingListScreen(
+                          myUserId: myUserId!,
+                        ));
                   },
                 ),
                 const Divider(
@@ -420,8 +553,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/bx_wallet.png',
                     height: 17,
@@ -445,8 +577,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/feedback_img.png',
                     height: 20,
@@ -461,7 +592,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   onTap: () {
                     setState(() {
                       controllerFeedback.driverId.value = controllerDriverId.model.value.data!.driverId.toString();
-                      print(controllerFeedback.driverId.value);
                       Get.toNamed(MyRouters.feedBackScreen);
                     });
                   },
@@ -472,8 +602,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/metro-security.png',
                     height: 18,
@@ -497,8 +626,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/help_center.png',
                     height: 17,
@@ -510,7 +638,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         fontWeight: FontWeight.w400,
                       )),
                   onTap: () {
-
                     setState(() {
                       currentDrawer = 7;
                       Get.toNamed(MyRouters.help_Center_Screen);
@@ -523,8 +650,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -2),
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/logout.png',
                     height: 15,
@@ -536,10 +662,12 @@ class _DashbordScreenState extends State<DashbordScreen> {
                         fontWeight: FontWeight.w400,
                       )),
                   onTap: () async {
-                    SharedPreferences pref =
-                        await SharedPreferences.getInstance();
+                    SharedPreferences pref = await SharedPreferences.getInstance();
                     pref.clear();
-                    Get.toNamed(MyRouters.loginScreen);
+                    if (controller1.model.value.data != null) {
+                      FirebaseService.removeFcmToken(controller1.model.value.data!.id.toString());
+                    }
+                    Get.offAllNamed(MyRouters.loginScreen);
                   },
                 ),
               ],
@@ -559,19 +687,14 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 children: [
                   const Text(
                     ' Delivey Mode  ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 10,
-                        color: Color(0xFF303C5E)),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF303C5E)),
                   ),
-
                   FlutterSwitch(
                     height: AddSize.size20,
                     width: AddSize.size40,
                     activeColor: AppTheme.primaryColor,
                     toggleSize: AddSize.size5 * 2.5,
-                    value:
-                    controller.model.value.data != null ? controller.model.value.data!.deliveryMode! : false,
+                    value: controller.model.value.data != null ? controller.model.value.data!.deliveryMode! : false,
                     // controller.isDataLoading.value
                     //     ? (controller.model.value.data!.deliveryMode ?? false)
                     //     : _store.value,
@@ -579,7 +702,6 @@ class _DashbordScreenState extends State<DashbordScreen> {
                       deliveryModeUpdateRepo().then((value) {
                         if (value.status == true) {
                           controller.getData();
-                          print(val);
                           controller.model.value.data!.deliveryMode = val;
                           if (controller.model.value.data!.deliveryMode == true) {
                             NewHelper.showToast("Delivery mode on");
@@ -608,7 +730,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
 
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Image.asset('assets/images/BurgerIcon.png',height: 35,),
+                  child: Image.asset(
+                    'assets/images/BurgerIcon.png',
+                    height: 35,
+                  ),
                 ),
                 // child:
                 //
@@ -641,72 +766,54 @@ class _DashbordScreenState extends State<DashbordScreen> {
           ),
           // leadingWidth: AddSize.size40 * ,
           title: InkWell(
-            onTap: (){
-              print("Hello");
-              socket1!.emit('get_data', {
-              "latitude": locationController.lat.value,
-              "longitude": locationController.long.value
-              });
+            onTap: () {
+              socket1!.emit(
+                  'get_data', {"latitude": locationController.lat.value, "longitude": locationController.long.value});
             },
             child: const Text(
               'Dashboard',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                  color: Color(0xFF1A2E33)),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17, color: Color(0xFF1A2E33)),
             ),
           ),
         ),
         body: RefreshIndicator(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
           onRefresh: () async {
-
-              await controller.getData();
-              controller1.getData();
+            await controller.getData();
+            controller1.getData();
           },
           child: Obx(() {
             return controller.isDataLoading.value && controller1.isDataLoading.value
                 ? SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       child: Column(
-
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Hi'
-                                ', ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                color: Color(0xFF303C5E)),
+                            ', ${controller.model.value.data!.username.toString().capitalizeFirst.toString()}',
+                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Color(0xFF303C5E)),
                           ),
                           addHeight(7.0),
                           const Text(
                             'Riders/Drivers that have delivery mode set to on for at least 4 hours a day and at least 5 days a week (and did not reject any order) will get 10% boost on next week earnings',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: Color(0xFF303C5E)),
+                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: Color(0xFF303C5E)),
                           ),
                           addHeight(25.0),
-
                           FittedBox(
-                            child: Wrap(children: List.generate(controller.model.value.data!.weekData!.length, (index) {
+                            child: Wrap(
+                                children: List.generate(controller.model.value.data!.weekData!.length, (index) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                 child: Column(
-
                                   children: [
                                     Container(
                                       height: 28,
-                                      width:  28,
-
-                                      decoration:
-                                      BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(4.0),
+                                      width: 28,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4.0),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -720,50 +827,39 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                           ),
                                         ],
                                       ),
-
                                       child: Theme(
-                                        data: ThemeData(
-                                            unselectedWidgetColor: Colors.transparent
-                                        ),
+                                        data: ThemeData(unselectedWidgetColor: Colors.transparent),
                                         child: Checkbox(
-
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(2)
-                                          ),
-                                          value: controller.model.value.data != null ? controller.model.value.data!.weekData![index]:false,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                                          value: controller.model.value.data != null
+                                              ? controller.model.value.data!.weekData![index]
+                                              : false,
                                           checkColor: Colors.white,
                                           activeColor: const Color(0xff7ED957),
-                                          onChanged: (bool? value){
-                                          },
-
+                                          onChanged: (bool? value) {},
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 ),
                               );
                             })),
                           ),
-                          Wrap(children: List.generate(days.length, (index) {
+                          Wrap(
+                              children: List.generate(days.length, (index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
                               child: Column(
-
                                 children: [
-                                   Text(
+                                  Text(
                                     days[index].toString(),
                                     style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xFF303C5E)),
+                                        fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF303C5E)),
                                   )
-
                                 ],
                               ),
                             );
                           })),
-
                           addHeight(26.0),
                           Row(
                             children: [
@@ -776,8 +872,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF5F5F5F)
-                                              .withOpacity(0.10),
+                                          color: const Color(0xFF5F5F5F).withOpacity(0.10),
                                           offset: const Offset(0.0, 0.5),
                                           blurRadius: 5,
                                         ),
@@ -798,13 +893,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                           bottom: 10,
                                           left: 10,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller.model.value.data!
-                                                    .deliveredOrders
-                                                    .toString(),
+                                                controller.model.value.data!.deliveredOrders.toString(),
                                                 style: const TextStyle(
                                                     color: Color(0xFF7ED957),
                                                     fontWeight: FontWeight.w700,
@@ -833,8 +925,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF5F5F5F)
-                                              .withOpacity(0.10),
+                                          color: const Color(0xFF5F5F5F).withOpacity(0.10),
                                           offset: const Offset(0.0, 0.5),
                                           blurRadius: 5,
                                         ),
@@ -851,10 +942,10 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                           bottom: 10,
                                           left: 10,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children:  [
-                                              Text( '€ ${controller1.model.value.data!.earnedBalance.toString()}',
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '€ ${controller1.model.value.data!.earnedBalance.toString()}',
                                                 style: const TextStyle(
                                                     color: Color(0xFFFF980E),
                                                     fontWeight: FontWeight.w700,
@@ -877,136 +968,125 @@ class _DashbordScreenState extends State<DashbordScreen> {
                           ),
                           addHeight(15.0),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 16),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        const Color(0xFF5F5F5F).withOpacity(0.10),
-                                    offset: const Offset(0.0, 0.5),
-                                    blurRadius: 5,
-                                  ),
-                                ]),
-                            child:   Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Set Delivery Location",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff516670),
-                                          fontSize: 14),
-                                    ), Text(
-                              '${controller1.valueRange.round()} Km',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff516670),
-                                          fontSize: 14),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFF5F5F5F).withOpacity(0.10),
+                                      offset: const Offset(0.0, 0.5),
+                                      blurRadius: 5,
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  width: AddSize.screenWidth,
-                                  child: Row(
+                                  ]),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      SliderTheme(
-                                        data: SliderTheme.of(context).copyWith(
-                                          showValueIndicator: ShowValueIndicator.onlyForDiscrete,
-                                          trackHeight: 8,
-                                          trackShape: const RoundedRectSliderTrackShape(),
-                                          activeTrackColor: const Color(0xff6CD241),
-                                          inactiveTrackColor: const Color(0xFF7ED957).withOpacity(0.12),
-                                          thumbShape: const RoundSliderThumbShape(
-                                            enabledThumbRadius: 7.0,
-                                            pressedElevation: 8.0,
-                                          ),
-                                          thumbColor: Colors.white,
-                                          overlayColor: const Color(0xFF7ED957).withOpacity(0.12),
-                                          overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
-                                          tickMarkShape: const RoundSliderTickMarkShape(),
-                                          activeTickMarkColor: const Color(0xff6CD241),
-                                          inactiveTickMarkColor: Colors.transparent,
-                                          valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                                          valueIndicatorColor: const Color(0xff6CD241),
-                                          valueIndicatorTextStyle: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.0,
-                                          ),
-                                        ),
-                                        child: Expanded(
-                                          child: Slider(
-                                            min: 1.0,
-                                            max: 15,
-                                            autofocus: true,
-                                            value:  double.parse(controller1.valueRange.toString()) == 0.0 ? 1.0 : double.parse(controller1.valueRange.toString()),
-                                            divisions: 14,
-                                            label: '${controller1.valueRange.round()} Km',
-                                            onChangeEnd: (value) {
-                                              setState(() {
-                                                controller1.valueRange = value;
-                                                value1 = value.toInt();
-                                                print("Delivery Rang iss ${value1}");
-                                              });
-                                              setDeliveryLocationRepo(
-                                                deliveryRange: value1,
-                                                context: context,
-                                              ).then((value) async {
-                                                if (value.status == true) {
-                                                  NewHelper.showToast(value.message);
-                                                }
-                                              });
-                                            }, onChanged: (double value) {  },
-                                          ),
-                                        ),
+                                      const Text(
+                                        "Set Delivery Location",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500, color: Color(0xff516670), fontSize: 14),
+                                      ),
+                                      Text(
+                                        '${controller1.valueRange.round()} Km',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w500, color: Color(0xff516670), fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            )
-                          ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    width: AddSize.screenWidth,
+                                    child: Row(
+                                      children: [
+                                        SliderTheme(
+                                          data: SliderTheme.of(context).copyWith(
+                                            showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+                                            trackHeight: 8,
+                                            trackShape: const RoundedRectSliderTrackShape(),
+                                            activeTrackColor: const Color(0xff6CD241),
+                                            inactiveTrackColor: const Color(0xFF7ED957).withOpacity(0.12),
+                                            thumbShape: const RoundSliderThumbShape(
+                                              enabledThumbRadius: 7.0,
+                                              pressedElevation: 8.0,
+                                            ),
+                                            thumbColor: Colors.white,
+                                            overlayColor: const Color(0xFF7ED957).withOpacity(0.12),
+                                            overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
+                                            tickMarkShape: const RoundSliderTickMarkShape(),
+                                            activeTickMarkColor: const Color(0xff6CD241),
+                                            inactiveTickMarkColor: Colors.transparent,
+                                            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+                                            valueIndicatorColor: const Color(0xff6CD241),
+                                            valueIndicatorTextStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                          child: Expanded(
+                                            child: Slider(
+                                              min: 1.0,
+                                              max: 15,
+                                              autofocus: true,
+                                              value: double.parse(controller1.valueRange.toString()) < 1.0
+                                                  ? 1.0
+                                                  : math.min(double.parse(controller1.valueRange.toString()), 15),
+                                              divisions: 14,
+                                              label: '${controller1.valueRange.round()} Km',
+                                              onChangeEnd: (value) {
+                                                setState(() {
+                                                  controller1.valueRange = value;
+                                                  value1 = value.toInt();
+                                                });
+                                                setDeliveryLocationRepo(
+                                                  deliveryRange: value1,
+                                                  context: context,
+                                                ).then((value) async {
+                                                  if (value.status == true) {
+                                                    NewHelper.showToast(value.message);
+                                                  }
+                                                });
+                                              },
+                                              onChanged: (double value) {},
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
                           addHeight(16.0),
                           Text(
                             'New Delivery Request',
                             style: GoogleFonts.raleway(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: const Color(0xFF303C5E)),
+                                fontWeight: FontWeight.w600, fontSize: 16, color: const Color(0xFF303C5E)),
                           ),
                           addHeight(12.0),
-
                           Obx(() {
                             return controller.model.value.data!.list!.isNotEmpty
                                 ? ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount:
-                                        controller.model.value.data!.list!.length,
+                                    itemCount: controller.model.value.data!.list!.length,
                                     physics: const BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      var item =
-                                          controller.model.value.data!.list![index];
+                                      var item = controller.model.value.data!.list![index];
                                       return Column(
                                         children: [
                                           Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: const Color(0xFF5F5F5F)
-                                                      .withOpacity(0.10),
+                                                  color: const Color(0xFF5F5F5F).withOpacity(0.10),
                                                   offset: const Offset(0.0, 0.5),
                                                   blurRadius: 5,
                                                 ),
@@ -1015,13 +1095,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                             child: Stack(
                                               children: [
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 15,
-                                                          vertical: 15),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                                   child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Image.asset(
                                                         'assets/images/calender_Img.png',
@@ -1030,28 +1106,30 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                       addWidth(20),
                                                       Expanded(
                                                         child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             Text(
                                                               '#${item.orderId.toString()}',
                                                               style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.w800,
+                                                                  fontWeight: FontWeight.w800,
                                                                   fontSize: 14,
-                                                                  color: Color(
-                                                                      0xFF303C5E)),
+                                                                  color: Color(0xFF303C5E)),
                                                             ),
                                                             addHeight(4),
                                                             Text(
                                                               item.date.toString(),
                                                               style: GoogleFonts.raleway(
-                                                                  fontWeight:
-                                                                      FontWeight.w400,
+                                                                  fontWeight: FontWeight.w400,
                                                                   fontSize: 15,
-                                                                  color: const Color(
-                                                                      0xFF303C5E)),
+                                                                  color: const Color(0xFF303C5E)),
+                                                            ),
+                                                            addHeight(4),
+                                                            Text(
+                                                              item.deliveryTime.toString(),
+                                                              style: GoogleFonts.raleway(
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 15,
+                                                                  color: const Color(0xFF303C5E)),
                                                             ),
                                                             addHeight(25),
                                                             Row(
@@ -1059,51 +1137,29 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                 InkWell(
                                                                   onTap: () {
                                                                     assignedOrder(
-                                                                            orderId: item
-                                                                                .orderId.toString(),
-                                                                            status:
-                                                                                "accept",
-                                                                            context:
-                                                                                context)
-                                                                        .then(
-                                                                            (value) {
-                                                                      if (value
-                                                                              .status ==
-                                                                          true) {
-                                                                        controller
-                                                                            .getData();
-                                                                        assignedController
-                                                                            .getOrderData1();
-                                                                        Get.offAllNamed(
-                                                                            MyRouters
-                                                                                .assignedOrderScreen);
+                                                                            orderId: item.orderId.toString(),
+                                                                            status: "accept",
+                                                                            context: context)
+                                                                        .then((value) {
+                                                                      if (value.status == true) {
+                                                                        controller.getData();
+                                                                        assignedController.getOrderData1();
+                                                                        Get.toNamed(MyRouters.assignedOrderScreen);
                                                                       }
                                                                     });
                                                                   },
                                                                   child: Container(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        horizontal:
-                                                                            25,
-                                                                        vertical: 6),
+                                                                    padding: const EdgeInsets.symmetric(
+                                                                        horizontal: 25, vertical: 6),
                                                                     decoration: BoxDecoration(
-                                                                        color: const Color(
-                                                                            0xFF7ED957),
-                                                                        borderRadius:
-                                                                            BorderRadius
-                                                                                .circular(
-                                                                                    6)),
+                                                                        color: const Color(0xFF7ED957),
+                                                                        borderRadius: BorderRadius.circular(6)),
                                                                     child: Text(
-                                                                      'Accept'
-                                                                          .toUpperCase(),
+                                                                      'Accept'.toUpperCase(),
                                                                       style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w700,
-                                                                          fontSize:
-                                                                              13,
-                                                                          color: Colors
-                                                                              .white),
+                                                                          fontWeight: FontWeight.w700,
+                                                                          fontSize: 13,
+                                                                          color: Colors.white),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1111,49 +1167,28 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                                 InkWell(
                                                                   onTap: () {
                                                                     assignedOrder(
-                                                                            orderId: item
-                                                                                .orderId,
-                                                                            status:
-                                                                                "decline",
-                                                                            context:
-                                                                                context)
-                                                                        .then(
-                                                                            (value) {
-                                                                      if (value
-                                                                              .status ==
-                                                                          true) {
-                                                                        assignedController
-                                                                            .getOrderData1();
-                                                                        Get.offAllNamed(
-                                                                            MyRouters
-                                                                                .orderDeclineScreen);
+                                                                            orderId: item.orderId,
+                                                                            status: "decline",
+                                                                            context: context)
+                                                                        .then((value) {
+                                                                      if (value.status == true) {
+                                                                        assignedController.getOrderData1();
+                                                                        Get.offAllNamed(MyRouters.orderDeclineScreen);
                                                                       }
                                                                     });
                                                                   },
                                                                   child: Container(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        horizontal:
-                                                                            25,
-                                                                        vertical: 6),
+                                                                    padding: const EdgeInsets.symmetric(
+                                                                        horizontal: 25, vertical: 6),
                                                                     decoration: BoxDecoration(
-                                                                        color: const Color(
-                                                                            0xFFF04148),
-                                                                        borderRadius:
-                                                                            BorderRadius
-                                                                                .circular(
-                                                                                    6)),
+                                                                        color: const Color(0xFFF04148),
+                                                                        borderRadius: BorderRadius.circular(6)),
                                                                     child: Text(
-                                                                      'Decline'
-                                                                          .toUpperCase(),
+                                                                      'Decline'.toUpperCase(),
                                                                       style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w700,
-                                                                          fontSize:
-                                                                              13,
-                                                                          color: Colors
-                                                                              .white),
+                                                                          fontWeight: FontWeight.w700,
+                                                                          fontSize: 13,
+                                                                          color: Colors.white),
                                                                     ),
                                                                   ),
                                                                 )
@@ -1171,36 +1206,26 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                     child: Row(
                                                       children: [
                                                         Container(
-                                                          padding: const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 12,
-                                                              vertical: 4),
+                                                          padding:
+                                                              const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                           decoration: BoxDecoration(
-                                                              color: const Color(
-                                                                  0xFF7ED957),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(6)),
+                                                              color: const Color(0xFF7ED957),
+                                                              borderRadius: BorderRadius.circular(6)),
                                                           child: Text(
-                                                            item.paymentMethod
-                                                                .toString(),
+                                                            item.paymentMethod.toString(),
                                                             style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight.w600,
+                                                                fontWeight: FontWeight.w600,
                                                                 fontSize: 10,
-                                                                color:
-                                                                    Colors.white),
+                                                                color: Colors.white),
                                                           ),
                                                         ),
                                                         addWidth(8.0),
                                                         Text(
                                                           '€ ${item.orderTotal.toString()}',
                                                           style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.w700,
+                                                              fontWeight: FontWeight.w700,
                                                               fontSize: 14,
-                                                              color: Color(
-                                                                  0xFF7ED957)),
+                                                              color: Color(0xFF7ED957)),
                                                         ),
                                                       ],
                                                     ))
@@ -1213,30 +1238,34 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     },
                                   )
                                 : Column(
-                                  children: [
-                                    const SizedBox(height: 20,),
-                                    Center(
-                                      child: Text(
-                                        "No Delivery requests at the moment, try to expand the delivery area",
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5!
-                                            .copyWith(
-                                                color: AppTheme.blackcolor,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: AddSize.font14),
+                                    children: [
+                                      const SizedBox(
+                                        height: 20,
                                       ),
-                                    ),
-                                  ],
-                                );
+                                      Center(
+                                        child: Text(
+                                          "No Delivery requests at the moment, try to expand the delivery area",
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                              color: AppTheme.blackcolor,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: AddSize.font14),
+                                        ),
+                                      ),
+                                    ],
+                                  );
                           }),
                         ],
                       ),
                     ),
                   )
-                : const Center(child: CircularProgressIndicator(color: Color(0xff7ED957),));
+                : const Center(
+                    child: CircularProgressIndicator(
+                    color: Color(0xff7ED957),
+                  ));
           }),
+        ).manageNotification(
+          context: context
         ),
       ),
     );

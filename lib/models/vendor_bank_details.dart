@@ -12,9 +12,9 @@ class VendorBankDetailsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -40,12 +40,12 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['bank_name'] = this.bank;
-    data['account_name'] = this.accountName;
-    data['account_no'] = this.accountNo;
-    data['ifsc_code'] = this.ifscCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['bank_name'] = bank;
+    data['account_name'] = accountName;
+    data['account_no'] = accountNo;
+    data['ifsc_code'] = ifscCode;
     return data;
   }
 }

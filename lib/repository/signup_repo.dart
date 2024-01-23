@@ -29,7 +29,7 @@ Future<ModelCommonResponse> register(
   map['country_code'] = countryCode;
 
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
 
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
@@ -40,7 +40,7 @@ Future<ModelCommonResponse> register(
       body: jsonEncode(map), headers: headers);
   log(response.body);
   if (response.statusCode == 200 || response.statusCode == 400) {
-    print("work");
+    // print("work");
     NewHelper.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {
@@ -57,7 +57,7 @@ Future<ModelVerifyOtp> verifyOTPPassword(
   map["otp"] = otp;
   map["role"] = roleText;
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
 log(map.toString());
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
@@ -144,10 +144,10 @@ log(map.toString());
 //     HttpHeaders.contentTypeHeader: 'application/json',
 //     HttpHeaders.acceptHeader: 'application/json',
 //   };
-//   print(map);
+//   // print(map);
 //   http.Response response = await http.post(Uri.parse(ApiUrl.resetPasswordUrl),
 //       body: jsonEncode(map), headers: headers);
-//   print(response.body);
+//   // print(response.body);
 //   if (response.statusCode == 200 || response.statusCode == 400) {
 //     Helpers.hideLoader(loader);
 //     return ModelCommonResponse.fromJson(json.decode(response.body));

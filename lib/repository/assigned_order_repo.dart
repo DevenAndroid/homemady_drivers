@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:homemady_drivers/models/common_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
-import '../models/assigned_order_model.dart';
 import '../models/verify_otp_model.dart';
-import '../widgets/helper.dart';
 
 Future<ModelCommonResponse> assignedOrder({
   required status, dynamic orderId,  context
@@ -28,7 +25,7 @@ Future<ModelCommonResponse> assignedOrder({
   };
   try {
     final response =
-    await http.post(Uri.parse("${ApiUrl.assignedOrderListUrl}"), headers: headers,body: jsonEncode(map));
+    await http.post(Uri.parse(ApiUrl.assignedOrderListUrl), headers: headers,body: jsonEncode(map));
     log("${ApiUrl.assignedOrderListUrl}?status=$status");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");

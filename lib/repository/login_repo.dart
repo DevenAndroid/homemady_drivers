@@ -16,13 +16,13 @@ Future<ModelVerifyOtp> loginRepo(
       required BuildContext context}) async {
   
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
-  //print("These are details.....${pref}");
+  //// print("These are details.....${pref}");
   var map = <String, dynamic>{};
   map['email_number'] = email;
   map['password'] = password;
-  map['role'] = role;
+  map['role'] = "3";
   map['device_id'] = pref.getString("deviceId");
   map['device_token'] = fcmToken;
 

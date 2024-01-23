@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:homemady_drivers/models/common_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api_url/api_url.dart';
 import '../widgets/helper.dart';
@@ -18,16 +16,16 @@ Future<ModelCommonResponse> changePassword(
   map['confirm_password'] = confirmPassword;
 
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
 
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
   };
-  print(map);
+  // print(map);
   http.Response response = await http.post(Uri.parse(ApiUrl.resetPassword),
       body: jsonEncode(map), headers: headers);
-  print(response.body);
+  // print(response.body);
   if (response.statusCode == 200 || response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));

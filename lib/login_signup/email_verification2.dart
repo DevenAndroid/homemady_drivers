@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../repository/forgot_repo.dart';
 import '../routers/routers.dart';
@@ -67,7 +66,7 @@ class _EmailVerificationScreen2State extends State<EmailVerificationScreen2> {
                             child: Column(
                               children: [
                                 const Center(
-                                  child: Text('Enter The Email Address Associated With Your Account',
+                                  child: Text('Enter The Phone Number Associated With Your Account',
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: 'poppinsSans',
@@ -95,13 +94,10 @@ class _EmailVerificationScreen2State extends State<EmailVerificationScreen2> {
                                   child: CommonTextFieldWidget(
                                     hint: 'Phone number',
                                     controller: emailController,
-                                    // validator: MultiValidator([
-                                    //   RequiredValidator(
-                                    //       errorText: 'Please enter your email '),
-                                    //   EmailValidator(
-                                    //       errorText:
-                                    //       'Please enter a valid email')
-                                    // ]),
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: 'Please enter phone number'),
+                                    ]),
                                   ),
                                 ),
                                 addHeight(25),

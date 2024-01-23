@@ -1,14 +1,13 @@
+import 'dart:io'as io;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/routers/routers.dart';
+import 'package:salesiq_mobilisten/launcher.dart';
+import 'package:salesiq_mobilisten/salesiq_mobilisten.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../repository/mailtoadmin_repo.dart';
 import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
-import '../widgets/new_helper.dart';
 
 
 class Help_Center_Screen extends StatefulWidget {
@@ -91,7 +90,30 @@ class _Help_Center_ScreenState extends State<Help_Center_Screen> {
             addHeight(15),
             InkWell(
               onTap: (){
-                Get.toNamed(MyRouters.chatScreen);
+
+                if (io.Platform.isIOS || io.Platform.isAndroid) {
+                  String appKey;
+                  String accessKey;
+                  if (io.Platform.isIOS) {
+                    appKey = "CXSxB2zDTR89fuCKLrSRhlmyW%2BlNxo8fxcbc%2BKh6Vxp9EoV6IOZ8rxCiGj66ic5Z";
+                    accessKey = "czr96nQAmUQn%2BokFyAG44uJleP9iI%2BfTaViO7Dl%2FhnwUEGtFny%2BCUGMVcpeLfBpPG9a8iPkrxmOdLMuKsNwi0xXIbE75QltyifB2nH4Wx0DJ%2FCW7Txu7tIF5ADvpsthLezxSsg0I9S8%3D";
+                  } else {
+                    appKey = "CXSxB2zDTR89fuCKLrSRhlmyW%2BlNxo8fxcbc%2BKh6Vxp9EoV6IOZ8rxCiGj66ic5Z";
+                    accessKey = "czr96nQAmUQn%2BokFyAG44uJleP9iI%2BfTaViO7Dl%2FhnwUEGtFny%2BCUGMVcpeLfBpPG9a8iPkrxmOdLMuKsNwi0xXIbE75QltyifB2nH4Wx0DJ%2FCW7Txu7tIF5ADvpsthLezxSsg0I9S8%3D";
+                  }
+                  ZohoSalesIQ.init(appKey, accessKey).then((_) {
+                    // initialization successful
+                    ZohoSalesIQ.launcher.show(VisibilityMode.never);
+                    ZohoSalesIQ.openNewChat();
+                    // To show the default live chat launcher, you can use the launcher.show API.
+                    // Alternatively, you may use the 'Avail floating chat button for your app' option under Settings → Brands → Installation → Android/iOS.
+                  }).catchError((error) {
+                    // initialization failed
+                    print(error);
+                  });
+                }
+
+
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -117,8 +139,8 @@ class _Help_Center_ScreenState extends State<Help_Center_Screen> {
                       width: 52,
                       height:40,
                     ),
-                    SizedBox(width: 20,),
-                    Expanded(
+                    const SizedBox(width: 20,),
+                    const Expanded(
                       child: Text("Chat HomeMady Support",
                         style:TextStyle(
                             fontWeight: FontWeight.w500,

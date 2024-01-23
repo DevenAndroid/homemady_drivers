@@ -19,10 +19,10 @@ Future<WithdrawalListModel> myWithdrawalListRepo() async {
   try {
     final response =
     await http.get(Uri.parse(ApiUrl.withdrawalListUrl), headers: headers);
-    print("Withdrawal List Repository...${response.body}");
+    // print("Withdrawal List Repository...${response.body}");
 
     if (response.statusCode == 200) {
-      print("Withdrawal List Repository...${response.body}");
+      // print("Withdrawal List Repository...${response.body}");
       return WithdrawalListModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

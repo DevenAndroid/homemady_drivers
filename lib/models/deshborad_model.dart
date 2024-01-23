@@ -8,13 +8,13 @@ class DashboardModel {
   DashboardModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -47,20 +47,20 @@ class Data {
     if (json['list'] != null) {
       list = <List1>[];
       json['list'].forEach((v) {
-        list!.add(new List1.fromJson(v));
+        list!.add(List1.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['week_data'] = this.weekData;
-    data['username'] = this.username;
-    data['delivery_mode'] = this.deliveryMode;
-    data['deliveredOrders'] = this.deliveredOrders;
-    data['pendingOrders'] = this.pendingOrders;
-    if (this.list != null) {
-      data['list'] = this.list!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['week_data'] = weekData;
+    data['username'] = username;
+    data['delivery_mode'] = deliveryMode;
+    data['deliveredOrders'] = deliveredOrders;
+    data['pendingOrders'] = pendingOrders;
+    if (list != null) {
+      data['list'] = list!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -69,6 +69,7 @@ class Data {
 class List1 {
   String? date;
   dynamic orderId;
+  dynamic deliveryTime;
   String? paymentMethod;
   dynamic orderTotal;
   Location? location;
@@ -77,6 +78,7 @@ class List1 {
   List1(
       {this.date,
         this.orderId,
+        this.deliveryTime,
         this.paymentMethod,
         this.orderTotal,
         this.location,
@@ -86,26 +88,28 @@ class List1 {
     date = json['date'];
     orderId = json['order_id'];
     paymentMethod = json['payment_method'];
+    deliveryTime = json['delivery_time'];
     orderTotal = json['order_total'];
     location = json['location'] != null
-        ? new Location.fromJson(json['location'])
+        ? Location.fromJson(json['location'])
         : null;
     vendorLocation = json['vendor_location'] != null
-        ? new VendorLocation.fromJson(json['vendor_location'])
+        ? VendorLocation.fromJson(json['vendor_location'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['order_id'] = this.orderId;
-    data['payment_method'] = this.paymentMethod;
-    data['order_total'] = this.orderTotal;
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date;
+    data['order_id'] = orderId;
+    data['delivery_time'] = deliveryTime;
+    data['payment_method'] = paymentMethod;
+    data['order_total'] = orderTotal;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
-    if (this.vendorLocation != null) {
-      data['vendor_location'] = this.vendorLocation!.toJson();
+    if (vendorLocation != null) {
+      data['vendor_location'] = vendorLocation!.toJson();
     }
     return data;
   }
@@ -152,18 +156,18 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['location'] = this.location;
-    data['flat_no'] = this.flatNo;
-    data['landmark'] = this.landmark;
-    data['address_type'] = this.addressType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['location'] = location;
+    data['flat_no'] = flatNo;
+    data['landmark'] = landmark;
+    data['address_type'] = addressType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -230,25 +234,25 @@ class VendorLocation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['storeId'] = this.storeId;
-    data['id'] = this.id;
-    data['store_name'] = this.storeName;
-    data['number'] = this.number;
-    data['pps_no'] = this.ppsNo;
-    data['category'] = this.category;
-    data['secondarycategory'] = this.secondarycategory;
-    data['tertiarycategory'] = this.tertiarycategory;
-    data['collection'] = this.collection;
-    data['phone'] = this.phone;
-    data['storeImage'] = this.storeImage;
-    data['location'] = this.location;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['delivery_range'] = this.deliveryRange;
-    data['pps_card_image'] = this.ppsCardImage;
-    data['remark'] = this.remark;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['storeId'] = storeId;
+    data['id'] = id;
+    data['store_name'] = storeName;
+    data['number'] = number;
+    data['pps_no'] = ppsNo;
+    data['category'] = category;
+    data['secondarycategory'] = secondarycategory;
+    data['tertiarycategory'] = tertiarycategory;
+    data['collection'] = collection;
+    data['phone'] = phone;
+    data['storeImage'] = storeImage;
+    data['location'] = location;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['delivery_range'] = deliveryRange;
+    data['pps_card_image'] = ppsCardImage;
+    data['remark'] = remark;
+    data['status'] = status;
     return data;
   }
 }

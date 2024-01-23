@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 
 import '../controller/add_bankDetails_controller.dart';
 import '../controller/bank_list_controller.dart';
 import '../models/bank_list_model.dart';
 import '../repository/add_bank_details_repo.dart';
-import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
-import '../widgets/dimenestion.dart';
 import '../widgets/new_helper.dart';
 
 class BankDetailsScreen extends StatefulWidget {
@@ -49,7 +45,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
               .toString();
         }
         setState(() {});
-        print(vendorBankDetailsController.bankDetailsModel.value.data?.bank);
+        // print(vendorBankDetailsController.bankDetailsModel.value.data?.bank);
       });
     });
   }
@@ -183,7 +179,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                               setState(() {
                                 selectedCAt.value = newValue.toString();
                               });
-                              print(selectedCAt.value);
+                              // print(selectedCAt.value);
                             },
                           ),*/
                           RegistrationTextFieldChk1(
@@ -196,9 +192,9 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         RegistrationTextFieldChk1(
                           controller: vendorBankDetailsController.bankAccountNumber,
                           hint: 'Bank Account Number',
-                          length: 10,
+                          length: 34,
                           onTap: (){},
-                          keyboardType: TextInputType.number,
+                          // keyboardType: TextInputType.number,
                         ),
                         addHeight(15),
                         RegistrationTextFieldChk1(

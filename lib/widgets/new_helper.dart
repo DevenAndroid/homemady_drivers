@@ -87,7 +87,7 @@ class NewHelper {
         child: Material(
           color: AppTheme.primaryColor.withOpacity(0.02),
 //color:  Color(0xFF7ED957),
-          child: CupertinoActivityIndicator(
+          child: const CupertinoActivityIndicator(
             radius: 30,
           ),
         ),

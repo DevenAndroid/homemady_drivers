@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -37,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
-  TextEditingController countryCodeController = TextEditingController(text: "353");
+  TextEditingController countryCodeController = TextEditingController(text: "+353");
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -197,17 +196,17 @@ class _SignupScreenState extends State<SignupScreen> {
                               initialCountryCode:  'IE',
                               onCountryChanged: (phone) {
                                 countryCodeController.text = "+${phone.dialCode}";
-                                print('Dial Code is:'+phone.dialCode);
+                                // print('Dial Code is:${phone.dialCode}');
                                 // countryCode = value.dialCode;
                                 //  initialCountryCode = value.code;
                                 /*  if (kDebugMode) {
-                                                        print(countryCode);
-                                                        print(initialCountryCode);
+                                                        // print(countryCode);
+                                                        // print(initialCountryCode);
                                                       }*/
                               },
                               onChanged: (phone){
-                                print(phone);
-                                print(phoneController);
+                                // print(phone);
+                                // print(phoneController);
 
                               }
 
@@ -347,7 +346,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             title: 'Signup',
                             onPressed: (){
                               if(_formKey1.currentState!.validate()){
-                                //print("Hello");
+                                //// print("Hello");
                                 register(
                                     nameController.text,
                                     emailController.text,

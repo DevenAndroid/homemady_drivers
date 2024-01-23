@@ -8,7 +8,7 @@ class ApiUrl {
   static const loginApi = "${baseUrl}login";
   static const otpApi = "${baseUrl}verify-otp";
   static const driverRegistrationApi = "${baseUrl}driver-register";
-  static const forgotPassword = "${baseUrl}forget-password?email=";
+  static const forgotPassword = "${baseUrl}forget-password?phone=";
   static const resetPassword = "${baseUrl}reset-password";
   static const updateLocationUrl = "${baseUrl}update-location";
   static const deshboradurl = "${baseUrl}driver-delivery-request-list";
@@ -47,11 +47,11 @@ class ApiUrl {
 
 Future getAuthHeader() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  print(pref.getString("cookie")!.toString().replaceAll('\"', ''));
+  // print(pref.getString("cookie")!.toString().replaceAll('"', ''));
   return {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     if(pref.getString("cookie") != null)
-      HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
+      HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('"', '')}',
   };
 }

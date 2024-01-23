@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../api_url/api_url.dart';
-import '../models/order_Details_model.dart';
 import '../models/order_details_cooks_copy_model.dart';
 import '../models/verify_otp_model.dart';
 

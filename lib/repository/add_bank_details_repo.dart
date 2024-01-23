@@ -10,12 +10,12 @@ import '../widgets/new_helper.dart';
 
 
 Future<VendorAddAccountDetailsModel> vendorAddBankDetailsRepo(String bank,
-    String account_name, String account_no, String ifsc_code, context) async {
+    String accountName, String accountNo, String ifscCode, context) async {
   Map<String, String> map = {};
   map['bank_name'] = bank;
-  map['account_name'] = account_name;
-  map['account_no'] = account_no;
-  map['ifsc_code'] = ifsc_code;
+  map['account_name'] = accountName;
+  map['account_no'] = accountNo;
+  map['ifsc_code'] = ifscCode;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -25,15 +25,15 @@ Future<VendorAddAccountDetailsModel> vendorAddBankDetailsRepo(String bank,
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   OverlayEntry loader = NewHelper.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
-  print(map);
+  Overlay.of(context).insert(loader);
+  // print(map);
   try {
     final response = await http.post(Uri.parse(ApiUrl.vendorAddBankDetailsUrl),
         body: jsonEncode(map), headers: headers);
 
     if (response.statusCode == 200 ||response.statusCode == 400) {
       NewHelper.hideLoader(loader);
-      print("Add Bank Details Repository...${response.body}");
+      // print("Add Bank Details Repository...${response.body}");
 
       return VendorAddAccountDetailsModel.fromJson(jsonDecode(response.body));
     } else {

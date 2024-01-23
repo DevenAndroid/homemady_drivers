@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../controller/get_feedback_controller.dart';
 import '../widgets/custome_size.dart';
