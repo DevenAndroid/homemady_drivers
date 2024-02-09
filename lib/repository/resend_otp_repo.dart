@@ -17,7 +17,7 @@ Future<ResendOtpModel> resendOtpRepo(
   SharedPreferences pref = await SharedPreferences.getInstance();
   //// print("These are details.....${pref}");
   var map = <String, dynamic>{};
-  map['phone'] = email;
+  map['email'] = email;
   map['role'] = roleText;
   // map['device_token'] = fcmToken;
 

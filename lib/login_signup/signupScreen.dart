@@ -359,7 +359,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ).then((value){
                                   if(value.status==true){
                                     NewHelper.showToast(value.message);
-                                    Get.toNamed(MyRouters.otpScreen,arguments: [phoneController.text]);
+                                    Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text]);
                                   }else{
                                     NewHelper.showToast(value.message);
                                   }

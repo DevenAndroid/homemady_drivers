@@ -178,6 +178,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           padding: const EdgeInsets.only(left: 24.0,right: 24,top: 70,bottom: 20),
                           child: CommonButton(title: 'Verify OTP',
                             onPressed: ()  {
+                            print(Get.arguments[0]);
                               if(formKey99.currentState!.validate()){
                                 verifyOTPPassword(Get.arguments[0],otpController.text, '3', context).then((value) async {
                                   if(value.status==true){
