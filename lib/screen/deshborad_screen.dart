@@ -1125,7 +1125,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                                             ),
                                                             addHeight(4),
                                                             Text(
-                                                              item.deliveryTime.toString(),
+                                                              "Pick up time: ${item.deliveryTime.toString()}",
                                                               style: GoogleFonts.raleway(
                                                                   fontWeight: FontWeight.w400,
                                                                   fontSize: 15,
