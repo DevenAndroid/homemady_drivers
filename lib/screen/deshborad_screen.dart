@@ -785,7 +785,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
           child: Obx(() {
             return controller.isDataLoading.value && controller1.isDataLoading.value
                 ? SingleChildScrollView(
+
                     physics: const BouncingScrollPhysics(),
+
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       child: Column(

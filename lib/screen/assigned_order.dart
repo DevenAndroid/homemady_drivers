@@ -295,6 +295,7 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                 fontSize: 15,
                                                                 color: Color(0xFF303C5E)),
                                                           ),
+                                                        // Text(assignedController.model.value.data[index].p)
                                                       ],
                                                     ),
                                                   ),
