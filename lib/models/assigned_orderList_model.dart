@@ -35,6 +35,7 @@ class Data {
   dynamic orderId;
   dynamic paymentMethod;
   dynamic orderTotal;
+  dynamic pick_up_time;
   dynamic orderStatus;
   dynamic accpetanceStatus;
   Location? location;
@@ -45,6 +46,7 @@ class Data {
         this.paymentMethod,
         this.accpetanceStatus,
         this.orderTotal,
+        this.pick_up_time,
         this.orderStatus,
         this.location});
 
@@ -53,6 +55,7 @@ class Data {
     orderId = json['order_id'];
     paymentMethod = json['payment_method'];
     orderTotal = json['order_total'];
+    pick_up_time = json['pick_up_time'];
     orderStatus = json['order_status'];
     accpetanceStatus = json['accpetance_status'];
     location = json['location'] != null
@@ -66,6 +69,7 @@ class Data {
     data['order_id'] = orderId;
     data['payment_method'] = paymentMethod;
     data['order_total'] = orderTotal;
+    data['pick_up_time'] = pick_up_time;
     data['accpetance_status'] = accpetanceStatus;
     data['order_status'] = orderStatus;
     if (location != null) {

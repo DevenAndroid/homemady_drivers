@@ -295,7 +295,20 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                 fontSize: 15,
                                                                 color: Color(0xFF303C5E)),
                                                           ),
-                                                        // Text(assignedController.model.value.data[index].p)
+                                                        addHeight(15),
+                                                        Text(
+                                                          'Pick up time:',
+                                                          style: GoogleFonts.raleway(
+                                                              fontWeight: FontWeight.w800,
+                                                              fontSize: 14,
+                                                              color: const Color(0xFF303C5E)),
+                                                        ),
+                                                        addHeight(4),
+                                                        Text(assignedController.model.value.data![index].pick_up_time.toString(),  style: const TextStyle(
+                                                            fontWeight: FontWeight.w400,
+                                                            fontSize: 15,
+                                                            color: Color(0xFF303C5E)),),
+
                                                       ],
                                                     ),
                                                   ),

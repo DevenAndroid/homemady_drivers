@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiUrl {
-  static const baseUrl = "https://homemady.eoxyslive.com/api/";
+  static const baseUrl = "http://52.50.121.179/api/";
   static const roleUrl = "${baseUrl}roles";
   static const registrationApi = "${baseUrl}register";
   static const loginApi = "${baseUrl}login";

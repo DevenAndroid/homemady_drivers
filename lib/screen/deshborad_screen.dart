@@ -1257,6 +1257,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     ],
                                   );
                           }),
+                          const SizedBox(height: 40,)
                         ],
                       ),
                     ),
@@ -1266,9 +1267,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                     color: Color(0xff7ED957),
                   ));
           }),
-        ).manageNotification(
-          context: context
-        ),
+        ).manageNotificationn(),
       ),
     );
   }
