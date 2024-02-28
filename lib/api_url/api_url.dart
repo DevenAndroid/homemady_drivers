@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiUrl {
-  static const baseUrl = "https://homemady.eoxyslive.com/api/";
+  static const baseUrl = "http://52.50.121.179/api/";
   static const roleUrl = "${baseUrl}roles";
   static const registrationApi = "${baseUrl}register";
   static const loginApi = "${baseUrl}login";
   static const otpApi = "${baseUrl}verify-otp";
   static const driverRegistrationApi = "${baseUrl}driver-register";
-  static const forgotPassword = "${baseUrl}forget-password?phone=";
+  static const forgotPassword = "${baseUrl}forget-password?email=";
   static const resetPassword = "${baseUrl}reset-password";
   static const updateLocationUrl = "${baseUrl}update-location";
   static const deshboradurl = "${baseUrl}driver-delivery-request-list";

@@ -9,7 +9,7 @@ import '../models/common_model.dart';
 import '../widgets/helper.dart';
 
 
-Future<ModelCommonResponse> forgotPassRepo(phone,roleText,context) async {
+Future<ModelCommonResponse> forgotPassRepo(email,roleText,context) async {
   // var map = <String, dynamic>{};
   // map['email'] = username;
 
@@ -21,7 +21,7 @@ Future<ModelCommonResponse> forgotPassRepo(phone,roleText,context) async {
     HttpHeaders.acceptHeader: 'application/json',
   };
 
-  String url = "${ApiUrl.forgotPassword}$phone&role=$roleText";
+  String url = "${ApiUrl.forgotPassword}$email&role=$roleText";
   print(url);
   http.Response response = await http.get(Uri.parse(url),
       headers: headers);

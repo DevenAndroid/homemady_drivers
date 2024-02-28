@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api_url/api_url.dart';
 import '../models/verify_otp_model.dart';
+import '../routers/routers.dart';
 import '../widgets/new_helper.dart';
 
 Future<ModelVerifyOtp> loginRepo(
@@ -41,8 +44,11 @@ Future<ModelVerifyOtp> loginRepo(
     if (response.statusCode == 200||response.statusCode == 400) {
       NewHelper.hideLoader(loader);
       return ModelVerifyOtp.fromJson(json.decode(response.body));
-    } else {
-      NewHelper.hideLoader(loader);
+    }    else if(response.statusCode == 401){
+      Get.offAllNamed(MyRouters.loginScreen);
+      throw Exception(response.body);
+    }
+    else {
       throw Exception(response.body);
     }
   } catch (e) {

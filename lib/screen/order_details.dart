@@ -54,6 +54,47 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
   _makingPhoneCall(call) async {
     var url = Uri.parse(call);
     if (await canLaunchUrl(url)) {
