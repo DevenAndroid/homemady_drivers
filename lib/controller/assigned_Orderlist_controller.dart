@@ -41,12 +41,13 @@ extension ManageNotification on Widget {
       return Stack(
         children: [
           this,
+          const SizedBox.expand(),
           if (controller.model.value.data != null &&
               controller.model.value.data != null &&
               controller.model.value.data!.isNotEmpty)
             if (controller.model.value.data!.first.orderStatus != 'Cancelled' &&
                 controller.model.value.data!.first.orderStatus != 'Completed')
-              SizedBox.expand(),
+
               Positioned(
                   bottom:0,
                   right: 0,

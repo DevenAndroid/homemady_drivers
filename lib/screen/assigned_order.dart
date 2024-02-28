@@ -296,18 +296,26 @@ class _AssignedOrderScreenState extends State<AssignedOrderScreen> {
                                                                 color: Color(0xFF303C5E)),
                                                           ),
                                                         addHeight(15),
-                                                        Text(
-                                                          'Pick up time:',
-                                                          style: GoogleFonts.raleway(
-                                                              fontWeight: FontWeight.w800,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF303C5E)),
-                                                        ),
+                                                        assignedController.model.value.data![index].pick_up_time!=null?
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'Pick up time:',
+                                                              style: GoogleFonts.raleway(
+                                                                  fontWeight: FontWeight.w800,
+                                                                  fontSize: 14,
+                                                                  color: const Color(0xFF303C5E)),
+                                                            ),
+                                                              addWidth(4),
+
+                                                              Text(assignedController.model.value.data![index].pick_up_time.toString(),  style: const TextStyle(
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 15,
+                                                                  color: Color(0xFF303C5E)),),
+                                                          ],
+                                                        ):SizedBox(),
                                                         addHeight(4),
-                                                        Text(assignedController.model.value.data![index].pick_up_time.toString(),  style: const TextStyle(
-                                                            fontWeight: FontWeight.w400,
-                                                            fontSize: 15,
-                                                            color: Color(0xFF303C5E)),),
+
 
                                                       ],
                                                     ),
