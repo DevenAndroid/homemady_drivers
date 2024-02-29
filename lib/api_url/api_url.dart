@@ -19,6 +19,8 @@ class ApiUrl {
   static const vendorBankListUrl = "${baseUrl}banks-list";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const vendorBankDetailsUrl = "${baseUrl}account-details";
+
+  static const deleteUserAccount = "${baseUrl}user-delete";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
   static const modeStatusUrl = "${baseUrl}driver-delivery-mode-update";
