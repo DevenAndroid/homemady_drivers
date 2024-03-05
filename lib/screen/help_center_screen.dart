@@ -96,7 +96,7 @@ class _Help_Center_ScreenState extends State<Help_Center_Screen> {
                   String accessKey;
                   if (io.Platform.isIOS) {
                     appKey = "CXSxB2zDTR89fuCKLrSRhlmyW%2BlNxo8fxcbc%2BKh6Vxp9EoV6IOZ8rxCiGj66ic5Z";
-                    accessKey = "czr96nQAmUQn%2BokFyAG44uJleP9iI%2BfTaViO7Dl%2FhnwUEGtFny%2BCUGMVcpeLfBpPG9a8iPkrxmOdLMuKsNwi0xXIbE75QltyifB2nH4Wx0DJ%2FCW7Txu7tIF5ADvpsthLezxSsg0I9S8%3D";
+                    accessKey = "czr96nQAmUTLRIC0OSM5kKdn%2FSzhx%2B%2BWOhGmYQwAR6aiRn43iVGzXoniMJ5b7twOVMrP5blDbG8PEzwyOBUYTJi9oQZu%2BAbUtaJnG9om%2F6m%2B0Ehj7oJEbw%3D%3D";
                   } else {
                     appKey = "CXSxB2zDTR89fuCKLrSRhlmyW%2BlNxo8fxcbc%2BKh6Vxp9EoV6IOZ8rxCiGj66ic5Z";
                     accessKey = "czr96nQAmUQn%2BokFyAG44uJleP9iI%2BfTaViO7Dl%2FhnwUEGtFny%2BCUGMVcpeLfBpPG9a8iPkrxmOdLMuKsNwi0xXIbE75QltyifB2nH4Wx0DJ%2FCW7Txu7tIF5ADvpsthLezxSsg0I9S8%3D";

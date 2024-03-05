@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiUrl {
-  static const baseUrl = "https://homemady.eoxyslive.com/api/";
+  static const baseUrl = "http://52.50.121.179/api/";
   static const roleUrl = "${baseUrl}roles";
   static const registrationApi = "${baseUrl}register";
   static const loginApi = "${baseUrl}login";
@@ -19,6 +19,8 @@ class ApiUrl {
   static const vendorBankListUrl = "${baseUrl}banks-list";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const vendorBankDetailsUrl = "${baseUrl}account-details";
+
+  static const deleteUserAccount = "${baseUrl}user-delete";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
   static const modeStatusUrl = "${baseUrl}driver-delivery-mode-update";

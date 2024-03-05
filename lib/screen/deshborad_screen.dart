@@ -21,9 +21,11 @@ import '../controller/location_controller.dart';
 import '../controller/order_details_controller.dart';
 import '../controller/userProfile_controller.dart';
 import '../firebase_service/firebase_service.dart';
+import '../login_signup/login_screen.dart';
 import '../models/verify_otp_model.dart';
 import '../repository/assigned_order_repo.dart';
 import '../repository/delivery_mode_update_repo.dart';
+import '../repository/notificatoin_repo.dart';
 import '../repository/set_delivery_range_repo.dart';
 import '../services/notification_service.dart';
 import '../widgets/app_theme.dart';
@@ -31,6 +33,7 @@ import '../widgets/dimenestion.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import 'chat_screen/chatting_list_screen.dart';
+import 'chat_screen/main_chat_screen.dart';
 import 'order_details.dart';
 
 io.Socket? socket1;
@@ -626,6 +629,36 @@ class _DashbordScreenState extends State<DashbordScreen> {
                   thickness: 1,
                 ),
                 ListTile(
+                    visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
+                    leading: Image.asset(
+                      'assets/images/delete_user.png',
+                      height: 18,
+                    ),
+                    title: Text('Delete Account',
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: const Color(0xFF4F535E),
+                          fontWeight: FontWeight.w400,
+                        )),
+                    onTap: () async {
+                      deleteUserAccount().then((value){
+                        if(value.status == true){
+                          showToast(value.message);
+                          Get.to(const LoginScreen());
+                        }else{
+                          showToast(value.message);
+                        }
+                      });
+
+
+                    }
+                ),
+                const Divider(
+                  height: 5,
+                  color: Color(0xffEFEFEF),
+                  thickness: 1,
+                ),
+                ListTile(
                   visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
                     'assets/images/help_center.png',
@@ -785,7 +818,9 @@ class _DashbordScreenState extends State<DashbordScreen> {
           child: Obx(() {
             return controller.isDataLoading.value && controller1.isDataLoading.value
                 ? SingleChildScrollView(
+
                     physics: const BouncingScrollPhysics(),
+
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       child: Column(
@@ -1255,6 +1290,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     ],
                                   );
                           }),
+                          const SizedBox(height: 40,)
                         ],
                       ),
                     ),

@@ -9,6 +9,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'app_theme.dart';
 
 class NewHelper {
+
+  Future<File?> getGalleryImage() async {
+    final picker=ImagePicker();
+    try{
+      final pickedImage= await picker.pickImage(source: ImageSource.gallery);
+      if(pickedImage != null){
+        return File(pickedImage.path);
+      }
+      else{
+        return null;
+      }
+
+    }catch(error){
+      print("$error");
+    }
+  }
   Future addFilePicker() async {
     try {
       final item = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpg','png','jpeg'],);
@@ -107,5 +123,20 @@ class NewHelper {
         // const Color(0xFF7ED957),
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+}
+Future<File?> getGalleryImage() async {
+  final picker=ImagePicker();
+  try{
+    final pickedImage= await picker.pickImage(source: ImageSource.gallery);
+    if(pickedImage != null){
+      return File(pickedImage.path);
+    }
+    else{
+      return null;
+    }
+
+  }catch(error){
+    print("$error");
   }
 }
