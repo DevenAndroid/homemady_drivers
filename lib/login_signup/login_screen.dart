@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/repository/login_repo.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../repository/resend_otp_repo.dart';
 import '../repository/social_login_repo.dart';
 import '../routers/routers.dart';
 import '../screen/chat_screen/main_chat_screen.dart';
@@ -17,6 +20,9 @@ import '../widgets/custome_textfiled.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'otpScreen.dart';
+import 'otpScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -49,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoginPasswordShow = true;
+  String currentMessage ="";
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +109,33 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: screenHeight * .03,
                           ),
+                          currentMessage==""?SizedBox():
+                          RichText(
+                            text: TextSpan(
+                              text: 'You are not verify ? ', style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              fontFamily: 'poppinsSans',
+                              color:  Color(0xFF333848),
+                            ),
+                              children:  <TextSpan>[
+                                TextSpan(
+
+                                    recognizer: TapGestureRecognizer()..onTap=(){
+                                      resendOtpRepo(email: emailController.text, context: context, roleText: '3').then((value) {
+                                        if(value.status == true){
+                                           showToast(value.message.toString());
+
+                                          Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text.toString()]);
+                                        }
+                                      });
+                                    },
+                                    text: 'Resend OTP', style: TextStyle(fontWeight: FontWeight.bold,   color:  Colors.redAccent)),
+
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Container(
@@ -180,6 +214,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           ]).call,
                         ),
                       ),
+                      SizedBox(
+                        height: screenHeight * .03,
+                      ),
+                      // InkWell(
+                      //   onTap: (){
+                      //     resendOtpRepo(email: emailController.text, context: context, roleText: '3').then((value) {
+                      //       if(value.status == true){
+                      //         NewHelper.showToast(value.message.toString());
+                      //          Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text.toString()]);
+                      //       }
+                      //     });
+                      //   },
+                      //   child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Text(' Resend OTP',style: GoogleFonts.poppins(
+                      //           fontSize: 16,
+                      //           fontWeight: FontWeight.w700,
+                      //           color: const Color(0xFF578AE8)
+                      //       )),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(
                         height: screenHeight * .03,
                       ),
@@ -365,6 +421,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               } else if (value.status == false) {
                                 NewHelper.showToast(value.message);
+                                if(value.message=="You are not verified"){
+                                  currentMessage=value.message!;
+                                  setState(() {
+
+                                  });
+                                }
                               }
                             });
                           }
