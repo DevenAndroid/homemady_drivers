@@ -1022,7 +1022,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text(
-                                        "Set Delivery Location",
+                                        "Set Delivery Location Radius",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500, color: Color(0xff516670), fontSize: 14),
                                       ),
