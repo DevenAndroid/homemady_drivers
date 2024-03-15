@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/repository/login_repo.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,8 @@ import '../widgets/custome_textfiled.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../widgets/dimenestion.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -207,38 +210,67 @@ class _LoginScreenState extends State<LoginScreen> {
                                   loginWithApple();
                                 },
                                 child: Container(
-                                  width: 152,
-                                  height: 50,
+                                  height: 60,
+                                  width: AddSize.screenWidth,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF37C666).withOpacity(0.10),
-                                        offset: const Offset(
-                                          .1,
-                                          .1,
-                                        ),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 1.0,
-                                      ),
-                                    ],
+                                    color: const Color(0xFF363336),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        'assets/images/apple.png',
-                                        height: 25,
+                                      const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+                                      const Icon(
+                                        Icons.apple,
+                                        color: Colors.white,
+                                        size: 30,
                                       ),
-                                      addWidth(10),
-                                      const Text(
-                                        'Apple',
-                                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF4C5369)),
-                                      )
+                                      const SizedBox(
+                                        width: 45,
+                                      ),
+                                      Text('Continue with Apple'.tr,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            // fontFamily: Assets.PoppinsPoppinsBlack
+                                          )),
                                     ],
                                   ),
                                 ),
+                                // child: Container(
+                                //   width: 152,
+                                //   height: 50,
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.white,
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     boxShadow: [
+                                //       BoxShadow(
+                                //         color: const Color(0xFF37C666).withOpacity(0.10),
+                                //         offset: const Offset(
+                                //           .1,
+                                //           .1,
+                                //         ),
+                                //         blurRadius: 20.0,
+                                //         spreadRadius: 1.0,
+                                //       ),
+                                //     ],
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.center,
+                                //     children: [
+                                //       Image.asset(
+                                //         'assets/images/apple.png',
+                                //         height: 25,
+                                //       ),
+                                //       addWidth(10),
+                                //       const Text(
+                                //         'Apple',
+                                //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF4C5369)),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
                               ),
                             ),
                           addWidth(10),
