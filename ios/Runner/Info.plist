@@ -36,17 +36,17 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow to access camera</string>
+	<string>We need access to your camera to capture photos for profile pictures and product image</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow to access microphone</string>
+	<string>Allow this to access your your microphone to record voice</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Allow this to access your photos to update profile and product images</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to the photo library.</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-   <string>Our application needs permission to write photos...</string>
+	<string>This app requires access to the photo library and update profile images and choose product image</string>
 	<key>NSUserTrackingUsageDescription</key>
-    <string>This identifier will be used to deliver personalized ads to you.</string>
+	<string>A message that informs the user why an app is requesting permission to use data for tracking the user or the device.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow this to access your current location for delivery address for orders</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow this to access your current location to pick delivery address for orders.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
