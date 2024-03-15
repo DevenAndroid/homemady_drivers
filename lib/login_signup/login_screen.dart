@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -10,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homemady_drivers/repository/login_repo.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../repository/resend_otp_repo.dart';
 import '../repository/social_login_repo.dart';
 import '../routers/routers.dart';
 import '../screen/chat_screen/main_chat_screen.dart';
@@ -19,7 +21,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../widgets/dimenestion.dart';
+import 'otpScreen.dart';
+import 'otpScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -52,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoginPasswordShow = true;
+  String currentMessage ="";
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +109,33 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: screenHeight * .03,
                           ),
+                          currentMessage==""?SizedBox():
+                          RichText(
+                            text: TextSpan(
+                              text: 'You are not verify ? ', style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              fontFamily: 'poppinsSans',
+                              color:  Color(0xFF333848),
+                            ),
+                              children:  <TextSpan>[
+                                TextSpan(
+
+                                    recognizer: TapGestureRecognizer()..onTap=(){
+                                      resendOtpRepo(email: emailController.text, context: context, roleText: '3').then((value) {
+                                        if(value.status == true){
+                                           showToast(value.message.toString());
+
+                                          Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text.toString()]);
+                                        }
+                                      });
+                                    },
+                                    text: 'Resend OTP', style: TextStyle(fontWeight: FontWeight.bold,   color:  Colors.redAccent)),
+
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Container(
@@ -186,6 +217,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: screenHeight * .03,
                       ),
+                      // InkWell(
+                      //   onTap: (){
+                      //     resendOtpRepo(email: emailController.text, context: context, roleText: '3').then((value) {
+                      //       if(value.status == true){
+                      //         NewHelper.showToast(value.message.toString());
+                      //          Get.toNamed(MyRouters.otpScreen,arguments: [emailController.text.toString()]);
+                      //       }
+                      //     });
+                      //   },
+                      //   child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Text(' Resend OTP',style: GoogleFonts.poppins(
+                      //           fontSize: 16,
+                      //           fontWeight: FontWeight.w700,
+                      //           color: const Color(0xFF578AE8)
+                      //       )),
+                      //     ],
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: screenHeight * .03,
+                      ),
                       const Center(
                         child: Text(
                           'Or Continue With',
@@ -210,67 +263,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                   loginWithApple();
                                 },
                                 child: Container(
-                                  height: 60,
-                                  width: AddSize.screenWidth,
+                                  width: 152,
+                                  height: 50,
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xFF363336),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF37C666).withOpacity(0.10),
+                                        offset: const Offset(
+                                          .1,
+                                          .1,
+                                        ),
+                                        blurRadius: 20.0,
+                                        spreadRadius: 1.0,
+                                      ),
+                                    ],
                                   ),
                                   child: Row(
-                                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                                      const Icon(
-                                        Icons.apple,
-                                        color: Colors.white,
-                                        size: 30,
+                                      Image.asset(
+                                        'assets/images/apple.png',
+                                        height: 25,
                                       ),
-                                      const SizedBox(
-                                        width: 45,
-                                      ),
-                                      Text('Continue with Apple'.tr,
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            // fontFamily: Assets.PoppinsPoppinsBlack
-                                          )),
+                                      addWidth(10),
+                                      const Text(
+                                        'Apple',
+                                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF4C5369)),
+                                      )
                                     ],
                                   ),
                                 ),
-                                // child: Container(
-                                //   width: 152,
-                                //   height: 50,
-                                //   decoration: BoxDecoration(
-                                //     color: Colors.white,
-                                //     borderRadius: BorderRadius.circular(10),
-                                //     boxShadow: [
-                                //       BoxShadow(
-                                //         color: const Color(0xFF37C666).withOpacity(0.10),
-                                //         offset: const Offset(
-                                //           .1,
-                                //           .1,
-                                //         ),
-                                //         blurRadius: 20.0,
-                                //         spreadRadius: 1.0,
-                                //       ),
-                                //     ],
-                                //   ),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     children: [
-                                //       Image.asset(
-                                //         'assets/images/apple.png',
-                                //         height: 25,
-                                //       ),
-                                //       addWidth(10),
-                                //       const Text(
-                                //         'Apple',
-                                //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF4C5369)),
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
                               ),
                             ),
                           addWidth(10),
@@ -397,6 +421,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               } else if (value.status == false) {
                                 NewHelper.showToast(value.message);
+                                if(value.message=="You are not verified"){
+                                  currentMessage=value.message!;
+                                  setState(() {
+
+                                  });
+                                }
                               }
                             });
                           }
