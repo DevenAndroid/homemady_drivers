@@ -640,15 +640,34 @@ class _DashbordScreenState extends State<DashbordScreen> {
                           color: const Color(0xFF4F535E),
                           fontWeight: FontWeight.w400,
                         )),
+
                     onTap: () async {
-                      deleteUserAccount().then((value){
-                        if(value.status == true){
-                          showToast(value.message);
-                          Get.to(const LoginScreen());
-                        }else{
-                          showToast(value.message);
-                        }
-                      });
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Delete Account'),
+                          content: const Text('Do You Want To Delete Your Account'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Get.back(),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {     deleteUserAccount().then((value){
+                                if(value.status == true){
+                                  showToast(value.message);
+                                  Get.to(const LoginScreen());
+                                }else{
+                                  showToast(value.message);
+                                }
+                              });
+                              } ,
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+
 
 
                     }
