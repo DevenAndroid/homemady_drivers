@@ -72,6 +72,8 @@ dependencies:
   flutter_native_image:
   flutter_local_notifications: ^16.1.0
   overlay_support: ^2.1.0
+  upgrader:
+  package_info_plus:
 
 
 dev_dependencies:
