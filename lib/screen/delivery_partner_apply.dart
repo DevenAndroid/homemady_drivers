@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -101,6 +102,23 @@ class _DeliveryPartnerApplyScreenState
   RxBool showValidation1 = false.obs;
   RxBool showValidation2 = false.obs;
   RxBool showValidation3 = false.obs;
+  showLogoutDialog(){
+    showCupertinoDialog(context: context, builder: (c){
+      return CupertinoAlertDialog(
+        content: Text("Do you want to logout?"),
+        actions: [
+          CupertinoDialogAction(child: Text("No"),onPressed: (){Get.back();}),
+          CupertinoDialogAction(child: Text("Yes"),onPressed: () async {
+            SharedPreferences s = await SharedPreferences.getInstance();
+            await s.clear();
+            Get.back();
+            Get.offAllNamed(MyRouters.loginScreen);
+          }),
+        ],
+      );
+    });
+  }
+
 
   var selectedDate = DateTime.now().obs;
   DateTime today = DateTime.now();
@@ -215,9 +233,7 @@ class _DeliveryPartnerApplyScreenState
           leading: IconButton(
             icon: Icon(Icons.adaptive.arrow_back_rounded),
             onPressed: () async {
-              SharedPreferences pref = await SharedPreferences.getInstance();
-              await pref.clear();
-              Get.offAll(()=> const LoginScreen());
+              showLogoutDialog();
             },
           ),
         ),
