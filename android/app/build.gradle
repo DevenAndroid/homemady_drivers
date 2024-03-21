@@ -89,5 +89,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     implementation 'com.zoho.salesiq:mobilisten:7.0.1'
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 
 }

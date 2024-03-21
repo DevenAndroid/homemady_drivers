@@ -157,6 +157,7 @@ class ChattingListScreenState extends State<ChattingListScreen> {
                                                   children: [
                                                     Text(
                                                       userInfo.userName.toString().capitalize!,
+
                                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),
                                                     ),
                                                     SizedBox(
