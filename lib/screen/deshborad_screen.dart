@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homemady_drivers/models/app_version_model.dart';
+import 'package:homemady_drivers/repository/app_version_repo.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/widgets/custome_size.dart';
 import 'package:homemady_drivers/widgets/new_helper.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/assigned_Orderlist_controller.dart';
 import '../controller/deshborad_controoler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -61,6 +66,106 @@ class _DashbordScreenState extends State<DashbordScreen> {
   List days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   final RxBool _store = false.obs;
+
+  Rx<RxStatus> statusOfGetUpdate = RxStatus.empty().obs;
+
+  Rx<ModelAppVersion> appVersionModel = ModelAppVersion().obs;
+
+  bool userLogin = false;
+  String currentVersion = '';
+  String latestVersion = '';
+  Future<void> checkVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      currentVersion = packageInfo.version;
+    });
+    getUpdateVersion(
+        versioncode: currentVersion.toString(),
+        type: Platform.isIOS ? "ios" : "android")
+        .then((value) {
+      appVersionModel.value = value;
+      print("object");
+      if (value.data!.isUpdated == false) {
+        print("api");
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('New Version Available'),
+                content: Text(
+                    'A new version is available. Would you like to update?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      if (Platform.isAndroid) {
+                        _launchPlayStore();
+                      } else if (Platform.isIOS) {
+                        _launchAppStore();
+                      }
+                    },
+                    child: Text('Update Now'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Later'),
+                  ),
+                ],
+              );
+            });
+        statusOfGetUpdate.value = RxStatus.success();
+      } else {
+        statusOfGetUpdate.value = RxStatus.error();
+      }
+      setState(() {});
+// showToast(value.message.toString());
+    });
+// Replace 'YOUR_APP_ID' with your app's ID on the App Store
+// final response = await http.get(Uri.parse(
+// "https://itunes.apple.com/lookup?bundleId=com.referralApp.referralApp"));
+//
+// if (response.statusCode == 200) {
+// final Map<String, dynamic> data = json.decode(response.body);
+// if (data['results'].isNotEmpty) {
+// final appData = data['results'][0];
+// final String latestVersion1 = appData['version'];
+//
+// setState(() {
+// print("version>>>>>" + latestVersion1);
+// latestVersion = latestVersion1;
+//
+// });
+// }
+// }
+  }
+  version() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String appVersion = packageInfo.version;
+    print('app version is${appVersion.toString()}');
+  }
+  _launchAppStore() async {
+    const url =
+        'https://apps.apple.com/us/app/homemady/id6451469215'; // Replace this with your App Store link
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  void _launchPlayStore() async {
+    final String packageName =
+        'com.homemady.homemady.customer'; // Replace with your app's package name
+    final url = 'market://details?id=$packageName';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      final fallbackUrl =
+
+          'https://play.google.com/store/apps/details?id=$packageName';
+      await launch(fallbackUrl);
+    }
+  }
 
   connectToServer() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -255,6 +360,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   @override
   void initState() {
     super.initState();
+    checkVersion();
     notificationHandler();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       connectToServer();
