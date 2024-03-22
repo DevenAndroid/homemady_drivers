@@ -146,7 +146,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   }
   _launchAppStore() async {
     const url =
-        'https://apps.apple.com/us/app/homemady/id6451469215'; // Replace this with your App Store link
+        'https://apps.apple.com/us/app/homemady-driver/id6451481144'; // Replace this with your App Store link
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -155,7 +155,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
   }
   void _launchPlayStore() async {
     final String packageName =
-        'com.homemady.homemady.customer'; // Replace with your app's package name
+        'com.homemady.homemady_drivers'; // Replace with your app's package name
     final url = 'market://details?id=$packageName';
     if (await canLaunch(url)) {
       await launch(url);
