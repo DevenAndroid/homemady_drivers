@@ -42,8 +42,8 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library and update profile images and choose product image</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>A message that informs the user why an app is requesting permission to use data for tracking the user or the device.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app uses your location to track orders, provide real-time delivery updates, and optimize delivery routes for faster service and improved accuracy.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow this to access your current location for delivery address for orders</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow this to access your current location to pick delivery address for orders</string>

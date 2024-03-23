@@ -21,8 +21,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -33,6 +35,7 @@ Future<void> main() async {
     return true;
   };
   await AppTrackingTransparency.requestTrackingAuthorization();
+
   await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: true,
