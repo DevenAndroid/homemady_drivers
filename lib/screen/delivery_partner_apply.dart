@@ -304,7 +304,8 @@ class _DeliveryPartnerApplyScreenState
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         onTap: () {},
                         inputFormatters: [
-                         LengthLimitingTextInputFormatter(9),
+                          LengthLimitingTextInputFormatter(9)
+                         // LengthLimitingTextInputFormatter(9),
                         ],
                        /* inputFormatters: [
                          // TextCapitalizationFormatter(TextCapitalization.sentences),
@@ -316,17 +317,17 @@ class _DeliveryPartnerApplyScreenState
                                   text: value.toUpperCase(),
                                   selection: ppsController.selection);
                         },
-                        validator: (value){
-                          if (value!.length == 8 || value.length == 9) {
-                            int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
-
-                            if (letterCount >= 1 && letterCount <= 2) {
-                              return null; // Valid input
-                            }
-                          }
-
-                          return 'Input must have 7 digits and 1 or 2 capital letters.';
-                        },
+                        // validator: (value){
+                        //   if (value!.length == 8 || value.length == 9) {
+                        //     int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
+                        //
+                        //     if (letterCount >= 1 && letterCount <= 2) {
+                        //       return null; // Valid input
+                        //     }
+                        //   }
+                        //   //
+                        //    return 'Input must have 7 digits and 1 or 2 capital letters.';
+                        // },
                         // maxLength: 9,
                         keyboardType: TextInputType.text,
                         controller: ppsController,
@@ -555,9 +556,7 @@ class _DeliveryPartnerApplyScreenState
                         decoration:  BoxDecoration(
                             color: const Color(0xFFF4F4F4),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: !checkValidation(showValidation.value, image.path == "")
-                                ? const Color(0xFFE2E2E2):
-                            Colors.red,
+                            border: Border.all(color:Color(0xFFE2E2E2),
                                 width: 1)
                         ),
                         child: InkWell(

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -121,6 +123,23 @@ class Helpers {
             fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.white),
       ),
     ));
+  }
+
+  Future<List<File>?> addFilePickerList() async {
+    try {
+      final item = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['jpg'],
+      );
+      if (item == null) {
+        return null;
+      } else {
+        return item.files.map((e) => File(e.path!)).toList();
+      }
+    } on PlatformException catch (e) {
+      throw Exception(e);
+    }
   }
 
   static bool validateEmail(String value) {

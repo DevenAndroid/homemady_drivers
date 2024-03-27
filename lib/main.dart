@@ -10,7 +10,6 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:homemady_drivers/routers/routers.dart';
 import 'package:homemady_drivers/services/notification_service.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -34,7 +33,6 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  await AppTrackingTransparency.requestTrackingAuthorization();
 
   await FirebaseMessaging.instance.requestPermission(
       alert: true,
@@ -47,6 +45,15 @@ Future<void> main() async {
   );
   await NotificationService().initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   runApp(const MyApp());
 }
 

@@ -36,19 +36,17 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to capture photos for profile pictures and product image</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>App needs microphone access to record audio for voice messages</string>
+	<string>this app requires access to the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library and update profile images and choose product image</string>
-	<key>NSUserTrackingUsageDescription</key>
-    <string>This app uses your location to track orders, provide real-time delivery updates, and optimize delivery routes for faster service and improved accuracy.</string>
+	<string>this app requires access to the photo library</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app does not require access to the microphone.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow this to access your current location for delivery address for orders</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow this to access your current location to pick delivery address for orders</string>
+    <string>Allow this to access your location for delivery address for orders</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow this to access your location to pick delivery address for orders</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+    <true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

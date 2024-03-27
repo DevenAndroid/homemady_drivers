@@ -15,6 +15,8 @@ class ChatMessageScreen extends StatefulWidget {
 class _ChatMessageScreenState extends State<ChatMessageScreen> {
   @override
   Widget build(BuildContext context) {
+
+    var width = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: (){
         FocusManager.instance.primaryFocus!.unfocus();
@@ -63,23 +65,15 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                         color: Colors.white,
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset('assets/images/add-square.png',height: 28,),
-                          Image.asset('assets/images/camera1.png',height: 28,),
-                          SizedBox(
-                            width: 210,
-                            child: CommonTextFieldWidgetSearch1(
-                              hint: 'Type messages...',
-                              suffix: Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: Image.asset('assets/images/PaperPlaneRight.png',height: 10,),
-                              ),
-                            ),
+                      child: SizedBox(
+                        width: width,
+                        child: CommonTextFieldWidgetSearch1(
+                          hint: 'Type messages...',
+                          suffix: Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: Image.asset('assets/images/PaperPlaneRight.png',height: 10,),
                           ),
-                          Image.asset('assets/images/Group 1727.png',height: 48,),
-                        ],
+                        ),
                       ),
                     ),
                   ],
