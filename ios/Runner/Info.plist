@@ -36,9 +36,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to update your profile photo</string>
+	<string>We need access to your camera to update the user's profile photo and capture the pps card and driving license image during the update driver setting </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photo library to update your profile photo</string>
+    <string>We need access to your photo library to update the user's profile photo and capture the pps card and driving license image during tha update driver setting</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>This app does not require access to the microphone</string>
     <key>NSLocationWhenInUseUsageDescription</key>
