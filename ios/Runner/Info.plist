@@ -36,11 +36,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>this app requires access to the camera</string>
+	<string>We need access to your camera to update your profile photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>this app requires access to the photo library</string>
+    <string>We need access to your photo library to update your profile photo</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>This app does not require access to the microphone.</string>
+    <string>This app does not require access to the microphone</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Allow this to access your location for delivery address for orders</string>
     <key>NSLocationAlwaysUsageDescription</key>

@@ -569,7 +569,7 @@ class _DashbordScreenState extends State<DashbordScreen> {
                 ListTile(
                   visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
                   leading: Image.asset(
-                    'assets/images/notification-himalayn.png',
+                    'assets/images/notification-img.png',
                     height: 18,
                   ),
                   title: Text('Notifications',

@@ -253,7 +253,7 @@ class _DeliveryPartnerApplyScreenState
                   ]
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -299,68 +299,68 @@ class _DeliveryPartnerApplyScreenState
                       //   hint: 'Dath of birth',
                       //    keyboardType: TextInputType.numberWithOptions(),
                       // ),
-                      addHeight(13),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        onTap: () {},
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(9)
-                         // LengthLimitingTextInputFormatter(9),
-                        ],
-                       /* inputFormatters: [
-                         // TextCapitalizationFormatter(TextCapitalization.sentences),
-                        ],*/
-                      //  textCapitalization: TextCapitalization.characters,
-                        onChanged: (value) {
-                          ppsController.value =
-                              TextEditingValue(
-                                  text: value.toUpperCase(),
-                                  selection: ppsController.selection);
-                        },
-                        // validator: (value){
-                        //   if (value!.length == 8 || value.length == 9) {
-                        //     int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
-                        //
-                        //     if (letterCount >= 1 && letterCount <= 2) {
-                        //       return null; // Valid input
-                        //     }
-                        //   }
-                        //   //
-                        //    return 'Input must have 7 digits and 1 or 2 capital letters.';
-                        // },
-                        // maxLength: 9,
-                        keyboardType: TextInputType.text,
-                        controller: ppsController,
-                        decoration: InputDecoration(
-                            hintText: 'PPS number',
-                            focusColor: Colors.green,
-                            hintStyle: GoogleFonts.poppins(
-                              color: const Color(0xFF697164),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            filled: true,
-
-                            fillColor: const Color(0xFFF9F9F9),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                            // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                                borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
-                                borderRadius:  BorderRadius.all(Radius.circular(6.0))),
-                            border: OutlineInputBorder(
-                                borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
-                                borderRadius: BorderRadius.circular(6.0)),
-                           // suffixIcon: suffix,
-                          // prefixIcon: prefix
-                        ),
-                        //: 'PPS number',
-                        //maxLength: 9,
-                      ),
-                      addHeight(13),
+                      // addHeight(13),
+                      // TextFormField(
+                      //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                      //   onTap: () {},
+                      //   inputFormatters: [
+                      //     LengthLimitingTextInputFormatter(9)
+                      //    // LengthLimitingTextInputFormatter(9),
+                      //   ],
+                      //  /* inputFormatters: [
+                      //    // TextCapitalizationFormatter(TextCapitalization.sentences),
+                      //   ],*/
+                      // //  textCapitalization: TextCapitalization.characters,
+                      //   onChanged: (value) {
+                      //     ppsController.value =
+                      //         TextEditingValue(
+                      //             text: value.toUpperCase(),
+                      //             selection: ppsController.selection);
+                      //   },
+                      //   // validator: (value){
+                      //   //   if (value!.length == 8 || value.length == 9) {
+                      //   //     int letterCount = value.replaceAll(RegExp(r'[0-9]'), '').length;
+                      //   //
+                      //   //     if (letterCount >= 1 && letterCount <= 2) {
+                      //   //       return null; // Valid input
+                      //   //     }
+                      //   //   }
+                      //   //   //
+                      //   //    return 'Input must have 7 digits and 1 or 2 capital letters.';
+                      //   // },
+                      //   // maxLength: 9,
+                      //   keyboardType: TextInputType.text,
+                      //   controller: ppsController,
+                      //   decoration: InputDecoration(
+                      //       hintText: 'PPS number',
+                      //       focusColor: Colors.green,
+                      //       hintStyle: GoogleFonts.poppins(
+                      //         color: const Color(0xFF697164),
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.w400,
+                      //       ),
+                      //       filled: true,
+                      //
+                      //       fillColor: const Color(0xFFF9F9F9),
+                      //       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                      //       // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                      //         borderRadius: BorderRadius.circular(6.0),
+                      //       ),
+                      //       enabledBorder: const OutlineInputBorder(
+                      //           borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                      //           borderRadius:  BorderRadius.all(Radius.circular(6.0))),
+                      //       border: OutlineInputBorder(
+                      //           borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+                      //           borderRadius: BorderRadius.circular(6.0)),
+                      //      // suffixIcon: suffix,
+                      //     // prefixIcon: prefix
+                      //   ),
+                      //   //: 'PPS number',
+                      //   //maxLength: 9,
+                      // ),
+                      addHeight(20),
                       RegistrationTextFieldChk(
                         controller: typeController,
                         prefix: Padding(
@@ -400,7 +400,7 @@ class _DeliveryPartnerApplyScreenState
                           ),
                         ),
                       ),
-                      addHeight(13),
+                      addHeight(20),
                       InkWell(
                         onTap: () async {
                           var place = await PlacesAutocomplete.show(
@@ -478,13 +478,13 @@ class _DeliveryPartnerApplyScreenState
                           ],
                         )
                         ),
-                      addHeight(18),
+                      addHeight(20),
                       const Text('Vehicle Details', style: TextStyle(
                         color: Color(0xFF2F2F2F),
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),),
-                      addHeight(8),
+                      addHeight(20),
                       Row(
                         children: [
                           Expanded(
@@ -544,149 +544,146 @@ class _DeliveryPartnerApplyScreenState
                         ],
                       ),
                       addHeight(15),
-                      const Text('PPS card', style: TextStyle(
-                        color: Color(0xFF2F2F2F),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),),
-                      addHeight(15),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 18),
-                        width: AddSize.screenWidth,
-                        decoration:  BoxDecoration(
-                            color: const Color(0xFFF4F4F4),
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color:Color(0xFFE2E2E2),
-                                width: 1)
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            pickImage();
-                          },
-                          child: image.path != "" ?
-                          SizedBox(
-                            width: double.maxFinite,
-                            height: AddSize.size100,
-                            child: Image.file(
-                              image,
-                              errorBuilder: (_, __, ___) =>
-                              const Icon(Icons.add,size: 50,),
-                            ),
-                          ) : Column(
-                            children: [
-                              const Text('Upload',
-                                style: TextStyle(
-                                  color: Color(0xFF000000),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300,
-                                ),),
-                              addHeight(10),
-                              Image.asset('assets/images/camera.png', height: 60,),
-                            ],
-                          ),
-                        ),
-                      ),
-                      addHeight(15),
-                      const Text('Upload Driver Licence', style: TextStyle(
-                        color: Color(0xFF2F2F2F),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),),
-                      addHeight(15),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 25),
-                              width: AddSize.screenWidth,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFF4F4F4),
-                                  borderRadius: BorderRadius.circular(4),
-                                  border:  Border.all(color: !checkValidation(showValidation.value, image1.path == "")
-                                      ? const Color(0xFFE2E2E2):
-                                  Colors.red,
-                                      width: 1)
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  pickImage1();
-                                },
-                              child :  image1.path != "" ?
-                              SizedBox(
-                                width: double.maxFinite,
-                                height: AddSize.size100,
-                                child: Image.file(
-                                  image1,
-                                  errorBuilder: (_, __, ___) =>
-                                  const Icon(Icons.add,size: 50,),
-                                ),
-                              ) :
-                              Column(
-                                children: [
-                                  const Text('Front',
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),),
-                                  addHeight(10),
-                                  Image.asset('assets/images/camera.png', height: 60,),
-                                ],
-                              ),
-                              ),
-                            ),
-                          ),
-                          addWidth(17),
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 25),
-                              width: AddSize.screenWidth,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFF4F4F4),
-                                  borderRadius: BorderRadius.circular(4),
-                                  border:  Border.all(color: !checkValidation(showValidation.value, image2.path == "")
-                                      ? const Color(0xFFE2E2E2):
-                                  Colors.red,
-                                      width: 1)
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  pickImage2();
-                                },
-                              child :  image2.path != "" ?
-                              SizedBox(
-                                width: double.maxFinite,
-                                height: AddSize.size100,
-                                child: Image.file(
-                                  image2,
-                                  errorBuilder: (_, __, ___) =>
-                                  const Icon(Icons.add,size: 50,),
-                                ),
-                              ) :
-                              Column(
-                                children: [
-                                  const Text('Back',
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),),
-                                  addHeight(10),
-                                  Image.asset('assets/images/camera.png', height: 60,),
-                                ],
-                              ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // const Text('PPS card', style: TextStyle(
+                      //   color: Color(0xFF2F2F2F),
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.w600,
+                      // ),),
+                      // addHeight(15),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(vertical: 18),
+                      //   width: AddSize.screenWidth,
+                      //   decoration:  BoxDecoration(
+                      //       color: const Color(0xFFF4F4F4),
+                      //       borderRadius: BorderRadius.circular(4),
+                      //       border: Border.all(color:Color(0xFFE2E2E2),
+                      //           width: 1)
+                      //   ),
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       pickImage();
+                      //     },
+                      //     child: image.path != "" ?
+                      //     SizedBox(
+                      //       width: double.maxFinite,
+                      //       height: AddSize.size100,
+                      //       child: Image.file(
+                      //         image,
+                      //         errorBuilder: (_, __, ___) =>
+                      //         const Icon(Icons.add,size: 50,),
+                      //       ),
+                      //     ) : Column(
+                      //       children: [
+                      //         const Text('Upload',
+                      //           style: TextStyle(
+                      //             color: Color(0xFF000000),
+                      //             fontSize: 12,
+                      //             fontWeight: FontWeight.w300,
+                      //           ),),
+                      //         addHeight(10),
+                      //         Image.asset('assets/images/camera.png', height: 60,),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // addHeight(15),
+                      // const Text('Upload Driver Licence', style: TextStyle(
+                      //   color: Color(0xFF2F2F2F),
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.w600,
+                      // ),),
+                      // addHeight(15),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         padding: const EdgeInsets.symmetric(vertical: 25),
+                      //         width: AddSize.screenWidth,
+                      //         decoration: BoxDecoration(
+                      //             color: const Color(0xFFF4F4F4),
+                      //             borderRadius: BorderRadius.circular(4),
+                      //             border:  Border.all(color: !checkValidation(showValidation.value, image1.path == "")
+                      //                 ? const Color(0xFFE2E2E2):
+                      //             Colors.red,
+                      //                 width: 1)
+                      //         ),
+                      //         child: InkWell(
+                      //           onTap: () {
+                      //             pickImage1();
+                      //           },
+                      //         child :  image1.path != "" ?
+                      //         SizedBox(
+                      //           width: double.maxFinite,
+                      //           height: AddSize.size100,
+                      //           child: Image.file(
+                      //             image1,
+                      //             errorBuilder: (_, __, ___) =>
+                      //             const Icon(Icons.add,size: 50,),
+                      //           ),
+                      //         ) :
+                      //         Column(
+                      //           children: [
+                      //             const Text('Front',
+                      //               style: TextStyle(
+                      //                 color: Color(0xFF000000),
+                      //                 fontSize: 12,
+                      //                 fontWeight: FontWeight.w300,
+                      //               ),),
+                      //             addHeight(10),
+                      //             Image.asset('assets/images/camera.png', height: 60,),
+                      //           ],
+                      //         ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     addWidth(17),
+                      //     Expanded(
+                      //       child: Container(
+                      //         padding: const EdgeInsets.symmetric(vertical: 25),
+                      //         width: AddSize.screenWidth,
+                      //         decoration: BoxDecoration(
+                      //             color: const Color(0xFFF4F4F4),
+                      //             borderRadius: BorderRadius.circular(4),
+                      //             border:  Border.all(color: !checkValidation(showValidation.value, image2.path == "")
+                      //                 ? const Color(0xFFE2E2E2):
+                      //             Colors.red,
+                      //                 width: 1)
+                      //         ),
+                      //         child: InkWell(
+                      //           onTap: () {
+                      //             pickImage2();
+                      //           },
+                      //         child :  image2.path != "" ?
+                      //         SizedBox(
+                      //           width: double.maxFinite,
+                      //           height: AddSize.size100,
+                      //           child: Image.file(
+                      //             image2,
+                      //             errorBuilder: (_, __, ___) =>
+                      //             const Icon(Icons.add,size: 50,),
+                      //           ),
+                      //         ) :
+                      //         Column(
+                      //           children: [
+                      //             const Text('Back',
+                      //               style: TextStyle(
+                      //                 color: Color(0xFF000000),
+                      //                 fontSize: 12,
+                      //                 fontWeight: FontWeight.w300,
+                      //               ),),
+                      //             addHeight(10),
+                      //             Image.asset('assets/images/camera.png', height: 60,),
+                      //           ],
+                      //         ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       addHeight(30),
                       CommonButton(title: 'Apply',
                         onPressed: () {
-                          if (_formKey.currentState!.validate() && _address!.isNotEmpty &&
-                          image.path != '' &&
-                          image1.path != '' &&
-                          image2.path != '') {
+                          if (_formKey.currentState!.validate() && _address!.isNotEmpty) {
                             Map  <String, String> mapdata = {
                               'dob' : dobController.text.trim(),
                               'pps_no' :  ppsController.text.trim(),
