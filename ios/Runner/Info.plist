@@ -42,9 +42,9 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>This app does not require access to the microphone</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Allow this to access your location for delivery address for orders</string>
+    <string>Allow this to access your location for delivery address for your orders</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Allow this to access your location to pick delivery address for orders</string>
+    <string>Allow this to access your location to delivery address for your orders</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
 	<key>UIBackgroundModes</key>
