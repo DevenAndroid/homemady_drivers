@@ -38,6 +38,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to update the user's profile photo and capture the pps card and driving license image during the update driver setting </string>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Allow this to access location for delivery address for your orders</string>
     <string>We need access to your photo library to update the user's profile photo and capture the pps card and driving license image during tha update driver setting</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>This app does not require access to the microphone</string>
